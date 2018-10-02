@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.suhas.microsoftapp">
+    package="c.theinfiniteloop.rvsafe">
 
     <application
         android:allowBackup="true"
@@ -9,13 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".RvAzure_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RvAzure_Disaster_cards"
+            android:label="@string/title_activity_rv_azure__disaster_cards"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RvAzure_WantToHelpOut"
+            android:label="@string/title_activity_rv_azure__want_to_help_out"></activity>
     </application>
 
 </manifest>

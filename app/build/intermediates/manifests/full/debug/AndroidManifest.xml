@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="c.theinfiniteloop.rvsafe"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="27" />
+
+    <application
+        android:allowBackup="true"
+        android:debuggable="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <activity android:name="c.theinfiniteloop.rvsafe.RvAzure_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="c.theinfiniteloop.rvsafe.RvAzure_Disaster_cards"
+            android:label="@string/title_activity_rv_azure__disaster_cards"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="c.theinfiniteloop.rvsafe.RvAzure_WantToHelpOut"
+            android:label="@string/title_activity_rv_azure__want_to_help_out" />
+    </application>
+
+</manifest>

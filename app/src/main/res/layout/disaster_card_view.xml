@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/disaster_card"
+        android:layout_width="match_parent"
+        android:layout_margin="3dp"
+        android:layout_height="400dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0.7dp"
+        app:cardMaxElevation="1dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:contentPaddingBottom="0dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1.5"
+                android:layout_height="0dp">
+                <ImageView
+                    android:id="@+id/disaster_card1_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/keralafloodsimage1"/>
+                <TextView
+                    android:id="@+id/disastername"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:textSize="20dp"
+                    android:layout_margin="1dp"
+                    android:gravity="center_vertical"
+                    android:background="#CC263238"
+                    android:layout_alignBottom="@id/disaster_card1_image"
+                    android:textColor="@android:color/white"
+                    android:text="  KERALA FLOODS"/>
+
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_margin="1dp"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_height="0dp">
+
+                <TextView
+                    android:id="@+id/disaster_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="10dp"
+                    android:text="  FLASH FLOODS"
+                    android:layout_weight="0.45"/>
+                <Button
+                    android:id="@+id/stuck_in_this_disaster"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/oval_button"
+                    android:text="STUCK IN THIS DISASTER!"
+                    android:layout_height="0dp"
+                    android:textAlignment="center"
+                    android:textSize="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/white"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/want_to_help_out"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/oval_button"
+                    android:text="WANT TO HELP OUT?"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:textSize="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@android:color/white"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
