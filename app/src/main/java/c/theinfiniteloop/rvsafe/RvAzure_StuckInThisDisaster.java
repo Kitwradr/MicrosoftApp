@@ -1,5 +1,6 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -7,8 +8,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnMapReadyCallback {
 
@@ -37,10 +44,65 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Random rand  = new Random();
+
+        ArrayList<LatLng> locationsList = new ArrayList<LatLng>() ;
+
         mMap = googleMap;
+
+        for (int i=0;i<5;i++)
+        {
+            double min1 = -30,max1 = -37 ,min2 = 145 , max2 = 155;
+
+            LatLng location = new LatLng(rand.nextDouble()*max1+min1,rand.nextDouble()*max2+min2);
+
+            mMap.addMarker(new MarkerOptions()
+                    .position(location)
+                    .title("Marker in Sydney")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+            locationsList.add(location);
+            //Log.d("mytag",location.toString());
+        }
+        for (int i=0;i<5;i++)
+        {
+            double min1 = -30,max1 = -37 ,min2 = 145 , max2 = 155;
+
+            LatLng location = new LatLng(rand.nextDouble()*max1+min1,rand.nextDouble()*max2+min2);
+
+            mMap.addMarker(new MarkerOptions()
+                    .position(location)
+                    .title("Marker in Sydney")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+            locationsList.add(location);
+            //Log.d("mytag",location.toString());
+        }
+        for (int i=0;i<5;i++)
+        {
+            double min1 = -30,max1 = -37 ,min2 = 145 , max2 = 155;
+
+            LatLng location = new LatLng(rand.nextDouble()*max1+min1,rand.nextDouble()*max2+min2);
+
+            mMap.addMarker(new MarkerOptions()
+                    .position(location)
+                    .title("Marker in Sydney")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+
+            locationsList.add(location);
+            //Log.d("mytag",location.toString());
+        }
+
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
+
+        Circle circle = mMap.addCircle(new CircleOptions()
+                .center(new LatLng(-33.87365, 151.20689))
+                .radius(10000)
+                .strokeColor(Color.RED)
+                .fillColor(Color.BLUE));
+
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }

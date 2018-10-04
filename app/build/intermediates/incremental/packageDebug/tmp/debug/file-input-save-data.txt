@@ -1,7 +1,11 @@
 #Internal package file, do not edit.
-#Mon Oct 01 22:16:53 IST 2018
+#Thu Oct 04 22:42:29 IST 2018
+1.base=C\:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 0.baseType=DIRECTORY
-0.base=C\:\\Users\\shubham\\AndroidStudioProjects\\RVSAFE\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+1.baseType=DIRECTORY
+count=2
+1.set=DEX
 0.path=classes.dex
 0.set=DEX
-count=1
+0.base=C\:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+1.path=classes.dex

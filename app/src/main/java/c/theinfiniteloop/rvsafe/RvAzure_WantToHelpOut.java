@@ -6,7 +6,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class RvAzure_WantToHelpOut extends AppCompatActivity {
 
@@ -57,4 +56,45 @@ public class RvAzure_WantToHelpOut extends AppCompatActivity {
 
     }
 
+    public static class LocationData {
+
+        private double latitude;
+
+        private double longitude;
+
+        private  String clientType;
+
+
+        public LocationData(double latitude, double longitude, String clientType) {
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.clientType = clientType;
+        }
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(double latitude) {
+            this.latitude = latitude;
+        }
+
+        public double getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(double longitude) {
+            this.longitude = longitude;
+        }
+
+        public String getClientType() {
+            return clientType;
+        }
+
+        public void setClientType(String clientType) {
+            this.clientType = clientType;
+        }
+
+
+    }
 }
