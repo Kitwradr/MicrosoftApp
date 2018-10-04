@@ -87,6 +87,9 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
 
 
 
+                Intent i=new Intent(context,RvAzure_StuckInThisDisaster.class);
+
+                context.startActivity(i);
 
             }
         });

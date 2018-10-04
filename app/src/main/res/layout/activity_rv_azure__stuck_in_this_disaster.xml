@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".RvAzure_StuckInThisDisaster">
+
+
+
+
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:context=".donate" />
+
+
+
+   <LinearLayout
+       android:layout_margin="5dp"
+       android:layout_width="match_parent"
+       android:layout_weight="1"
+       android:layout_height="0dp">
+
+   <ScrollView
+       android:layout_width="match_parent"
+       android:fillViewport="true"
+       android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0.7dp"
+        app:cardMaxElevation="1dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:contentPaddingBottom="0dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:text="MARK YOUR LOCATION"
+                android:layout_weight="1.5"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textColor="#000000"
+                android:text="SAFE"
+                android:background="@drawable/oval_button_light_green"
+                android:layout_margin="5dp"
+                android:layout_weight="1"/>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="5dp"
+                android:textColor="#000000"
+                android:text="IN DANGER"
+                android:background="@drawable/oval_button_light_red"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+       <android.support.v7.widget.CardView
+           android:layout_marginTop="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="150dp"
+           app:cardCornerRadius="8dp"
+           app:cardElevation="0.7dp"
+           app:cardMaxElevation="1dp"
+           app:cardBackgroundColor="@android:color/white"
+           app:contentPaddingBottom="0dp"
+           app:cardPreventCornerOverlap="true"
+           app:cardUseCompatPadding="true"
+           app:contentPadding="10dp">
+
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:orientation="vertical"
+               android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:text="NEAREST VOLUNTEER GROUP"
+                android:layout_weight="1.5"/>
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_weight="1"
+                 android:layout_height="0dp">
+               <TextView
+                   android:layout_width="0dp"
+                   android:gravity="center_vertical"
+                   android:layout_height="match_parent"
+                   android:textAllCaps="true"
+                   android:textStyle="bold"
+                   android:textColor="#CC7C4DFF"
+                   android:layout_gravity="center_vertical"
+                   android:text="TEAM: ALPHA ONE"
+                   android:layout_weight="1"/>
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:gravity="center_vertical"
+                     android:layout_height="match_parent"
+                     android:textAllCaps="true"
+                     android:textStyle="bold"
+                     android:textColor="#99FF0000"
+                     android:layout_gravity="center_vertical"
+                     android:text="Distance: 400m"
+                     android:layout_weight="0.8"/>
+             </LinearLayout>
+               <Button
+                   android:layout_width="match_parent"
+                   android:layout_height="0dp"
+                   android:textColor="#000000"
+                   android:text="CALL"
+                   android:background="@drawable/oval_button_white"
+                   android:layout_weight="1"/>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="0dp"
+                   android:textAllCaps="true"
+                   android:textStyle="bold"
+                   android:layout_gravity="center_vertical"
+                   android:textColor="#000000"
+                   android:textAlignment="center"
+                   android:text="DO NOT PANIC! HELP IS ON THE WAY"
+                   android:layout_weight="1"/>
+
+           </LinearLayout>
+
+
+       </android.support.v7.widget.CardView>
+
+       <android.support.v7.widget.CardView
+           android:layout_marginTop="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="150dp"
+           app:cardCornerRadius="8dp"
+           app:cardElevation="0.7dp"
+           app:cardMaxElevation="1dp"
+           app:cardBackgroundColor="@android:color/white"
+           app:contentPaddingBottom="0dp"
+           app:cardPreventCornerOverlap="true"
+           app:cardUseCompatPadding="true"
+           app:contentPadding="10dp">
+
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:orientation="vertical"
+               android:layout_height="match_parent">
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="0dp"
+                   android:textAllCaps="true"
+                   android:textStyle="bold"
+                   android:layout_gravity="center_vertical"
+                   android:text="NEAREST AFFECTED GROUP"
+                   android:layout_weight="1.5"/>
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_weight="1"
+                   android:layout_height="0dp">
+                   <TextView
+                       android:layout_width="0dp"
+                       android:gravity="center_vertical"
+                       android:layout_height="match_parent"
+                       android:textAllCaps="true"
+                       android:textStyle="bold"
+                       android:textColor="#CC7C4DFF"
+                       android:layout_gravity="center_vertical"
+                       android:text="MAYUR'S FAMILY"
+                       android:layout_weight="1"/>
+
+                   <TextView
+                       android:layout_width="0dp"
+                       android:gravity="center_vertical"
+                       android:layout_height="match_parent"
+                       android:textAllCaps="true"
+                       android:textStyle="bold"
+                       android:textColor="#99FF0000"
+                       android:layout_gravity="center_vertical"
+                       android:text="Distance: 250m"
+                       android:layout_weight="0.8"/>
+
+               </LinearLayout>
+               <Button
+                   android:layout_width="match_parent"
+                   android:layout_height="0dp"
+                   android:textColor="#000000"
+                   android:text="CALL"
+                   android:background="@drawable/oval_button_white"
+                   android:layout_weight="1"/>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="0dp"
+                   android:textAllCaps="true"
+                   android:textStyle="bold"
+                   android:layout_gravity="center_vertical"
+                   android:textColor="#000000"
+                   android:textAlignment="center"
+                   android:text="MAYUR MARKED HIS LOCATION SAFE"
+                   android:layout_weight="1"/>
+
+
+
+           </LinearLayout>
+
+
+
+       </android.support.v7.widget.CardView>
+
+
+
+</LinearLayout>
+
+
+   </ScrollView>
+
+
+
+
+
+   </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

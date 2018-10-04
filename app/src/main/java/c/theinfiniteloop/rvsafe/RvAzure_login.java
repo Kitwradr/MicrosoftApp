@@ -13,8 +13,6 @@ public class RvAzure_login extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_azure_login);
 
-
-
        startActivity(new Intent(RvAzure_login.this,RvAzure_Disaster_cards.class));
 
 

@@ -9,16 +9,18 @@ public class RvAzure_DataModelForCards
 
     public RvAzure_DataModelForCards(String disastername, String disastertype, int id_, int image) {
         this.disastername ="  "+disastername;
-        this.disastertype = "  "+disastertype;
+        this.disastertype = "TYPE: "+disastertype;
         this.id_ = id_;
         this.image=image;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return  disastername;
     }
 
-    public String getVersion() {
+    public String getVersion()
+    {
         return  disastertype;
     }
 

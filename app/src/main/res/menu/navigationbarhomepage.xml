@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/SOS"
+        android:icon="@drawable/ic_mood_bad_black_24dp"
+        android:title="SOS" />
+
+    <item
+        android:id="@+id/am_i_safe"
+        android:icon="@drawable/safetyshieldvector"
+        android:title="AM I SAFE?" />
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/ic_lightbulb_outline_black_24dp"
+        android:title="TIPS" />
+
+
+
+</menu>

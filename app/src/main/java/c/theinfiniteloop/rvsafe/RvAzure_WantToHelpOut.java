@@ -25,7 +25,8 @@ public class RvAzure_WantToHelpOut extends AppCompatActivity {
                    selectedFragment = RvAzure_Volunteer.newInstance();
                     break;
                 case R.id.navigation_dashboard:
-                    //selectedFragment = TeacherHome.newInstance();
+                    selectedFragment = donate.newInstance();
+
                     break;
 
             }
