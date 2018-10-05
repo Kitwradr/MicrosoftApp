@@ -10,13 +10,14 @@
     tools:showIn="@layout/app_bar_rv_azure__disaster_cards">
 
 
- <android.support.v7.widget.RecyclerView
-     android:id="@+id/recyclerview"
+ <RelativeLayout
+     android:id="@+id/relativelayouthomepage"
      android:layout_width="match_parent"
      android:layout_height="450dp"
+     android:animateLayoutChanges="true"
      android:scrollbars="vertical">
 
- </android.support.v7.widget.RecyclerView>
+ </RelativeLayout>
 
 
 

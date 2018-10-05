@@ -1,6 +1,7 @@
 package c.theinfiniteloop.rvsafe;
 
 import android.Manifest;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,9 +13,12 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,10 +42,7 @@ import java.util.Locale;
 public class RvAzure_Disaster_cards extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
     static View.OnClickListener myOnClickListener;
-    private static RecyclerView recyclerView;
-    private static RecyclerView.Adapter adapter;
-    private static ArrayList<RvAzure_DataModelForCards> data;
-    private RecyclerView.LayoutManager layoutManager;
+    RvAzure_GPStracker locationListener;
 
 
     public String LOG_TAG = "AUDIO-LOG";
@@ -92,15 +93,7 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -108,39 +101,33 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-        data = new ArrayList<RvAzure_DataModelForCards>();
-        for (int i = 0; i < RvAzure_MyDataForCards.nameArray.length; i++) {
-            data.add(new RvAzure_DataModelForCards(
-                    RvAzure_MyDataForCards.nameArray[i],
-                    RvAzure_MyDataForCards.typeArray[i],
-                    RvAzure_MyDataForCards.id_[i],
-                    RvAzure_MyDataForCards.drawableArray[i]
-            ));
-        }
 
-        adapter = new RvAzure_CustomAdapterForRecyclerView(data);
-        recyclerView.setAdapter(adapter);
+
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        RvAzure_GPStracker locationListener = new RvAzure_GPStracker(getApplicationContext(),locationManager);
+        locationListener = new RvAzure_GPStracker(getApplicationContext(),locationManager);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, locationListener);
 
+
+
+
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.relativelayouthomepage, RvAzure_Volunteer.newInstance());
+        transaction.commit();
 
 
 
@@ -162,15 +149,66 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
             }
     }
 
+
+
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener()
+    {
+
+        Fragment selectedFragment = null;
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item)
+        {
+            switch (item.getItemId())
+            {
+                case R.id.navigation_home:
+                    selectedFragment = RvAzure_DisasterCardHome.newInstance();
+                    break;
+                case R.id.sos:
+                    selectedFragment = RvAzure_sos.newInstance();
+                    break;
+
+                case R.id.am_i_safe:
+                    selectedFragment = RvAzure_am_i_safe.newInstance();
+                    break;
+                case R.id.tips:
+                    selectedFragment = RvAzure_tips.newInstance();
+                    break;
+
+
+
+            }
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.relativelayouthomepage, selectedFragment);
+            transaction.commit();
+            return true;
+        }
+    };
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.rv_azure__disaster_cards, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -189,7 +227,8 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -207,7 +246,7 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
         {
             String phno = "7019920761";
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phno));
-            sendIntent.putExtra("sms_body", "RVSAFE: USER-ID:xxxx COORDINATES 23.3,45.5");
+            sendIntent.putExtra("sms_body", "RVSAFE: USER-ID:xxxx COORDINATES Latitude"+locationListener.getLatitude()+" LONGITUDE"+locationListener.getLongitude());
             startActivity(sendIntent);
 
         }

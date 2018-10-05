@@ -1,7 +1,7 @@
-#Thu Oct 04 22:42:29 IST 2018
-base.0=C\:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+#Fri Oct 05 22:43:13 IST 2018
+base.0=C\:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 path.1=classes.dex
 renamed.1=classes2.dex
 path.0=classes.dex
 renamed.0=classes.dex
-base.1=C\:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+base.1=C\:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1

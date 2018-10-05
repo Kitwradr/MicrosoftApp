@@ -10,7 +10,8 @@ import org.bson.Document;
 import java.util.Random;
 
 
-public class InsertData {
+public class InsertData
+{
 
     public static void main(String[] args) {
 
