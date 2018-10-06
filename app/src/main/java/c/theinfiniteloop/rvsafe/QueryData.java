@@ -16,7 +16,8 @@ import java.util.Random;
 public class QueryData {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://kitwradr:uSnJYwRZ3plpfCuAUwSYhg5FQSAIu7p2wH8FKreJ5FQfolbYH1TcMnvtWnXZB1PKZBmGkATM8wHPiGwRNp2UhA==@kitwradr.documents.azure.com:10255/?ssl=true&replicaSet=globaldb"));
 

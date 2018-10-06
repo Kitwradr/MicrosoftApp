@@ -1,8 +1,12 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,6 +34,31 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
+
+
+      SmsReceiver.bindListener(new SmsListener()
+      {
+          @Override
+          public void messageReceived(String messageText)
+          {
+
+
+               if(!isInternetConnection()&&messageText.startsWith("RVSAFE DISTRESS HELPLINE"))
+               {
+                   Toast.makeText(getApplicationContext(),messageText,Toast.LENGTH_SHORT).show();
+               }
+
+          }
+      });
+
+
+
+
+
+
     }
 
 
@@ -105,5 +134,29 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
+
+
+
+
+    public  boolean isInternetConnection()
+    {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
