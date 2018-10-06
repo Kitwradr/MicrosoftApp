@@ -6,12 +6,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -25,13 +27,24 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
     private GoogleMap mMap;
 
+    private String DistressMessageNearestGroupLat;
+    private String DistressMessageNearestGroupLon;
+    private String DistressMessageNearestGroupContact;
+
+
+    private String DistressMessageNearestRescueGroupLat;
+    private String DistressMessageNearestRescueGroupLon;
+    private String DistressMessageNearestRescueGroupContact;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_azure__stuck_in_this_disaster);
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -49,6 +62,23 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                if(!isInternetConnection()&&messageText.startsWith("RVSAFE DISTRESS HELPLINE"))
                {
                    Toast.makeText(getApplicationContext(),messageText,Toast.LENGTH_SHORT).show();
+
+
+                   String[] format=new String[]{"NGLA","NGLO","NGC","NRGLA","NRGLO","NRGC"};
+
+
+                  DistressMessageNearestGroupLat = messageText.split(format[0])[1].split(" ")[0];
+                  DistressMessageNearestGroupLon = messageText.split(format[1])[1].split(" ")[0];
+                  DistressMessageNearestGroupContact = messageText.split(format[2])[1].split(" ")[0];
+
+
+                   DistressMessageNearestRescueGroupLat = messageText.split(format[3])[1].split(" ")[0];
+                   DistressMessageNearestRescueGroupLon = messageText.split(format[4])[1].split(" ")[0];
+                   DistressMessageNearestRescueGroupContact = messageText.split(format[5])[1];
+
+
+                   updatelocale();
+
                }
 
           }
@@ -56,6 +86,26 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
 
+
+
+
+    }
+
+
+
+    public  void  updatelocale()
+    {
+        LatLng affectedlatlon = new LatLng(Float.parseFloat(DistressMessageNearestGroupLat), Float.parseFloat(DistressMessageNearestGroupLon));
+
+        LatLng rescuelatlang = new LatLng(Float.parseFloat(DistressMessageNearestRescueGroupLat), Float.parseFloat(DistressMessageNearestRescueGroupLon));
+
+
+
+       Log.i("TRIAL RESCUE",""+Float.parseFloat(DistressMessageNearestRescueGroupLat)+""+Float.parseFloat(DistressMessageNearestRescueGroupLon));
+
+        mMap.addMarker(new MarkerOptions().position(rescuelatlang).title("NEAREST RESCUE GROUP").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+        mMap.addMarker(new MarkerOptions().position(affectedlatlon).title("NEAREST AFFECTED GROUP").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
 
 
 
@@ -73,7 +123,9 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Random rand  = new Random();
+
+     mMap=googleMap;
+      /*  Random rand  = new Random();
 
         ArrayList<LatLng> locationsList = new ArrayList<LatLng>() ;
 
@@ -120,11 +172,11 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
             locationsList.add(location);
             //Log.d("mytag",location.toString());
-        }
+        }*/
 
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+   /*     LatLng sydney = new LatLng(Float.parseFloat(DistressMessageNearestGroupLat), Float.parseFloat(DistressMessageNearestRescueGroupContact));
 
         Circle circle = mMap.addCircle(new CircleOptions()
                 .center(new LatLng(-33.87365, 151.20689))
@@ -133,7 +185,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 .fillColor(Color.BLUE));
 
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
 
     }
 

@@ -871,6 +871,7 @@ drawable ic_menu_share
 drawable ic_menu_slideshow
 drawable ic_mood_bad_black_24dp
 drawable ic_notifications_black_24dp
+drawable ic_people_outline_black_24dp
 drawable ic_phone_black_24dp
 drawable keralafloodsimage1
 drawable navigation_empty_icon

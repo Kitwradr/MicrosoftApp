@@ -126,7 +126,7 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.relativelayouthomepage, RvAzure_Volunteer.newInstance());
+        transaction.replace(R.id.relativelayouthomepage, RvAzure_DisasterCardHome.newInstance());
         transaction.commit();
 
 
