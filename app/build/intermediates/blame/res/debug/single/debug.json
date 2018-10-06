@@ -84,6 +84,10 @@
         "source": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\src\\main\\res\\drawable\\oval_button_light_red.xml"
     },
     {
+        "merged": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_photo_black_24dp.xml.flat",
+        "source": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\src\\main\\res\\drawable\\ic_photo_black_24dp.xml"
+    },
+    {
         "merged": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_design_bottom_navigation_item.xml.flat",
         "source": "C:\\Users\\shubham\\.gradle\\caches\\transforms-1\\files-1.1\\design-27.1.1.aar\\66a1fdfe63ec4066f73847ef04150ad5\\res\\layout\\design_bottom_navigation_item.xml"
     },
@@ -226,6 +230,10 @@
     {
         "merged": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\color_common_google_signin_btn_tint.xml.flat",
         "source": "C:\\Users\\shubham\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-15.0.1.aar\\41841648b740edd0fdccc0816ad1eb1a\\res\\color\\common_google_signin_btn_tint.xml"
+    },
+    {
+        "merged": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_add_a_photo_black_24dp.xml.flat",
+        "source": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\src\\main\\res\\drawable\\ic_add_a_photo_black_24dp.xml"
     },
     {
         "merged": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
