@@ -8,7 +8,7 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/SOS"
+        android:id="@+id/sos"
         android:icon="@drawable/ic_mood_bad_black_24dp"
         android:title="SOS" />
 
@@ -18,7 +18,7 @@
         android:title="AM I SAFE?" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/tips"
         android:icon="@drawable/ic_lightbulb_outline_black_24dp"
         android:title="TIPS" />
 

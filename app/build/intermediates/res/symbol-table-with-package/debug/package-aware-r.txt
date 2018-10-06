@@ -906,7 +906,6 @@ id CTRL
 id FUNCTION
 id META
 id SHIFT
-id SOS
 id SYM
 id action0
 id action_bar
@@ -1051,6 +1050,7 @@ id progress_circular
 id progress_horizontal
 id radio
 id recyclerview
+id relativelayouthomepage
 id right
 id right_icon
 id right_side
@@ -1083,6 +1083,7 @@ id smallLabel
 id snackbar_action
 id snackbar_text
 id snap
+id sos
 id spacer
 id split_action_bar
 id spread
@@ -1108,6 +1109,7 @@ id text_input_password_toggle
 id textinput_counter
 id textinput_error
 id time
+id tips
 id title
 id titleDividerNoCustom
 id title_template
@@ -1142,6 +1144,7 @@ id vteam_teamlead
 id vteam_view_composition
 id want_to_help_out
 id wanttohelpout_back
+id website
 id wide
 id withText
 id wrap
@@ -1190,6 +1193,7 @@ layout activity_rv_azure__stuck_in_this_disaster
 layout activity_rv_azure__volunteer_group_profile
 layout activity_rv_azure__want_to_help_out
 layout activity_rv_azure_login
+layout am_i_safe_webview
 layout app_bar_rv_azure__disaster_cards
 layout content_rv_azure__disaster_cards
 layout design_bottom_navigation_item
@@ -1207,6 +1211,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
 layout disaster_card_view
+layout disastercard_home
 layout nav_header_rv_azure__disaster_cards
 layout notification_action
 layout notification_action_tombstone
@@ -1226,7 +1231,9 @@ layout notification_template_part_time
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
+layout sos_fragment
 layout support_simple_spinner_dropdown_item
+layout tips_fragment
 layout volunteer
 layout volunteer_card_view
 menu activity_rv_azure__disaster_cards_drawer
