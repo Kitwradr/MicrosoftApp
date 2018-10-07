@@ -59,14 +59,15 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
 
     private boolean permissionToInternetAccepted = false;
     /*an array of permissions for to be requested*/
-    private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.SEND_SMS};
+    private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.SEND_SMS,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_SMS};
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         /*code snippet to request permission for audio */
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
+        switch (requestCode)
+        {
             /*check whether permission to record audio is given*/
             case REQUEST_GPS_PERMISSION:
                 permissionToLocationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;

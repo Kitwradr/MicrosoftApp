@@ -1,12 +1,23 @@
 package c.theinfiniteloop.rvsafe;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,12 +31,29 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
+
 
 public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    SharedPreferences sharedPreferences;
+
+
+
+    private static final int REQUEST_TAKE_PHOTO = 0;
+    private static final int REQUEST_SELECT_VICTIM_IMAGE_IN_ALBUM = 1;
+    private Uri mUriPhotoTaken;
+    ImageView victimimage;
+    private String victimimagepathtag="VICTIM IMAGE";
+    String VICTIM_PREF="VICTIM-URL";
+    String victimrestoredPath;
+    Button victimimageupload;
+
+
 
     private String DistressMessageNearestGroupLat;
     private String DistressMessageNearestGroupLon;
@@ -43,10 +71,96 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         setContentView(R.layout.activity_rv_azure__stuck_in_this_disaster);
 
 
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        victimimage=(ImageView)findViewById(R.id.victimimage1);
+        victimimageupload=(Button)findViewById(R.id.victimuploadbutton);
+
+
+
+        sharedPreferences=this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE);
+        victimrestoredPath = sharedPreferences.getString(victimimagepathtag,null);
+
+        if(victimrestoredPath!=null)
+        {
+
+            victimimage.setImageBitmap(BitmapFactory.decodeFile(victimrestoredPath));
+            victimimage.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        }
+
+
+        victimimage.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent victimIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);// Start the Intent
+
+                startActivityForResult(victimIntent, REQUEST_SELECT_VICTIM_IMAGE_IN_ALBUM);
+
+
+
+            }
+        });
+
+        victimimageupload.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+            if(victimrestoredPath!=null) {
+                try {
+
+                    Bitmap bitmap;
+
+            /*    HttpClient httpClient = new DefaultHttpClient();
+                HttpContext localContext = new BasicHttpContext();*/
+
+                    // here, change it to your php;
+
+            /*    HttpPost httpPost = new HttpPost("http://www.myURL.com/myPHP.php");
+                MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);*/
+                    bitmap = BitmapFactory.decodeFile(victimrestoredPath);
+
+                    // you can change the format of you image compressed for what do you want;
+                    // now it is set up to 640 x 480;
+                    Bitmap bmpCompressed = Bitmap.createScaledBitmap(bitmap, 640, 480, true);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                    // CompressFormat set up to JPG, you can change to PNG or whatever you want;
+                    bmpCompressed.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    byte[] data = bos.toByteArray();
+/*
+                // sending a String param;
+                entity.addPart("myParam", new StringBody("my value"));
+
+                // sending a Image;
+                // note here, that you can send more than one image, just add another param, same rule to the String;
+                entity.addPart("myImage", new ByteArrayBody(data, "temp.jpg"));
+                httpPost.setEntity(entity);
+                HttpResponse response = httpClient.execute(httpPost, localContext);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(   response.getEntity().getContent(), "UTF-8"));
+                String sResponse = reader.readLine(); */
+
+                }
+                catch (Exception e)
+                {
+                    Log.v("myApp", "Some error came up");
+                }
+
+
+            }
+
+
+            }
+        });
 
 
 
@@ -83,31 +197,66 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
           }
       });
+    }
 
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+      //  outState.putParcelable("ImageUri", mUriPhotoTaken);
+    }
 
 
-
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+    //    mUriPhotoTaken = savedInstanceState.getParcelable("ImageUri");
 
     }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (requestCode)
+        {
+            case REQUEST_SELECT_VICTIM_IMAGE_IN_ALBUM:
+                if (resultCode == RESULT_OK&&data!=null)
+                {
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                    Cursor cursor = this.getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+                    SharedPreferences.Editor editor = this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE).edit();
+                    editor.putString(victimimagepathtag, picturePath);
+                    editor.apply();
+
+                    victimimage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    victimimage.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
 
 
 
     public  void  updatelocale()
     {
         LatLng affectedlatlon = new LatLng(Float.parseFloat(DistressMessageNearestGroupLat), Float.parseFloat(DistressMessageNearestGroupLon));
-
         LatLng rescuelatlang = new LatLng(Float.parseFloat(DistressMessageNearestRescueGroupLat), Float.parseFloat(DistressMessageNearestRescueGroupLon));
-
-
-
        Log.i("TRIAL RESCUE",""+Float.parseFloat(DistressMessageNearestRescueGroupLat)+""+Float.parseFloat(DistressMessageNearestRescueGroupLon));
-
         mMap.addMarker(new MarkerOptions().position(rescuelatlang).title("NEAREST RESCUE GROUP").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-
         mMap.addMarker(new MarkerOptions().position(affectedlatlon).title("NEAREST AFFECTED GROUP").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
-
-
 
     }
 

@@ -1011,6 +1011,9 @@ id info
 id invisible
 id italic
 id item_touch_helper_previous_elevation
+id landmarkimage1
+id landmarkimage2
+id landmarkimage3
 id largeLabel
 id left
 id light
@@ -1129,6 +1132,7 @@ id uniform
 id up
 id useLogo
 id v_team_image
+id victimimage1
 id view_offset_helper
 id visible
 id volunteer_card
