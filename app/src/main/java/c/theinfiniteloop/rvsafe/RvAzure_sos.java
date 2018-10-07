@@ -21,7 +21,6 @@ public class RvAzure_sos extends Fragment
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

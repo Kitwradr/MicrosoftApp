@@ -124,15 +124,15 @@ ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\Andr
 activity#c.theinfiniteloop.rvsafe.RvAzure_Disaster_cards
 ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:35:9-38:59
 	android:label
-		ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:37:13-76
+		ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:37:13-35
 	android:theme
 		ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:38:13-56
 	android:name
 		ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:36:13-51
 activity#c.theinfiniteloop.rvsafe.RvAzure_WantToHelpOut
-ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:39:9-41:81
+ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:39:9-41:38
 	android:label
-		ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:41:13-78
+		ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:41:13-35
 	android:name
 		ADDED from C:\Users\shubham\AndroidStudioProjects\MicrosoftApp\app\src\main\AndroidManifest.xml:40:13-50
 activity#c.theinfiniteloop.rvsafe.RvAzure_VolunteerGroupProfile
