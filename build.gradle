@@ -5,9 +5,11 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
         
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -15,14 +17,25 @@ buildscript {
     }
 }
 
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+bootJar {
+    baseName = 'gs-accessing-data-mongodb'
+    version =  '0.1.0'
+}
+
 allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
 
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+//task clean(type: Delete) {
+//    delete rootProject.buildDir
+//}
