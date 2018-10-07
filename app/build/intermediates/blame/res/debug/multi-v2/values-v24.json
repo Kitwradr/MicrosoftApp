@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\shubham\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-27.1.1.aar\\2e4cb14004043ba15d49c36f6a832169\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\suhas\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-27.1.1.aar\\b59f4322218d8636b75e55ad1cc01561\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\shubham\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\79b809fbafaf35ae30aec97e32815e29\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\suhas\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\e9abfd890c58f10b8f293512ba64f741\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
