@@ -857,6 +857,7 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable ic_add_a_photo_black_24dp
 drawable ic_dashboard_black_24dp
 drawable ic_favorite_black_24dp
 drawable ic_home_black_24dp
@@ -871,7 +872,9 @@ drawable ic_menu_share
 drawable ic_menu_slideshow
 drawable ic_mood_bad_black_24dp
 drawable ic_notifications_black_24dp
+drawable ic_people_outline_black_24dp
 drawable ic_phone_black_24dp
+drawable ic_photo_black_24dp
 drawable keralafloodsimage1
 drawable navigation_empty_icon
 drawable notification_action_background

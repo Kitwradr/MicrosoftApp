@@ -912,6 +912,10 @@
         "source": "C:\\Users\\suhas\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\e9abfd890c58f10b8f293512ba64f741\\res\\drawable-xxxhdpi-v4\\abc_scrubber_control_to_pressed_mtrl_005.png"
     },
     {
+        "merged": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_photo_black_24dp.xml.flat",
+        "source": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\src\\main\\res\\drawable\\ic_photo_black_24dp.xml"
+    },
+    {
         "merged": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_sos_fragment.xml.flat",
         "source": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\src\\main\\res\\layout\\sos_fragment.xml"
     },
@@ -1010,6 +1014,10 @@
     {
         "merged": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\suhas\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\e9abfd890c58f10b8f293512ba64f741\\res\\drawable-xxhdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_people_outline_black_24dp.xml.flat",
+        "source": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\src\\main\\res\\drawable\\ic_people_outline_black_24dp.xml"
     },
     {
         "merged": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_list_divider_mtrl_alpha.9.png.flat",
@@ -1886,6 +1894,10 @@
     {
         "merged": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_list_longpressed_holo.9.png.flat",
         "source": "C:\\Users\\suhas\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\e9abfd890c58f10b8f293512ba64f741\\res\\drawable-mdpi-v4\\abc_list_longpressed_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_add_a_photo_black_24dp.xml.flat",
+        "source": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\src\\main\\res\\drawable\\ic_add_a_photo_black_24dp.xml"
     },
     {
         "merged": "C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_black_36dp.png.flat",

@@ -1,8 +1,12 @@
 package c.theinfiniteloop.rvsafe;
 
+import com.microsoft.azure.storage.blob.BlockBlobURL;
 import com.microsoft.azure.storage.blob.ContainerURL;
+import com.microsoft.azure.storage.blob.PipelineOptions;
 import com.microsoft.azure.storage.blob.ServiceURL;
 import com.microsoft.azure.storage.blob.SharedKeyCredentials;
+import com.microsoft.azure.storage.blob.StorageURL;
+import com.microsoft.azure.storage.blob.TransferManager;
 import com.microsoft.azure.storage.blob.models.ContainerCreateResponse;
 import com.microsoft.rest.v2.RestException;
 import com.mongodb.MongoClient;
@@ -14,7 +18,10 @@ import org.bson.Document;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
@@ -23,20 +30,24 @@ import java.util.Random;
 
 public class InsertData
 {
-
-    public static Datastore datastore;
+    static Datastore datastore;
 
 
     public static void main(String[] args) {
 
-        final Morphia morphia = new Morphia();
 
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://kitwradr:uSnJYwRZ3plpfCuAUwSYhg5FQSAIu7p2wH8FKreJ5FQfolbYH1TcMnvtWnXZB1PKZBmGkATM8wHPiGwRNp2UhA==@kitwradr.documents.azure.com:10255/?ssl=true&replicaSet=globaldb"));
+        final  Morphia morphia = new Morphia();
+
+        MongoClient mongoClient ;
+
+        MongoClientURI uri = new MongoClientURI("mongodb://kitwradr:uSnJYwRZ3plpfCuAUwSYhg5FQSAIu7p2wH8FKreJ5FQfolbYH1TcMnvtWnXZB1PKZBmGkATM8wHPiGwRNp2UhA==@kitwradr.documents.azure.com:10255/?ssl=true&replicaSet=globaldb");
+
+
+        mongoClient = new MongoClient(uri);
 
         morphia.mapPackage("c.theinfiniteloop.rvsafe");
 
         datastore = morphia.createDatastore(mongoClient, "LocationData");
-
 
         datastore.ensureIndexes();
 
@@ -55,7 +66,7 @@ public class InsertData
 
                 LocationData data = new LocationData(rand.nextDouble()*max1+min1,rand.nextDouble()*max2+min2,"Rescuer");
 
-                DBObject dbObject = toDBObject(data);
+                //DBObject dbObject = toDBObject(data);
 
                 //collection.insertOne(dbObject);
             }
@@ -67,7 +78,8 @@ public class InsertData
         } finally {
             if (mongoClient != null) {
 
-                insertVolunteerGroupsData();
+                //insertVolunteerGroupsData();
+                insertDisasterData();
                 mongoClient.close();
 
             }
@@ -75,11 +87,11 @@ public class InsertData
 
     }
 
-    static final DBObject toDBObject(LocationData data) {
-        return new BasicDBObject("clientType",data.getClientType())
-                .append("Latitude",data.getLatitude())
-                .append("Longitude",data.getLongitude());
-    }
+//    static final DBObject toDBObject(LocationData data) {
+//        return new BasicDBObject("clientType",data.getClientType())
+//                .append("Latitude",data.getLatitude())
+//                .append("Longitude",data.getLongitude());
+//    }
 
     public static void insertVolunteerGroupsData()
     {
@@ -128,28 +140,64 @@ public class InsertData
         datastore.save(group);
     }
 
-    public static void insertImagesintoBlob()
+//    public static void insertImagesintoBlob()
+//    {
+//        String accountName = "rvsafeimages";
+//        String accountKey = "391TMmlvDdRWu+AsNX+ZMl1i233YQfP5dxo/xhMrPm22KtwWwwMmM9vFAJpJHrGXyBrTW4OoAInjHnby9Couug==";
+//
+//        SharedKeyCredentials creds = new SharedKeyCredentials(accountName, accountKey);
+//// We are using a default pipeline here, you can learn more about it at https://github.com/Azure/azure-storage-java/wiki/Azure-Storage-Java-V10-Overview
+//        final ServiceURL serviceURL = new ServiceURL(new URL("http://" + accountName + ".blob.core.windows.net"), StorageURL.createPipeline(creds, new PipelineOptions()));
+//
+//// Let's create a container using a blocking call to Azure Storage
+//// If container exists, we'll catch and continue
+//        ContainerURL   containerURL = serviceURL.createContainerURL("quickstart");
+//
+//        try {
+//            ContainerCreateResponse response = containerURL.create(null, null).blockingGet();
+//            System.out.println("Container Create Response was " + response.statusCode());
+//        } catch (RestException e){
+//            if (e instanceof RestException && ((RestException)e).response().statusCode() != 409) {
+//                throw e;
+//            } else {
+//                System.out.println("quickstart container already exists, resuming...");
+//            }
+//        }
+//
+//    }
+
+//    static void uploadFile(BlockBlobURL blob, File sourceFile) throws IOException {
+//
+//        FileChannel fileChannel = FileChannel.open(sourceFile.toPath());
+//
+//        // Uploading a file to the blobURL using the high-level methods available in TransferManager class
+//        // Alternatively call the Upload/StageBlock low-level methods from BlockBlobURL type
+//        TransferManager.uploadFileToBlockBlob(fileChannel, blob, 8*1024*1024, null)
+//                .subscribe(response-> {
+//                    System.out.println("Completed upload request.");
+//                    System.out.println(response.response().statusCode());
+//                });
+//    }
+
+
+    static void insertDisasterData()
     {
-        SharedKeyCredentials creds = new SharedKeyCredentials(accountName, accountKey);
-// We are using a default pipeline here, you can learn more about it at https://github.com/Azure/azure-storage-java/wiki/Azure-Storage-Java-V10-Overview
-        final ServiceURL serviceURL = new ServiceURL(new URL("http://" + accountName + ".blob.core.windows.net"), StorageURL.createPipeline(creds, new PipelineOptions()));
+        DisasterData disasterData = new DisasterData();
+        disasterData.setDisaster_id(50);
+        disasterData.setDisaster_name("Tsunami");
+        disasterData.setWantToHelp_id(23);
+        disasterData.setImage_url("Urls are to be updated");
+        disasterData.setDisaster_type("Floods");
 
-// Let's create a container using a blocking call to Azure Storage
-// If container exists, we'll catch and continue
-        ContainerURL   containerURL = serviceURL.createContainerURL("quickstart");
 
-        try {
-            ContainerCreateResponse response = containerURL.create(null, null).blockingGet();
-            System.out.println("Container Create Response was " + response.statusCode());
-        } catch (RestException e){
-            if (e instanceof RestException && ((RestException)e).response().statusCode() != 409) {
-                throw e;
-            } else {
-                System.out.println("quickstart container already exists, resuming...");
-            }
-        }
+        datastore.save(disasterData);
 
-    }
+
+
+
+
+        
+    } 
 
 
 

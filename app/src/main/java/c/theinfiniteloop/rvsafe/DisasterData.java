@@ -26,6 +26,9 @@ public class DisasterData {
         this.wantToHelp_id = wantToHelp_id;
     }
 
+    public DisasterData() {
+    }
+
     public int getDisaster_id() {
         return disaster_id;
     }
@@ -46,7 +49,7 @@ public class DisasterData {
         return disaster_type;
     }
 
-    public void setGetDisaster_type(String disaster_type) {
+    public void setDisaster_type(String disaster_type) {
         this.disaster_type = disaster_type;
     }
 
@@ -64,5 +67,16 @@ public class DisasterData {
 
     public void setWantToHelp_id(int wantToHelp_id) {
         this.wantToHelp_id = wantToHelp_id;
+    }
+
+    @Override
+    public String toString() {
+        return "DisasterData{" +
+                "disaster_id=" + disaster_id +
+                ", disaster_name='" + disaster_name + '\'' +
+                ", disaster_type='" + disaster_type + '\'' +
+                ", image_url='" + image_url + '\'' +
+                ", wantToHelp_id=" + wantToHelp_id +
+                '}';
     }
 }

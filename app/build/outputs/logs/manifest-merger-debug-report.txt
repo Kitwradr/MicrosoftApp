@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-57:12
-INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-57:12
-INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-57:12
-INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-57:12
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-69:12
 MERGED from [com.android.support:cardview-v7:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\cardview-v7-27.1.1.aar\9c6acfd8dfaa624ee9da92ac61e216a4\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:design:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\abfd30873db931705d3bc10185de8f2f\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\5519fdeb859d59775707c9a64755ee4d\AndroidManifest.xml:17:1-28:12
@@ -26,43 +26,59 @@ MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\suhas\.gradle\
 MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\e168110509a85bb51250ca12d3518a53\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\328a352facdb996861f23a60a7479368\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\8cff6a5205e33f3928b70ce8d68135d6\AndroidManifest.xml:17:1-22:12
-INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-57:12
-INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-57:12
-INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-57:12
+INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-69:12
+INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-69:12
 	package
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:3:5-39
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:4:5-39
 		INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-57:12
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-69:12
 		INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-57:12
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:1-69:12
 		INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:2:11-69
-uses-permission#android.permission.SEND_SMS
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:10:5-66
-	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:10:22-64
-uses-permission#android.permission.ACCESS_FINE_LOCATION
+uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:11:5-78
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\77dab584065d00b00198c87bd4ef4a6d\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\77dab584065d00b00198c87bd4ef4a6d\AndroidManifest.xml:23:5-79
 	android:name
 		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:11:22-76
-uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:12:5-80
+uses-permission#android.permission.RECEIVE_SMS
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:12:5-69
 	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:12:22-78
-uses-permission#android.permission.INTERNET
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:12:22-67
+uses-permission#android.permission.READ_SMS
 ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:13:5-67
-MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\77dab584065d00b00198c87bd4ef4a6d\AndroidManifest.xml:24:5-67
-MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\77dab584065d00b00198c87bd4ef4a6d\AndroidManifest.xml:24:5-67
 	android:name
 		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:13:22-64
+uses-permission#android.permission.SEND_SMS
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:14:5-66
+	android:name
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:14:22-64
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:15:5-78
+	android:name
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:15:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:16:5-80
+	android:name
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:16:22-78
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:17:5-67
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\77dab584065d00b00198c87bd4ef4a6d\AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\77dab584065d00b00198c87bd4ef4a6d\AndroidManifest.xml:24:5-67
+	android:name
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:17:22-64
 application
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:15:5-55:19
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:19:5-67:19
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\5519fdeb859d59775707c9a64755ee4d\AndroidManifest.xml:22:5-26:19
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\5519fdeb859d59775707c9a64755ee4d\AndroidManifest.xml:22:5-26:19
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\b82bd1978b64d25e4821c69417200c98\AndroidManifest.xml:9:5-20
@@ -76,67 +92,79 @@ MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\suhas\.
 MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\f6cc7948d94d1c8cc078707e73e66857\AndroidManifest.xml:22:5-26:19
 MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\f6cc7948d94d1c8cc078707e73e66857\AndroidManifest.xml:22:5-26:19
 	android:supportsRtl
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:20:9-35
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:24:9-35
 	android:label
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:18:9-41
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:22:9-41
+	tools:ignore
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:26:9-48
 	android:roundIcon
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:19:9-54
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:23:9-54
 	android:icon
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:17:9-43
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:21:9-43
 	android:allowBackup
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:16:9-35
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:20:9-35
 	android:theme
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:21:9-40
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:25:9-40
 activity#c.theinfiniteloop.rvsafe.RvAzure_login
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:22:9-28:20
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:27:9-33:20
 	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:22:19-48
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:27:19-48
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:23:13-27:29
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:28:13-32:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:24:17-69
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:29:17-69
 	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:24:25-66
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:29:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:26:17-77
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:31:17-77
 	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:26:27-74
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:31:27-74
 activity#c.theinfiniteloop.rvsafe.RvAzure_Disaster_cards
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:29:9-32:59
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:34:9-37:59
 	android:label
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:31:13-76
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:36:13-76
 	android:theme
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:32:13-56
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:37:13-56
 	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:30:13-51
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:35:13-51
 activity#c.theinfiniteloop.rvsafe.RvAzure_WantToHelpOut
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:33:9-35:81
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:38:9-40:81
 	android:label
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:35:13-78
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:40:13-78
 	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:34:13-50
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:39:13-50
 activity#c.theinfiniteloop.rvsafe.RvAzure_VolunteerGroupProfile
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:36:9-67
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:41:9-67
 	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:36:19-64
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:41:19-64
 meta-data#com.google.android.geo.API_KEY
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:45:9-47:55
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:50:9-52:55
 	android:value
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:47:13-52
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:52:13-52
 	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:46:13-58
-activity#c.theinfiniteloop.rvsafe.donate
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:49:9-51:61
-	android:label
 		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:51:13-58
-	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:50:13-35
-activity#c.theinfiniteloop.rvsafe.RvAzure_StuckInThisDisaster
-ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:52:9-54:96
+activity#c.theinfiniteloop.rvsafe.donate
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:54:9-56:61
 	android:label
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:54:13-84
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:56:13-58
 	android:name
-		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:53:13-56
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:55:13-35
+activity#c.theinfiniteloop.rvsafe.RvAzure_StuckInThisDisaster
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:57:9-59:96
+	android:label
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:59:13-84
+	android:name
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:58:13-56
+receiver#c.theinfiniteloop.rvsafe.SmsReceiver
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:61:9-65:20
+	android:name
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:61:19-46
+intent-filter#action:name:android.provider.Telephony.SMS_RECEIVED
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:62:13-64:29
+action#android.provider.Telephony.SMS_RECEIVED
+ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:63:17-81
+	android:name
+		ADDED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml:63:25-79
 uses-sdk
 INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\suhas\Documents\GitHub\DuplicateMicr\MicrosoftApp\app\src\main\AndroidManifest.xml
@@ -201,10 +229,6 @@ ADDED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\suhas\.gradle\c
 		ADDED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\5519fdeb859d59775707c9a64755ee4d\AndroidManifest.xml:25:13-35
 	android:name
 		ADDED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\5519fdeb859d59775707c9a64755ee4d\AndroidManifest.xml:24:13-51
-uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\77dab584065d00b00198c87bd4ef4a6d\AndroidManifest.xml:23:5-79
-	android:name
-		ADDED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\77dab584065d00b00198c87bd4ef4a6d\AndroidManifest.xml:23:22-76
 uses-feature#0x00020000
 ADDED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\77dab584065d00b00198c87bd4ef4a6d\AndroidManifest.xml:26:5-28:35
 	android:glEsVersion

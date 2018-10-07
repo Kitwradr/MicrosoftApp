@@ -6,34 +6,78 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.*;
 import org.bson.Document;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
 
 
 public class QueryData {
 
+    static MongoClient mongoClient ;
+    static Datastore datastore;
+    static final Morphia morphia = new Morphia();
+
+    static MongoClientURI uri = new MongoClientURI("mongodb://kitwradr:uSnJYwRZ3plpfCuAUwSYhg5FQSAIu7p2wH8FKreJ5FQfolbYH1TcMnvtWnXZB1PKZBmGkATM8wHPiGwRNp2UhA==@kitwradr.documents.azure.com:10255/?ssl=true&replicaSet=globaldb");
+
     public static void main(String[] args) {
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://kitwradr:uSnJYwRZ3plpfCuAUwSYhg5FQSAIu7p2wH8FKreJ5FQfolbYH1TcMnvtWnXZB1PKZBmGkATM8wHPiGwRNp2UhA==@kitwradr.documents.azure.com:10255/?ssl=true&replicaSet=globaldb"));
 
         try{
-
-            MongoDatabase database = mongoClient.getDatabase("LocationData");
-
-            MongoCollection groupsData = database.getCollection("VolunteerGroups");
-
-            FindIterable<Document> docs = groupsData.find(new Document());
-
-            for (Document doc: docs) {
-
-                System.out.println(doc);
-
-            }
+//            mongoClient = new MongoClient(uri);
+//
+//
+//            MongoDatabase database = mongoClient.getDatabase("LocationData");
+//
+//            MongoCollection groupsData = database.getCollection("VolunteerGroups");
+//
+//            FindIterable<Document> docs = groupsData.find(new Document());
+//
+//            for (Document doc: docs) {
+//
+//                System.out.println(doc);
+//
+//            }
 
         }
 
         finally {
+//            if (mongoClient != null) {
+//                mongoClient.close();
+//            }
+        }
+
+        queryDisasterData(50);
+
+
+
+    }
+
+    public  static DisasterData queryDisasterData(int disaster_id)
+    {
+
+        morphia.mapPackage("c.theinfiniteloop.rvsafe");
+        DisasterData data;
+
+
+        try{
+            mongoClient = new MongoClient(uri);
+            datastore = morphia.createDatastore(mongoClient, "LocationData");
+            data = datastore.createQuery(DisasterData.class)
+                                .field("_id").equal(50).get();
+
+            System.out.println(data);
+
+
+
+        }
+
+        finally {
+
             if (mongoClient != null) {
                 mongoClient.close();
             }
+
         }
+
+        return data;
 
     }
 
