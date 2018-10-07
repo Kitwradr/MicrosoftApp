@@ -10,3 +10,5 @@
 .externalNativeBuild
 /app/build
 app\build
+/.idea/caches
+
