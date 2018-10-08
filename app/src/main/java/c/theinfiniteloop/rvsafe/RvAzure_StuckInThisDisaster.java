@@ -115,10 +115,13 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             @Override
             public void onClick(View view)
             {
-            if(victimrestoredPath!=null) {
+            if(victimrestoredPath!=null)
+            {
                 try {
 
                     Bitmap bitmap;
+
+
 
             /*    HttpClient httpClient = new DefaultHttpClient();
                 HttpContext localContext = new BasicHttpContext();*/
@@ -137,7 +140,13 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                     // CompressFormat set up to JPG, you can change to PNG or whatever you want;
                     bmpCompressed.compress(Bitmap.CompressFormat.JPEG, 100, bos);
                     byte[] data = bos.toByteArray();
-/*
+
+
+                    Toast.makeText(getApplicationContext(),"TEST",Toast.LENGTH_LONG).show();
+                    /*
+
+
+
                 // sending a String param;
                 entity.addPart("myParam", new StringBody("my value"));
 

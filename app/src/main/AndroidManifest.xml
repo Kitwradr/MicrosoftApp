@@ -34,11 +34,11 @@
         </activity>
         <activity
             android:name=".RvAzure_Disaster_cards"
-            android:label="@string/title_activity_rv_azure__disaster_cards"
+            android:label="RVSAFE"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RvAzure_WantToHelpOut"
-            android:label="@string/title_activity_rv_azure__want_to_help_out" />
+            android:label="RVSAFE" />
         <activity android:name=".RvAzure_VolunteerGroupProfile" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
