@@ -828,7 +828,6 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
-drawable ambulance
 drawable avd_hide_password
 drawable avd_show_password
 drawable common_full_open_on_phone
@@ -856,11 +855,9 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
-drawable firebrigade
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_add_a_photo_black_24dp
-drawable ic_contact_phone_black_24dp
 drawable ic_dashboard_black_24dp
 drawable ic_favorite_black_24dp
 drawable ic_home_black_24dp
@@ -876,10 +873,8 @@ drawable ic_menu_slideshow
 drawable ic_mood_bad_black_24dp
 drawable ic_notifications_black_24dp
 drawable ic_people_outline_black_24dp
-drawable ic_person_add_black_24dp
 drawable ic_phone_black_24dp
 drawable ic_photo_black_24dp
-drawable ic_sentiment_satisfied_black_24dp
 drawable keralafloodsimage1
 drawable navigation_empty_icon
 drawable notification_action_background
@@ -898,7 +893,6 @@ drawable oval_button
 drawable oval_button_light_green
 drawable oval_button_light_red
 drawable oval_button_white
-drawable police
 drawable safetyshieldvector
 drawable side_nav_bar
 drawable sos

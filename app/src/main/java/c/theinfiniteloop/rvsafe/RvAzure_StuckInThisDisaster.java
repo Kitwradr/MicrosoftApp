@@ -31,7 +31,12 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -115,52 +120,14 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             @Override
             public void onClick(View view)
             {
-            if(victimrestoredPath!=null)
-            {
+            if(victimrestoredPath!=null) {
                 try {
-
-                    Bitmap bitmap;
-
-
-
-            /*    HttpClient httpClient = new DefaultHttpClient();
-                HttpContext localContext = new BasicHttpContext();*/
-
-                    // here, change it to your php;
-
-            /*    HttpPost httpPost = new HttpPost("http://www.myURL.com/myPHP.php");
-                MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);*/
-                    bitmap = BitmapFactory.decodeFile(victimrestoredPath);
-
-                    // you can change the format of you image compressed for what do you want;
-                    // now it is set up to 640 x 480;
-                    Bitmap bmpCompressed = Bitmap.createScaledBitmap(bitmap, 640, 480, true);
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-                    // CompressFormat set up to JPG, you can change to PNG or whatever you want;
-                    bmpCompressed.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                    byte[] data = bos.toByteArray();
-
-
-                    Toast.makeText(getApplicationContext(),"TEST",Toast.LENGTH_LONG).show();
-                    /*
-
-
-
-                // sending a String param;
-                entity.addPart("myParam", new StringBody("my value"));
-
-                // sending a Image;
-                // note here, that you can send more than one image, just add another param, same rule to the String;
-                entity.addPart("myImage", new ByteArrayBody(data, "temp.jpg"));
-                httpPost.setEntity(entity);
-                HttpResponse response = httpClient.execute(httpPost, localContext);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(   response.getEntity().getContent(), "UTF-8"));
-                String sResponse = reader.readLine(); */
-
+                    System.out.print("PATH ---------------------------sdfbisdfu---sdbj"+victimrestoredPath);
+                   new Uploadasynch().execute(victimrestoredPath);
                 }
                 catch (Exception e)
                 {
+                    e.printStackTrace();
                     Log.v("myApp", "Some error came up");
                 }
 
@@ -244,6 +211,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                     SharedPreferences.Editor editor = this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE).edit();
                     editor.putString(victimimagepathtag, picturePath);
                     editor.apply();
+
+                    victimrestoredPath = picturePath;
 
                     victimimage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                     victimimage.setScaleType(ImageView.ScaleType.FIT_XY);
