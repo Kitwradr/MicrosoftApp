@@ -9,6 +9,9 @@ import org.bson.Document;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class QueryData {
 
@@ -44,7 +47,7 @@ public class QueryData {
 //            }
         }
 
-        queryDisasterData(50);
+        queryDisasterids();
 
 
 
@@ -81,9 +84,33 @@ public class QueryData {
 
     }
 
-    public static void queryDisasters(){
+    public static List<Integer> queryDisasterids(){
 
+        ArrayList<Integer> ids = new ArrayList<>();
 
+        try{
+            mongoClient = new MongoClient(uri);
+            DB database = mongoClient.getDB("LocationData");
+            DBCollection coll = database.getCollection("DisasterData");
+
+            DBCursor cursor = coll.find();
+
+            while(cursor.hasNext()){
+                DBObject obj= cursor.next();
+                ids.add(Integer.parseInt(obj.get("_id").toString()));
+                System.out.println(ids);
+            }
+        }
+
+        finally {
+
+            if (mongoClient != null) {
+                mongoClient.close();
+            }
+
+        }
+
+        return  ids;
 
     }
 
