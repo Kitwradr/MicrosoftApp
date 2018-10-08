@@ -1,8 +1,10 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 
 import java.io.BufferedInputStream;
@@ -24,7 +26,12 @@ import java.nio.file.Paths;
 public  class Uploadasynch extends AsyncTask<String, Void, Void> {
 
     private Exception exception;
+    private Context contexts;
+    private boolean flag;
     private  String err="";
+    public  Uploadasynch(Context context){
+        contexts = context;
+    }
 
     private byte[] read(String filepath){
         File file = new File(filepath);
@@ -84,6 +91,7 @@ public  class Uploadasynch extends AsyncTask<String, Void, Void> {
                 response.append(inputLine);
                 System.out.println(inputLine);
             }
+            flag=true;
             // close the input stream
             in.close();
 
@@ -97,22 +105,27 @@ public  class Uploadasynch extends AsyncTask<String, Void, Void> {
             this.exception = e;
             e.printStackTrace();
             this.err="error";
-            System.out.print("ERRRRRROOOOOOORRRR");
+
+
         } finally {
 
         }
 
-    return null;
+return null;
+
     }
 
-    protected Integer onPostExecute() {
+
+    @Override
+    protected void onPostExecute(Void v) {
         // TODO: check this.exception
         // TODO: do something with the feed
-        if(this.err.equalsIgnoreCase("")){
-            Integer integer  = new Integer("200");
-            return integer;
+        if(flag){
+            Toast.makeText(contexts, "upload success ", Toast.LENGTH_SHORT).show();
         }
-        else
-            return new Integer("400");
+        else {
+            Toast.makeText(contexts, "HttpHostConnectException Occured ", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
