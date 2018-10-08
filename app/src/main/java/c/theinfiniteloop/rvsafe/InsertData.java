@@ -2,15 +2,20 @@ package c.theinfiniteloop.rvsafe;
 
 import android.annotation.TargetApi;
 
+import com.microsoft.azure.storage.blob.BlobRange;
 import com.microsoft.azure.storage.blob.BlockBlobURL;
 import com.microsoft.azure.storage.blob.ContainerURL;
+import com.microsoft.azure.storage.blob.ListBlobsOptions;
 import com.microsoft.azure.storage.blob.PipelineOptions;
 import com.microsoft.azure.storage.blob.ServiceURL;
 import com.microsoft.azure.storage.blob.SharedKeyCredentials;
 import com.microsoft.azure.storage.blob.StorageURL;
 import com.microsoft.azure.storage.blob.TransferManager;
+import com.microsoft.azure.storage.blob.models.BlobItem;
 import com.microsoft.azure.storage.blob.models.ContainerCreateResponse;
+import com.microsoft.azure.storage.blob.models.ContainerListBlobFlatSegmentResponse;
 import com.microsoft.rest.v2.RestException;
+import com.microsoft.rest.v2.util.FlowableUtil;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -28,10 +33,13 @@ import java.lang.annotation.Target;
 import java.net.URL;
 import java.nio.channels.AsynchronousFileChannel;
 import java.nio.channels.FileChannel;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
+import io.reactivex.Single;
 
 
 public class InsertData
@@ -90,15 +98,16 @@ public class InsertData
 
             }
         }
-        File image = new File("C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\src\\main\\res\\drawable\\tamilnadutsunami.jpg");
-        try{
-            insertImagesintoBlob(image);
-        }
-        catch (Exception e)
-        {
-            System.out.println("Error occured!!");
-            e.printStackTrace();
-        }
+//        File image = new File("drawable/tamilnadutsunami.jpg");
+//        try{
+//            insertImagesintoBlob(image);
+//        }
+//        catch (Exception e)
+//        {
+//            System.out.println("Error occured!!");
+//            e.printStackTrace();
+//        }
+
 
     }
 
@@ -108,7 +117,7 @@ public class InsertData
 //                .append("Longitude",data.getLongitude());
 //    }
 
-    @TargetApi(26)
+    @TargetApi(24)
     public static void insertVolunteerGroupsData()
     {
         int group_id;
@@ -218,21 +227,88 @@ public class InsertData
     static void insertDisasterData()
     {
         DisasterData disasterData = new DisasterData();
-        disasterData.setDisaster_id(50);
-        disasterData.setDisaster_name("Tsunami");
-        disasterData.setWantToHelp_id(23);
-        disasterData.setImage_url("Urls are to be updated");
-        disasterData.setDisaster_type("Floods");
+        disasterData.setDisaster_id(6);
+        disasterData.setDisaster_name("TAMILNADU TSUNAMI");
+        disasterData.setWantToHelp_id(42);
+        disasterData.setImage_url("https://rvsafeimages.blob.core.windows.net/imagescontainer/tamilnadutsunami.jpg?st=2018-10-08T15%3A12%3A39Z&se=2018-10-09T15%3A12%3A39Z&sp=rl&sv=2018-03-28&sr=b&sig=FeXhEAdOvTZICyoNRJc2aDLcokwsOMxg16%2FNYa567Po%3D");
+        disasterData.setDisaster_type("TSUNAMI");
 
 
         datastore.save(disasterData);
 
-
-
-
-
-
     }
+
+    static void getBlob(BlockBlobURL blobURL, File sourceFile) {
+        try {
+            // Get the blob using the low-level download method in BlockBlobURL type
+            // com.microsoft.rest.v2.util.FlowableUtil is a static class that contains helpers to work with Flowable
+            // BlobRange is defined from 0 to 4MB
+            blobURL.download(new BlobRange().withOffset(0).withCount(4*1024*1024L), null, false, null)
+                    .flatMapCompletable(response -> {
+                        AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(sourceFile.getPath()), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+                        return FlowableUtil.writeFile(response.body(null), channel);
+                    }).doOnComplete(()-> System.out.println("The blob was downloaded to " + sourceFile.getAbsolutePath()))
+                    // To call it synchronously add .blockingAwait()
+                    .subscribe();
+        } catch (Exception ex){
+
+            System.out.println(ex.toString());
+        }
+    }
+    static void listBlobs(ContainerURL containerURL) {
+        // Each ContainerURL.listBlobsFlatSegment call return up to maxResults (maxResults=10 passed into ListBlobOptions below).
+        // To list all Blobs, we are creating a helper static method called listAllBlobs,
+        // and calling it after the initial listBlobsFlatSegment call
+        ListBlobsOptions options = new ListBlobsOptions();
+        options.withMaxResults(10);
+
+        containerURL.listBlobsFlatSegment(null, options, null).flatMap(containerListBlobFlatSegmentResponse ->
+                listAllBlobs(containerURL, containerListBlobFlatSegmentResponse))
+                .subscribe(response-> {
+                    System.out.println("Completed list blobs request.");
+                    System.out.println(response.statusCode());
+                });
+    }
+
+    private static Single <ContainerListBlobFlatSegmentResponse> listAllBlobs(ContainerURL url, ContainerListBlobFlatSegmentResponse response) {
+        // Process the blobs returned in this result segment (if the segment is empty, blobs() will be null.
+        if (response.body().segment() != null) {
+            for (BlobItem b : response.body().segment().blobItems()) {
+                String output = "Blob name: " + b.name();
+                if (b.snapshot() != null) {
+                    output += ", Snapshot: " + b.snapshot();
+                }
+                System.out.println(output);
+            }
+        }
+        else {
+            System.out.println("There are no more blobs to list off.");
+        }
+
+        // If there is not another segment, return this response as the final response.
+        if (response.body().nextMarker() == null) {
+            return Single.just(response);
+        } else {
+            /*
+            IMPORTANT: ListBlobsFlatSegment returns the start of the next segment; you MUST use this to get the next
+            segment (after processing the current result segment
+            */
+
+            String nextMarker = response.body().nextMarker();
+
+            /*
+            The presence of the marker indicates that there are more blobs to list, so we make another call to
+            listBlobsFlatSegment and pass the result through this helper function.
+            */
+
+            return url.listBlobsFlatSegment(nextMarker, new ListBlobsOptions().withMaxResults(10), null)
+                    .flatMap(containersListBlobFlatSegmentResponse ->
+                            listAllBlobs(url, containersListBlobFlatSegmentResponse));
+        }
+    }
+
+
+
 
 
 

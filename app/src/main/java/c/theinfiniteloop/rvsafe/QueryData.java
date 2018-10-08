@@ -3,6 +3,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.*;
 import org.bson.Document;
@@ -67,9 +68,6 @@ public class QueryData {
                     .field("_id").equal(50).get();
 
             System.out.println(data);
-
-
-
         }
 
         finally {
@@ -90,13 +88,13 @@ public class QueryData {
 
         try{
             mongoClient = new MongoClient(uri);
-            DB database = mongoClient.getDB("LocationData");
-            DBCollection coll = database.getCollection("DisasterData");
+            MongoDatabase database = mongoClient.getDatabase("LocationData");
+            FindIterable<Document> coll = database.getCollection("DisasterData").find();
 
-            DBCursor cursor = coll.find();
+            MongoCursor<Document> iterator = coll.iterator();
 
-            while(cursor.hasNext()){
-                DBObject obj= cursor.next();
+            while(iterator.hasNext()){
+                Document obj= iterator.next();
                 ids.add(Integer.parseInt(obj.get("_id").toString()));
                 System.out.println(ids);
             }
