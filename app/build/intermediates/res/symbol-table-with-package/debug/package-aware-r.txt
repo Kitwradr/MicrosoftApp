@@ -1133,6 +1133,7 @@ id up
 id useLogo
 id v_team_image
 id victimimage1
+id victimuploadbutton
 id view_offset_helper
 id visible
 id volunteer_card

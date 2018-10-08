@@ -18,9 +18,12 @@ import org.bson.Document;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.channels.AsynchronousFileChannel;
 import java.nio.channels.FileChannel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -79,10 +82,19 @@ public class InsertData
             if (mongoClient != null) {
 
                 //insertVolunteerGroupsData();
-                insertDisasterData();
+                //insertDisasterData();
                 mongoClient.close();
 
             }
+        }
+        File image = new File("C:\\Users\\suhas\\Documents\\GitHub\\DuplicateMicr\\MicrosoftApp\\app\\src\\main\\res\\drawable\\tamilnadutsunami.jpg");
+        try{
+            insertImagesintoBlob(image);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error occured!!");
+            e.printStackTrace();
         }
 
     }
@@ -140,44 +152,63 @@ public class InsertData
         datastore.save(group);
     }
 
-//    public static void insertImagesintoBlob()
-//    {
-//        String accountName = "rvsafeimages";
-//        String accountKey = "391TMmlvDdRWu+AsNX+ZMl1i233YQfP5dxo/xhMrPm22KtwWwwMmM9vFAJpJHrGXyBrTW4OoAInjHnby9Couug==";
-//
-//        SharedKeyCredentials creds = new SharedKeyCredentials(accountName, accountKey);
-//// We are using a default pipeline here, you can learn more about it at https://github.com/Azure/azure-storage-java/wiki/Azure-Storage-Java-V10-Overview
-//        final ServiceURL serviceURL = new ServiceURL(new URL("http://" + accountName + ".blob.core.windows.net"), StorageURL.createPipeline(creds, new PipelineOptions()));
-//
-//// Let's create a container using a blocking call to Azure Storage
-//// If container exists, we'll catch and continue
-//        ContainerURL   containerURL = serviceURL.createContainerURL("quickstart");
-//
-//        try {
-//            ContainerCreateResponse response = containerURL.create(null, null).blockingGet();
-//            System.out.println("Container Create Response was " + response.statusCode());
-//        } catch (RestException e){
-//            if (e instanceof RestException && ((RestException)e).response().statusCode() != 409) {
-//                throw e;
-//            } else {
-//                System.out.println("quickstart container already exists, resuming...");
-//            }
-//        }
-//
-//    }
+    public static void insertImagesintoBlob (File image)throws java.lang.Exception
+    {
+        String accountName = "rvsafeimages";
+        String accountKey = "391TMmlvDdRWu+AsNX+ZMl1i233YQfP5dxo/xhMrPm22KtwWwwMmM9vFAJpJHrGXyBrTW4OoAInjHnby9Couug==";
 
-//    static void uploadFile(BlockBlobURL blob, File sourceFile) throws IOException {
-//
-//        FileChannel fileChannel = FileChannel.open(sourceFile.toPath());
-//
-//        // Uploading a file to the blobURL using the high-level methods available in TransferManager class
-//        // Alternatively call the Upload/StageBlock low-level methods from BlockBlobURL type
-//        TransferManager.uploadFileToBlockBlob(fileChannel, blob, 8*1024*1024, null)
-//                .subscribe(response-> {
-//                    System.out.println("Completed upload request.");
-//                    System.out.println(response.response().statusCode());
-//                });
-//    }
+        SharedKeyCredentials creds = new SharedKeyCredentials(accountName, accountKey);
+        // We are using a default pipeline here, you can learn more about it at https://github.com/Azure/azure-storage-java/wiki/Azure-Storage-Java-V10-Overview
+        final ServiceURL serviceURL = new ServiceURL(new URL("http://" + accountName + ".blob.core.windows.net"), StorageURL.createPipeline(creds, new PipelineOptions()));
+
+        // Let's create a container using a blocking call to Azure Storage
+        // If container exists, we'll catch and continue
+        ContainerURL  containerURL = serviceURL.createContainerURL("imagescontainer");
+
+        try {
+            ContainerCreateResponse response = containerURL.create(null, null,null).blockingGet();
+            System.out.println("Container Create Response was " + response.statusCode());
+        } catch (RestException e){
+            if (e instanceof RestException && ((RestException)e).response().statusCode() != 409) {
+                throw e;
+            } else {
+                System.out.println("imagescontainer container already exists, resuming...");
+            }
+        }
+
+        final BlockBlobURL blobURL = containerURL.createBlockBlobURL("SampleBlob.png");
+
+        // Listening for commands from the console
+        //System.out.println("Enter a command");
+        //System.out.println("(P)utBlob | (L)istBlobs | (G)etBlob | (D)eleteBlobs | (E)xitSample");
+        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("Uploading the sample file into the container: " + containerURL );
+        try {
+            uploadFile(blobURL, image);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    static void uploadFile(BlockBlobURL blob, File sourceFile) throws IOException {
+
+        AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(sourceFile.toPath());
+
+        // Uploading a file to the blobURL using the high-level methods available in TransferManager class
+        // Alternatively call the PutBlob/PutBlock low-level methods from BlockBlobURL type
+        TransferManager.uploadFileToBlockBlob(fileChannel, blob, 8*1024*1024, null)
+                .subscribe(response-> {
+                    System.out.println("Completed upload request.");
+                    System.out.println(response.response().statusCode());
+                });
+    }
+
 
 
     static void insertDisasterData()

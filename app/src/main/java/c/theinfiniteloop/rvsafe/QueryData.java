@@ -81,4 +81,10 @@ public class QueryData {
 
     }
 
+    public static void queryDisasters(){
+
+
+
+    }
+
 }
