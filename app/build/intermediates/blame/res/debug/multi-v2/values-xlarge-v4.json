@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\shubham\\AndroidStudioProjects\\MicrosoftApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-xlarge-v4\\values-xlarge-v4.xml",
+            "outputFile": "/home/yatish/Desktop/projects/MicrosoftAppGithub/MicrosoftApp/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\shubham\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\79b809fbafaf35ae30aec97e32815e29\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
+                    "source": "/home/yatish/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95b75878e08bbb371cfd4a6c9b4f6dae/res/values-xlarge-v4/values-xlarge-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",

@@ -123,7 +123,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             if(victimrestoredPath!=null) {
                 try {
                     System.out.print("PATH ---------------------------sdfbisdfu---sdbj"+victimrestoredPath);
-                   new Uploadasynch().execute(victimrestoredPath);
+                    new Uploadasynch(getApplicationContext()).execute(victimrestoredPath);
+
                 }
                 catch (Exception e)
                 {
