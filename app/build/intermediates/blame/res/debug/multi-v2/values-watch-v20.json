@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/yatish/Desktop/projects/MicrosoftAppGithub/MicrosoftApp/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "C:\\Users\\suhas\\Desktop\\MicrosoftApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-watch-v20\\values-watch-v20.xml",
             "map": [
                 {
-                    "source": "/home/yatish/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95b75878e08bbb371cfd4a6c9b4f6dae/res/values-watch-v20/values-watch-v20.xml",
+                    "source": "C:\\Users\\suhas\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.1.aar\\7e0a9016d4dc4ada59aab96c40d4c448\\res\\values-watch-v20\\values-watch-v20.xml",
                     "from": {
                         "startLines": "2,5,8",
                         "startColumns": "4,4,4",

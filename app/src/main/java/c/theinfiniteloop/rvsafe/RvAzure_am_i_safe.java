@@ -89,7 +89,7 @@ public class RvAzure_am_i_safe extends Fragment
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setDomStorageEnabled(true);
-
+        webView.getSettings().setBuiltInZoomControls(true);
 
 
         webView.loadUrl("http://city.imd.gov.in/citywx/city_weather.php?id=42299");
