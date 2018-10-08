@@ -1,9 +1,15 @@
 package c.theinfiniteloop.rvsafe;
 
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+
 import java.util.ArrayList;
 
+
+@Entity("WantToHelpGroupData")
 public class WantToHelpGroupData {
 
+    @Id
     public int wantToHelp_id;
 
     public ArrayList<Integer> volunteerGroup_ids;
@@ -38,5 +44,8 @@ public class WantToHelpGroupData {
 
     public void setHelpAndDonate_ids(ArrayList<Integer> helpAndDonate_ids) {
         this.helpAndDonate_ids = helpAndDonate_ids;
+    }
+
+    public WantToHelpGroupData() {
     }
 }

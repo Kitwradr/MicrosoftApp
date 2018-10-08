@@ -1306,7 +1306,6 @@ string common_google_play_services_wear_update_text
 string common_open_on_phone
 string common_signin_button_text
 string common_signin_button_text_long
-string dummyString
 string google_maps_key
 string nav_header_desc
 string nav_header_subtitle

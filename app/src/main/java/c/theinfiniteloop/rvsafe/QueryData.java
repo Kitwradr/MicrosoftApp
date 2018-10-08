@@ -65,7 +65,61 @@ public class QueryData {
             mongoClient = new MongoClient(uri);
             datastore = morphia.createDatastore(mongoClient, "LocationData");
             data = datastore.createQuery(DisasterData.class)
-                    .field("_id").equal(50).get();
+                    .field("_id").equal(disaster_id).get();
+
+            System.out.println(data);
+        }
+
+        finally {
+
+            if (mongoClient != null) {
+                mongoClient.close();
+            }
+
+        }
+
+        return data;
+
+    }
+
+    public static WantToHelpGroupData queryWanttohelpdata(int id){
+        morphia.mapPackage("c.theinfiniteloop.rvsafe");
+
+
+        WantToHelpGroupData data ;
+
+        try{
+            mongoClient = new MongoClient(uri);
+            datastore = morphia.createDatastore(mongoClient, "LocationData");
+            data = datastore.createQuery(WantToHelpGroupData.class)
+                    .field("_id").equal(id).get();
+
+            System.out.println(data);
+        }
+
+        finally {
+
+            if (mongoClient != null) {
+                mongoClient.close();
+            }
+
+        }
+
+        return data;
+    }
+
+    public static VolunteerGroupData queryvolunteerData(int id)
+    {
+        morphia.mapPackage("c.theinfiniteloop.rvsafe");
+
+
+        VolunteerGroupData data ;
+
+        try{
+            mongoClient = new MongoClient(uri);
+            datastore = morphia.createDatastore(mongoClient, "LocationData");
+            data = datastore.createQuery(VolunteerGroupData.class)
+                    .field("_id").equal(id).get();
 
             System.out.println(data);
         }

@@ -9,6 +9,8 @@ import org.mongodb.morphia.annotations.Id;
 
 public class VolunteerGroupData {
 
+
+
     @Id
     public int group_id;
 
@@ -16,20 +18,17 @@ public class VolunteerGroupData {
 
     public String group_image_url;
 
-    public VolunteerGroupData() {
-    }
+    public String start_location;
+
+    public String destination;
 
     public String group_description;
 
     public String started_by;
 
-    public double location_lat;
+    public String date;
 
-    public double location_long;
-
-    public LocalDate date;
-
-    public float expected_duration;
+    public String expected_duration;
 
     public int male_members;
 
@@ -37,19 +36,17 @@ public class VolunteerGroupData {
 
     public String email_id;
 
-    public VolunteerGroupData(int group_id, String group_name, String group_image_url, String group_description, String started_by, double location_lat, double location_long, LocalDate date, float expected_duration, int male_members, int female_members, String email_id) {
-        this.group_id = group_id;
-        this.group_name = group_name;
-        this.group_image_url = group_image_url;
-        this.group_description = group_description;
-        this.started_by = started_by;
-        this.location_lat = location_lat;
-        this.location_long = location_long;
-        this.date = date;
-        this.expected_duration = expected_duration;
-        this.male_members = male_members;
-        this.female_members = female_members;
-        this.email_id = email_id;
+    public int number_of_members;
+
+    public int getNumber_of_members() {
+        return number_of_members;
+    }
+
+    public void setNumber_of_members(int number_of_members) {
+        this.number_of_members = number_of_members;
+    }
+
+    public VolunteerGroupData() {
     }
 
     public int getGroup_id() {
@@ -76,6 +73,22 @@ public class VolunteerGroupData {
         this.group_image_url = group_image_url;
     }
 
+    public String getStart_location() {
+        return start_location;
+    }
+
+    public void setStart_location(String start_location) {
+        this.start_location = start_location;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
     public String getGroup_description() {
         return group_description;
     }
@@ -92,35 +105,19 @@ public class VolunteerGroupData {
         this.started_by = started_by;
     }
 
-    public double getLocation_lat() {
-        return location_lat;
-    }
-
-    public void setLocation_lat(double location_lat) {
-        this.location_lat = location_lat;
-    }
-
-    public double getLocation_long() {
-        return location_long;
-    }
-
-    public void setLocation_long(double location_long) {
-        this.location_long = location_long;
-    }
-
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public float getExpected_duration() {
+    public String getExpected_duration() {
         return expected_duration;
     }
 
-    public void setExpected_duration(float expected_duration) {
+    public void setExpected_duration(String expected_duration) {
         this.expected_duration = expected_duration;
     }
 

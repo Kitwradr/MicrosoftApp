@@ -14,7 +14,6 @@ MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\suhas\.g
 MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-tasks-15.0.1.aar\ca380a40525776315c370bcf191374c1\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\bb796347e8634801031eaf8d3d585aa1\AndroidManifest.xml:17:1-28:12
 MERGED from [com.android.support:support-v4:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\6858de60b5e628bed38900dcc0eec7d1\AndroidManifest.xml:17:1-22:12
-MERGED from [com.microsoft.azure.android:azure-storage-android:2.0.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\azure-storage-android-2.0.0.aar\469194ca43683a5d044e0f886af87128\AndroidManifest.xml:11:1-20:12
 MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\c2c9e3bd9cdb3dfd4b4da53d3fe72adc\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\471e1ae84f048dec9c0f7a1806c42c38\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-core-ui:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\b9bccd2cad27a7514a4d76f434fc618f\AndroidManifest.xml:17:1-22:12
@@ -80,8 +79,6 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\Users\suhas\Desktop\MicrosoftApp\app\src\main\AndroidManifest.xml:18:5-67
 MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\78838f6c63e8de2230dcbc6e85b66bb0\AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-maps-15.0.1.aar\78838f6c63e8de2230dcbc6e85b66bb0\AndroidManifest.xml:24:5-67
-MERGED from [com.microsoft.azure.android:azure-storage-android:2.0.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\azure-storage-android-2.0.0.aar\469194ca43683a5d044e0f886af87128\AndroidManifest.xml:18:5-67
-MERGED from [com.microsoft.azure.android:azure-storage-android:2.0.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\azure-storage-android-2.0.0.aar\469194ca43683a5d044e0f886af87128\AndroidManifest.xml:18:5-67
 	android:name
 		ADDED from C:\Users\suhas\Desktop\MicrosoftApp\app\src\main\AndroidManifest.xml:18:22-64
 application
@@ -194,8 +191,6 @@ MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\suha
 MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\play-services-basement-15.0.1.aar\bb796347e8634801031eaf8d3d585aa1\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-v4:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\6858de60b5e628bed38900dcc0eec7d1\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-v4:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\6858de60b5e628bed38900dcc0eec7d1\AndroidManifest.xml:20:5-44
-MERGED from [com.microsoft.azure.android:azure-storage-android:2.0.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\azure-storage-android-2.0.0.aar\469194ca43683a5d044e0f886af87128\AndroidManifest.xml:14:38-16:41
-MERGED from [com.microsoft.azure.android:azure-storage-android:2.0.0] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\azure-storage-android-2.0.0.aar\469194ca43683a5d044e0f886af87128\AndroidManifest.xml:14:38-16:41
 MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\c2c9e3bd9cdb3dfd4b4da53d3fe72adc\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-fragment:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\c2c9e3bd9cdb3dfd4b4da53d3fe72adc\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:animated-vector-drawable:27.1.1] C:\Users\suhas\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\471e1ae84f048dec9c0f7a1806c42c38\AndroidManifest.xml:20:5-44
