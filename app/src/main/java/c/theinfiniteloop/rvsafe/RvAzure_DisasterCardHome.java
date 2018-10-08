@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RvAzure_DisasterCardHome extends Fragment
 {
@@ -49,6 +51,18 @@ public class RvAzure_DisasterCardHome extends Fragment
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
+
+
+            /*    QueryData queryData=new QueryData();
+                List<Integer> disids=QueryData.queryDisasterids();
+
+                Log.i("NEW DATA",""+disids.get(1));*/
+
+
+
+
 
 
         data = new ArrayList<RvAzure_DataModelForCards>();
