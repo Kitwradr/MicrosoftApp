@@ -4,6 +4,8 @@ Disasters often strike, when we are least prepared to face them. They leave behi
 
 Essentially RVSAFE is an Azure powered Android App that draws inspiration from the problems faced by people during disasters and seeks to solve them in the best possible manner.  We explain each  feature of the app below using the prospective GUI designed by us(work in progress).
 
+<img src="/images/Features_of_app.png" width="800" align="middle"/>
+
 ## Features Of RV Safe:
 
 RVSAFE opens with a simple user login/registration activity that assigns each user a unique id and lets him choose a password. We use the one time authentication feature so as to skip the arduous task of entering a password each time. The user is then presented with 4 different tabs each serving a important function.
