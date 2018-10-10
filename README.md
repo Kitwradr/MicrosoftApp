@@ -1,43 +1,109 @@
-# MicrosoftIdea
-## Overview
-Natural disasters are take a lot of lives and burdens the country's economy. Many of the disasters could be prevented if there is a better communication and swift recovery can be possible if we can handle the disaster situation properly. Many lives could be saved if we can manage the disasters properly . 
-In this context we have come up with innovative ideas to alert people(pre-disaster), and ensure proper management of the disasters.
+# R V SAFE
+## Overview:
+Disasters often strike, when we are least prepared to face them. They leave behind a trail of destruction, adversely affecting human life and property. The loss caused by disasters can  be significantly reduced with better communication and proper management. Keeping this in mind we designed R V SAFE, a one stop solution for effectively handling any kind of disasters (Natural/Manmade).
 
-We propose a software approach to handle the situations better. We develop mobile applications and web applications to tackle the problem.
+Essentially RVSAFE is an Azure powered Android App that draws inspiration from the problems faced by people during disasters and seeks to solve them in the best possible manner.  We explain each  feature of the app below using the prospective GUI designed by us(work in progress).
 
-Following are the features and ideas that will be delivered : 
+## Features Of RV Safe:
 
-Pre-Disaster-Alerts:
-	Often there is no proper communication before the disasters. For instance recently, the Kerala floods were predicted in early August by IMD but it was not communicated properly
-	
-	src-https://www.news18.com/news/india/kerala-was-warned-of-severe-weather-says-centre-on-charges-of-flood-forecast-lapses-1866453.html
+RVSAFE opens with a simple user login/registration activity that assigns each user a unique id and lets him choose a password. We use the one time authentication feature so as to skip the arduous task of entering a password each time. The user is then presented with 4 different tabs each serving a important function.
+The home tab presents the user with different disaster cards, each representing  an active disaster. The app admins can easily start a new card for any disaster simply by entering a few lines of information in our admin service that is backed by Azure Cosmos DB. The user at this point can either indicate if he/she  is stuck in the disaster or if he/she wants to help out by choosing any one of the options.
 
-	.During the Pre disaster time, we can alert people and create awareness to reduce the impact of the disaster. 
-	Weather forecasting and natural disaster prediction itself is a very complicated models. For example rainfall depends on Air currents, pressure variations. Also low lying areas get flooded easily.
-	We propose a combination of web scraping techniques and actual forecasts by weather agencies to alert the people in an area.
-	We scrape data from weather forecast agencies such as imd to prepare a metric which tells the client how safe he is
-	We also provide a portal in which the weather agencies themselves can send immediate alert messages.
 
-Disaster management techniques:
-	We propose the following management techniques which can potentially save a lot of lives:
+<img src="/images/Screenshot_20181008-132158.png" width="200" align="middle"/>
 
-	Rescue Operations
-	1. Rescue team formation- People will be able to for and join rescue teams to help reach out to victims
-	2. People will be able to donate basic resources which will be collected by some team.
-	3. Rescue team will be able to view the locations of the nearest victims so that they can be saved.
-	4. Rescue team will be able to view the surroundings of a victim so that he can better understand where the victim is located.
-	5. Rescue team will be able to comminicate to the victims over SMS/messaging services based on the feasibility..
 
-	Victims
-	1. He can mark himself as safe or in danger.
-	2. If the vicim is in danger then he'll be asked for the resources he needs.
-	3. If the victim is in danger then he gets the nearest rescue group contacts and location, and nearest relief camp.
-	4. A victim will be able to post images of other people in danger so that application can detect the number of faces and get approximate number of people stranded.
-	5. A victim can post the areas of his surroundings so that rescuers can get to the place quickly.
+Following are the features:
+#### STUCK IN THIS DISASTER:
+<p float="left">
+<img src="/images/Screenshot_20181008-132238.png" width="200"/>  <img src="/images/Screenshot_20181008-132328.png" width="200"/>
+</p>
+The stuck in this disaster view first presents to an option to the user to mark his location safe/unsafe. This information is particularly helpful as it can allow everyone trapped in the disaster, to better understand the situation in their surroundings. If a person stuck in the disaster marks himself safe then his location is displayed to victims in his/her vicinity through the map so as to allow  them to relocate themselves to the safe zones. This kind of agglomeration of people at safe zones can also  help optimize the rescue operations as it is easier to rescue people  in groups rather than rescuing people scattered around different locations. The map provides every user with four categories of  coordinates (each indicated with a different color marker) which are 
++ His/her location
++ The location of the nearest safe zones
++ The location of the nearest rescue groups
++ The location of the nearest relief camps 
++ In order to implement this functionality we use the Mongo DB API of Azure Cosmos DB.
 
-	NGO's
-	1. Registered NGOs can get to know how the rescue operation is carried out.
-	2. They get a list of people who are willing to donate basic resources.
+We also display the contact numbers of the POC(point of contact)/leader  of the nearest safe zone, and the nearest rescue groups.
+Apart from this we have 2 other interesting features.
 
-	Offline feature:
-	The above features require some internet connection. But during natural disasters getting internet can be tough. So we propose relaying information via SMS which consume very less bandwidth compared to others. Even if the network is down , we will be able to transfer locations via SMS's.
+## Upload an image of people stuck in the disaster
+## Upload any 3 images of landmarks you see that can help rescuers find you
+
+
+## Upload an image of people stuck in the disaster
+The user is allowed to upload an image of the people trapped along with him. We use Face API provided by Azure Cognitive Services to detect the gender and the age of the people trapped. We count the number of elderly, children, women and men trapped and assign different priorities to the groups. These images along with priority tags are shared with the rescue groups. This can be very beneficial to the rescue groups as it can help them prioritize their rescue operations accordingly and also choose their mode of rescue accordingly (example airlift etc).
+
+Upload 3 images of the landmarks nearby.
+Very often in disasters such as floods the topology of the place changes. Hence it becomes very difficult for rescuers to easily spot the locations in which people are trapped. In such situations having images of nearby landmarks can help rescuers easily approximate your location. Hence the victim can upload any 3 (arbitrarily chosen) images of his surroundings so as to help rescuers spot his location easily.
+
+
+Another feature we are working on currently(not displayed in the screenshots) is the ability for a user to indicate his requirements (food,fresh water,medicine,bedding etc) through the app so that the same can be air-dropped at his location or carried by rescuers.
+
+
+All these features as you can see require internet connection. But what if the user has no internet connection?
+To accommodate this possibility and provide offline feasibility we designed a novel architecture for RVSAFE called insta-help. Due to the unavailability of messaging API’s  like Twilio we decided to use our own architecture for the time being, by using a dedicated mobile number  to relay information. The working of insta-help is as follows.
+
+With Insta-Help incorporated RVSAFE becomes feasible both online as well as offline. The (Insta-Help feature is complete and will be integrated into the app in the next few days)
+
+
+
+##### Want To help Out
+This feature is made for those who wish to extend their help to people trapped in the disaster directly or indirectly. The user in this case is presented with 2 tabs
++ Volunteer
++ Donate
+
+Volunteer groups play very important and diverse roles in disaster management from the distribution of food packets and administering first aid to victims, to participating in actual rescue operations   
+This tab presents the user with an option to either join an existing volunteer group or start his/her own volunteer group. If a user wishes to start your his/her own volunteer group then he/she is required  to fill out a simple registration form after which the user shall receive a confirmation call from app admins and a card will be created for his/her group.A user can also choose to join an existing volunteer group by using the request to join option after which the group founder will receive your name and contact details and can choose to accept/decline the request. The user can choose to volunteer in at max group. 
+
+### Donate Tab
+<img src="images/Screenshot_20181008-132354.png" width="200"/>
+The other way for people to help out indirectly is through RVSAFE’s donate option.In the donate option the user is presented with a map that shows the location of the office of all NGO’s registered with our app and currently engaged in helping out in the disaster. Clicking on any marker on this map displays the name and contact number the NGO. The user can either personally choose to donate items by reaching out to them at their registered office or can select categories of items that they seek to donate and hit the donate button. The nearest NGO will be notified about their donation and will make a call to pick up the items from the user’s home . 
+
+We have managed to design a simple web portal for NGO’s to facilitate this process. The integration with our database is however pending and will be completed soon.
+
+
+  
+Coming back to the starting view  we have 3 other tabs
+
+### Tab 2: SOS
+
+To combat these situations we designed RVSAFE a one stop disaster prediction/prevention/management app for handling any kind of disasters (Natural / Manmade).  
+
+RVSAFE provides features such as:-
++ Am i Safe? (An early warning system for disaster prediction)
++ A SOS section that can easily be used to connect with emergency services.
++ An online/offline support system to help the victims trapped based on a novel architecture 
++ An easy and efficient way for people to reach out and help either through donations + to registered NGO’s or starting/joining volunteer groups.
++ A Tips section containing the best practices to be followed when a disaster strikes 
+
+
+Each of these features are further explained as follows: 
+
+##### Disaster Prediction:
+This feature provides weather forecast of your city from registered sources. It gives you a week of predicted  weather data backed with relevant indicators for level of criticality. 
+The weather data includes the temperature variations during the past week, the maximum and minimum temperature recorded, level of rainfall etc
+Apart from this we also provide live data of the conditions of the dams near your locality. We monitor their conditions continuously and raise alerts when the water levels in them reaches dangerously high levels.
+We also have a neural network, trained on the rainfall data collected from 1901 onwards. 
+We constantly monitor your weather data and indicate whether an abnormally high or abnormally low spell of rain is due to happen.
+Apart from this we keep a constant tab on what is happening throughout the world via our API’s and provide alerts immediately if you are likely to be affected by any kind of disaster. 
+
+The AM I SAFE? Feature of the app acts as an intelligent global watchdog and faithfully informing you of any threats.
+
+##### SOS:
+The SOS serves as a constant security companion. It provides access to contact numbers of all emergency services(police,ambulance,fireforce) as well as other important contacts such as Disaster Distress Helplines that provide online counselling. 
+Some of its notable features include the ability to share your precise location with the emergency services/your contacts via SMS.
+The SOS feature  truly makes this app a must have at all times and enhances your preparedness.
+
+
+##### Stuck in the Disaster:
+This feature provides multiple functionality
+
+
+
+
+
+
+
+
