@@ -1,4 +1,5 @@
 package c.theinfiniteloop.rvsafe;
+import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -9,14 +10,17 @@ import com.mongodb.*;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.bson.Document;
+import org.json.JSONObject;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -63,7 +67,8 @@ public class QueryData {
 //            }
         }
 
-        queryDisasterids();
+
+        queryUsingAPI();
 
 
 
@@ -171,7 +176,7 @@ public class QueryData {
 
 
 
-}
+
 
 
     public static WantToHelpGroupData queryWanttohelpdata(int id){
@@ -256,6 +261,50 @@ public class QueryData {
 
         return  ids;
 
+    }
+
+    public static void queryUsingAPI()
+    {
+        String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/disasterdata";
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            // optional default is GET
+            con.setRequestMethod("GET");
+            //add request header
+            //con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            int responseCode = con.getResponseCode();
+            System.out.println("\nSending 'GET' request to URL : " + url);
+            System.out.println("Response Code : " + responseCode);
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            System.out.println(response);
+            in.close();
+
+            Gson gson = new Gson();
+
+
+
+            //JSONObject myResponse = new JSONObject(response.toString());
+            DisasterList list = gson.fromJson(response.toString(),DisasterList.class);
+            //System.out.println(list.toString());
+
+            for (DisasterData i :list.data
+                 ) {
+
+                System.out.println(i);
+
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
 }
