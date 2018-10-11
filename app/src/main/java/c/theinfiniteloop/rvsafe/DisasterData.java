@@ -5,7 +5,8 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
 @Entity("DisasterData")
-public class DisasterData {
+public class DisasterData
+{
 
     @Id
     public int disaster_id;
@@ -26,7 +27,8 @@ public class DisasterData {
         this.wantToHelp_id = wantToHelp_id;
     }
 
-    public DisasterData() {
+    public DisasterData()
+    {
     }
 
     public int getDisaster_id() {

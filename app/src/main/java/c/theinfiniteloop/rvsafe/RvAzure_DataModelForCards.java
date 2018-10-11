@@ -1,34 +1,33 @@
 package c.theinfiniteloop.rvsafe;
 
-public class RvAzure_DataModelForCards
-{
+public class RvAzure_DataModelForCards {
     String disastername;
     String disastertype;
     int id_;
-    int image;
+    String imageurl;
 
-    public RvAzure_DataModelForCards(String disastername, String disastertype, int id_, int image) {
-        this.disastername ="  "+disastername;
-        this.disastertype = "TYPE: "+disastertype;
+    public RvAzure_DataModelForCards(String disastername, String disastertype, int id_, String imageurl) {
+        this.disastername = "  " + disastername;
+        this.disastertype = "TYPE: " + disastertype;
         this.id_ = id_;
-        this.image=image;
+        this.imageurl = imageurl;
     }
 
-    public String getName()
+    public String getName() {
+        return disastername;
+    }
+
+    public String getVersion() {
+        return disastertype;
+    }
+
+    public String getImage()
     {
-        return  disastername;
-    }
-
-    public String getVersion()
-    {
-        return  disastertype;
-    }
-
-    public int getImage() {
-        return image;
+        return imageurl;
     }
 
     public int getId() {
         return id_;
     }
+
 }

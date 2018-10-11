@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -42,6 +44,8 @@ public class RvAzure_DisasterCardHome extends Fragment
         super.onCreate(savedInstanceState);
 
 
+        data = new ArrayList<RvAzure_DataModelForCards>();
+        adapter = new RvAzure_CustomAdapterForRecyclerView(data);
     }
 
 
@@ -60,8 +64,8 @@ public class RvAzure_DisasterCardHome extends Fragment
 
         new QueryAsync().execute();
 
-        data = new ArrayList<RvAzure_DataModelForCards>();
-        for (int i = 0; i < RvAzure_MyDataForCards.nameArray.length; i++)
+
+      /*  for (int i = 0; i < RvAzure_MyDataForCards.nameArray.length; i++)
         {
             data.add(new RvAzure_DataModelForCards(
                     RvAzure_MyDataForCards.nameArray[i],
@@ -69,26 +73,23 @@ public class RvAzure_DisasterCardHome extends Fragment
                     RvAzure_MyDataForCards.id_[i],
                     RvAzure_MyDataForCards.drawableArray[i]
             ));
-        }
+        }*/
 
-        adapter = new RvAzure_CustomAdapterForRecyclerView(data);
         recyclerView.setAdapter(adapter);
-
-
-
-
 
 
         return view;
 
     }
 
-    private class QueryAsync extends AsyncTask<Void, Void,Void> {
+    private class QueryAsync extends AsyncTask<Void, Void,Void>
+    {
 
         DisasterList list;
 
 
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(Void... params)
+        {
             String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/disasterdata";
             try {
                 URL obj = new URL(url);
@@ -100,11 +101,11 @@ public class RvAzure_DisasterCardHome extends Fragment
                 int responseCode = con.getResponseCode();
                 System.out.println("\nSending 'GET' request to URL : " + url);
                 System.out.println("Response Code : " + responseCode);
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String inputLine;
                 StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
+                while ((inputLine = in.readLine()) != null)
+                {
                     response.append(inputLine);
                 }
                 System.out.println(response);
@@ -117,27 +118,54 @@ public class RvAzure_DisasterCardHome extends Fragment
                 //JSONObject myResponse = new JSONObject(response.toString());
                 list = gson.fromJson(response.toString(),DisasterList.class);
                 //System.out.println(list.toString());
-                for (DisasterData i :list.data
-                        ) {
-                    System.out.println(i);
+                for (DisasterData i :list.data)
+                {
+                    System.out.println("NEW STUFF"+i);
                 }
+
+
+
+                ArrayList<DisasterData> recylerviewdata=list.getData();
+
+
+                data.clear();
+                for(int i=0;i<recylerviewdata.size();i++)
+                {
+
+                    data.add(new RvAzure_DataModelForCards(
+                            recylerviewdata.get(i).getDisaster_name(),
+                            recylerviewdata.get(i).getGetDisaster_type(),
+                            recylerviewdata.get(i).getDisaster_id(),
+                            recylerviewdata.get(i).getImage_url()
+                    ));
+                }
+                adapter.notifyDataSetChanged();
+
+
+                return null;
+
+
             }
             catch (Exception ex)
             {
                 ex.printStackTrace();
             }
-
-            return null;
+           return null;
 
         }
 
         protected void onPostExecute(Void... params)
         {
             //You can access the list here
-            ArrayList<DisasterData> disasterlist = list.getData();
+
+
 
         }
     }
+
+
+
+
 
 
 }

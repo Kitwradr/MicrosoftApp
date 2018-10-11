@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class RvAzure_CustomAdapterForRecyclerView extends RecyclerView.Adapter<RvAzure_CustomAdapterForRecyclerView.MyViewHolder> {
@@ -74,7 +76,10 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
         final Context context=holder.context;
         textViewName.setText(dataSet.get(listPosition).getName());
         textViewVersion.setText(dataSet.get(listPosition).getVersion());
-        imageView.setImageResource(dataSet.get(listPosition).getImage());
+        Picasso.get().load(dataSet.get(listPosition).getImage()).placeholder(R.drawable.keralafloodsimage1).error(R.drawable.tamilnadutsunami).into(imageView);
+
+
+//        imageView.setImageResource(dataSet.get(listPosition).getImage());
 
 
 
