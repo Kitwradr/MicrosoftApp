@@ -64,6 +64,8 @@ public class RvAzure_DisasterCardHome extends Fragment
 
         new QueryAsync().execute();
 
+        new QueryAsyncVolunteerData().execute();
+
 
       /*  for (int i = 0; i < RvAzure_MyDataForCards.nameArray.length; i++)
         {
@@ -82,14 +84,12 @@ public class RvAzure_DisasterCardHome extends Fragment
 
     }
 
-    private class QueryAsync extends AsyncTask<Void, Void,DisasterList>
-    {
+    private class QueryAsync extends AsyncTask<Void, Void,DisasterList> {
 
         DisasterList list;
 
 
-        protected DisasterList doInBackground(Void... params)
-        {
+        protected DisasterList doInBackground(Void... params) {
             String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/disasterdata";
             try {
                 URL obj = new URL(url);
@@ -104,8 +104,7 @@ public class RvAzure_DisasterCardHome extends Fragment
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String inputLine;
                 StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null)
-                {
+                while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
                 System.out.println(response);
@@ -114,51 +113,31 @@ public class RvAzure_DisasterCardHome extends Fragment
                 Gson gson = new Gson();
 
 
-
                 //JSONObject myResponse = new JSONObject(response.toString());
-                list = gson.fromJson(response.toString(),DisasterList.class);
+                list = gson.fromJson(response.toString(), DisasterList.class);
                 //System.out.println(list.toString());
-                for (DisasterData i :list.data)
-                {
-                    System.out.println("NEW STUFF"+i);
+                for (DisasterData i : list.data) {
+                    System.out.println("NEW STUFF" + i);
                 }
 
-//                ArrayList<DisasterData> recylerviewdata=list.getData();
-//
-//
-//                data.clear();
-//                for(int i=0;i<recylerviewdata.size();i++)
-//                {
-//
-//                    data.add(new RvAzure_DataModelForCards(
-//                            recylerviewdata.get(i).getDisaster_name(),
-//                            recylerviewdata.get(i).getGetDisaster_type(),
-//                            recylerviewdata.get(i).getDisaster_id(),
-//                            recylerviewdata.get(i).getImage_url()
-//                    ));
-//                }
-//                adapter.notifyDataSetChanged();
+
 
                 return list;
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
-           return null;
+            return null;
 
         }
 
-        protected void onPostExecute(DisasterList list)
-        {
+        protected void onPostExecute(DisasterList list) {
             //You can access the list here
-            ArrayList<DisasterData> recylerviewdata=list.getData();
+            ArrayList<DisasterData> recylerviewdata = list.getData();
 
 
             data.clear();
-            for(int i=0;i<recylerviewdata.size();i++)
-            {
+            for (int i = 0; i < recylerviewdata.size(); i++) {
 
                 data.add(new RvAzure_DataModelForCards(
                         recylerviewdata.get(i).getDisaster_name(),
@@ -173,9 +152,71 @@ public class RvAzure_DisasterCardHome extends Fragment
         }
     }
 
+        private class QueryAsyncVolunteerData extends AsyncTask<Void, Void,VolunteerDataList>
+        {
+
+            VolunteerDataList volunteerDataList;
+
+
+            protected VolunteerDataList doInBackground(Void... params)
+            {
+                String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/volunteerData";
+                try {
+                    URL obj = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                    // optional default is GET
+                    con.setRequestMethod("GET");
+                    //add request header
+                    //con.setRequestProperty("User-Agent", "Mozilla/5.0");
+                    int responseCode = con.getResponseCode();
+                    System.out.println("\nSending 'GET' request to URL : " + url);
+                    System.out.println("Response Code : " + responseCode);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null)
+                    {
+                        response.append(inputLine);
+                    }
+                    System.out.println(response);
+                    in.close();
+
+                    Gson gson = new Gson();
 
 
 
+                    //JSONObject myResponse = new JSONObject(response.toString());
+                    volunteerDataList = gson.fromJson(response.toString(),VolunteerDataList.class);
+                    //System.out.println(list.toString());
+
+                    for (VolunteerGroupData i :volunteerDataList.getData())
+                    {
+                        System.out.println("NEW STUFF"+i);
+                    }
+
+
+
+                    return volunteerDataList;
+
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+                return null;
+
+            }
+
+            protected void onPostExecute(VolunteerDataList list)
+            {
+                //You can access the list here
+                ArrayList<VolunteerGroupData> recylerviewdata=list.getData();
+
+
+
+
+            }
+    }
 
 
 }

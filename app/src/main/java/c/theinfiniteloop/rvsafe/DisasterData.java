@@ -9,7 +9,7 @@ public class DisasterData
 {
 
     @Id
-    public int disaster_id;
+    public int _id;
 
     public String disaster_name;
 
@@ -20,7 +20,7 @@ public class DisasterData
     public int wantToHelp_id;
 
     public DisasterData(int disaster_id, String disaster_name, String disaster_type, String image_url, int wantToHelp_id) {
-        this.disaster_id = disaster_id;
+        this._id = disaster_id;
         this.disaster_name = disaster_name;
         this.disaster_type = disaster_type;
         this.image_url = image_url;
@@ -32,11 +32,11 @@ public class DisasterData
     }
 
     public int getDisaster_id() {
-        return disaster_id;
+        return _id;
     }
 
     public void setDisaster_id(int disaster_id) {
-        this.disaster_id = disaster_id;
+        this._id = disaster_id;
     }
 
     public String getDisaster_name() {
@@ -74,7 +74,7 @@ public class DisasterData
     @Override
     public String toString() {
         return "DisasterData{" +
-                "disaster_id=" + disaster_id +
+                "disaster_id=" + _id +
                 ", disaster_name='" + disaster_name + '\'' +
                 ", disaster_type='" + disaster_type + '\'' +
                 ", image_url='" + image_url + '\'' +

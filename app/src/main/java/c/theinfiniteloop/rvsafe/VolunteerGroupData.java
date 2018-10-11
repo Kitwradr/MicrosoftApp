@@ -9,10 +9,10 @@ import org.mongodb.morphia.annotations.Id;
 
 public class VolunteerGroupData {
 
-
-
     @Id
-    public int group_id;
+    public int _id;
+
+    public int disaster_id;
 
     public String group_name;
 
@@ -38,23 +38,20 @@ public class VolunteerGroupData {
 
     public int number_of_members;
 
-    public int getNumber_of_members() {
-        return number_of_members;
+    public int get_id() {
+        return _id;
     }
 
-    public void setNumber_of_members(int number_of_members) {
-        this.number_of_members = number_of_members;
+    public void set_id(int _id) {
+        this._id = _id;
     }
 
-    public VolunteerGroupData() {
+    public int getDiasaster_id() {
+        return disaster_id;
     }
 
-    public int getGroup_id() {
-        return group_id;
-    }
-
-    public void setGroup_id(int group_id) {
-        this.group_id = group_id;
+    public void setDiasaster_id(int diasaster_id) {
+        this.disaster_id = diasaster_id;
     }
 
     public String getGroup_name() {
@@ -143,5 +140,33 @@ public class VolunteerGroupData {
 
     public void setEmail_id(String email_id) {
         this.email_id = email_id;
+    }
+
+    public int getNumber_of_members() {
+        return number_of_members;
+    }
+
+    public void setNumber_of_members(int number_of_members) {
+        this.number_of_members = number_of_members;
+    }
+
+    @Override
+    public String toString() {
+        return "VolunteerGroupData{" +
+                "_id=" + _id +
+                ", diasaster_id=" + disaster_id +
+                ", group_name='" + group_name + '\'' +
+                ", group_image_url='" + group_image_url + '\'' +
+                ", start_location='" + start_location + '\'' +
+                ", destination='" + destination + '\'' +
+                ", group_description='" + group_description + '\'' +
+                ", started_by='" + started_by + '\'' +
+                ", date='" + date + '\'' +
+                ", expected_duration='" + expected_duration + '\'' +
+                ", male_members=" + male_members +
+                ", female_members=" + female_members +
+                ", email_id='" + email_id + '\'' +
+                ", number_of_members=" + number_of_members +
+                '}';
     }
 }

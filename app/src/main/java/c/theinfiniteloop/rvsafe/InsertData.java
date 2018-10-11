@@ -127,7 +127,7 @@ public class InsertData
 
         VolunteerGroupData group = new VolunteerGroupData();
 
-        group.setGroup_id(63);
+        group.set_id(63);
         group.setGroup_name("TEAM RELIEF CORPS");
         group.setNumber_of_members(27);
         group.setStart_location("BTM LAYOUT");
