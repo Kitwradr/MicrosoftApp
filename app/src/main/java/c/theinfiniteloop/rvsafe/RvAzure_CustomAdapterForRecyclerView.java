@@ -67,13 +67,14 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int listPosition)
     {
-
+        int disaster_id;
         TextView textViewName = holder.textViewName;
         TextView textViewVersion = holder.textViewtype;
         ImageView imageView = holder.imageViewIcon;
         Button stuck_in_this_disaster=holder.stuck_in_this_disaster;
         Button want_to_help_out=holder.want_to_help_out;
         final Context context=holder.context;
+        disaster_id=dataSet.get(listPosition).getId();
         textViewName.setText(dataSet.get(listPosition).getName());
         textViewVersion.setText(dataSet.get(listPosition).getVersion());
         Picasso.get().load(dataSet.get(listPosition).getImage()).placeholder(R.drawable.keralafloodsimage1).error(R.drawable.tamilnadutsunami).into(imageView);
@@ -109,6 +110,8 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
 
 
                 Intent i=new Intent(context,RvAzure_WantToHelpOut.class);
+
+                i.putExtra("disaster_id",disaster_id);
 
                 context.startActivity(i);
 

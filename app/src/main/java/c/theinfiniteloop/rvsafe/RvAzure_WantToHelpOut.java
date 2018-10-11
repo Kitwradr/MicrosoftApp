@@ -1,5 +1,6 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,12 +8,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public class RvAzure_WantToHelpOut extends AppCompatActivity {
+public class RvAzure_WantToHelpOut extends AppCompatActivity
+{
 
+
+    private int disaster_id;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+            = new BottomNavigationView.OnNavigationItemSelectedListener()
+    {
 
         android.support.v4.app.Fragment selectedFragment = null;
         @Override
@@ -21,7 +26,7 @@ public class RvAzure_WantToHelpOut extends AppCompatActivity {
             switch (item.getItemId())
             {
                 case R.id.navigation_home:
-                   selectedFragment = RvAzure_Volunteer.newInstance();
+                   selectedFragment = RvAzure_Volunteer.newInstance(disaster_id);
                     break;
                 case R.id.navigation_dashboard:
                     selectedFragment = donate.newInstance();
@@ -48,15 +53,20 @@ public class RvAzure_WantToHelpOut extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
+
+
+        disaster_id=getIntent().getIntExtra("disaster_id",-1);
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.wanttohelpout_back, RvAzure_Volunteer.newInstance());
+        transaction.replace(R.id.wanttohelpout_back, RvAzure_Volunteer.newInstance(disaster_id));
         transaction.commit();
 
 
 
     }
 
-    public static class LocationData {
+    public static class LocationData
+    {
 
         private double latitude;
 

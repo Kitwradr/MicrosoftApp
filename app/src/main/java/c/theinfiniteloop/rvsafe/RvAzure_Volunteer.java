@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,11 +22,14 @@ public class RvAzure_Volunteer extends Fragment
     private static RecyclerView.Adapter adapter;
     private static ArrayList<RvAzure_DataModelForVolunteerService> data;
     private RecyclerView.LayoutManager layoutManager;
+    private  int disaster_id;
 
-    public static RvAzure_Volunteer newInstance()
+    public static RvAzure_Volunteer newInstance(int disaster_id)
     {
         RvAzure_Volunteer fragment = new RvAzure_Volunteer();
+        fragment.disaster_id=disaster_id;
         return fragment;
+
     }
 
 
@@ -72,11 +76,7 @@ public class RvAzure_Volunteer extends Fragment
         recyclerView.setAdapter(adapter);
 
 
-
-
-
-
-
+//        Toast.makeText(getContext(),""+disaster_id,Toast.LENGTH_SHORT).show();
 
 
 
