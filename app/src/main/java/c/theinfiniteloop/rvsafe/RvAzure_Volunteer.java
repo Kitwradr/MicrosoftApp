@@ -1,6 +1,7 @@
 package c.theinfiniteloop.rvsafe;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,12 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class RvAzure_Volunteer extends Fragment
@@ -46,6 +53,8 @@ public class RvAzure_Volunteer extends Fragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        new QueryAsyncVolunteerData().execute();
+
         View view=inflater.inflate(R.layout.volunteer, container, false);
 
 
@@ -85,6 +94,72 @@ public class RvAzure_Volunteer extends Fragment
 
         return view;
 
+    }
+
+    private class QueryAsyncVolunteerData extends AsyncTask<Void, Void,VolunteerDataList>
+    {
+
+        VolunteerDataList volunteerDataList;
+
+
+        protected VolunteerDataList doInBackground(Void... params)
+        {
+            String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/volunteerData";
+            try {
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                // optional default is GET
+                con.setRequestMethod("GET");
+                //add request header
+                //con.setRequestProperty("User-Agent", "Mozilla/5.0");
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + url);
+                System.out.println("Response Code : " + responseCode);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null)
+                {
+                    response.append(inputLine);
+                }
+                System.out.println(response);
+                in.close();
+
+                Gson gson = new Gson();
+
+
+
+                //JSONObject myResponse = new JSONObject(response.toString());
+                volunteerDataList = gson.fromJson(response.toString(),VolunteerDataList.class);
+                //System.out.println(list.toString());
+
+                for (VolunteerGroupData i :volunteerDataList.getData())
+                {
+                    System.out.println("NEW STUFF"+i);
+                }
+
+
+
+                return volunteerDataList;
+
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+            return null;
+
+        }
+
+        protected void onPostExecute(VolunteerDataList list)
+        {
+            //You can access the list here
+            ArrayList<VolunteerGroupData> recylerviewdata=list.getData();
+
+
+
+
+        }
     }
 
 
