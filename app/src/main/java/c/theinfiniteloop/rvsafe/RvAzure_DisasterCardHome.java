@@ -82,13 +82,13 @@ public class RvAzure_DisasterCardHome extends Fragment
 
     }
 
-    private class QueryAsync extends AsyncTask<Void, Void,Void>
+    private class QueryAsync extends AsyncTask<Void, Void,DisasterList>
     {
 
         DisasterList list;
 
 
-        protected Void doInBackground(Void... params)
+        protected DisasterList doInBackground(Void... params)
         {
             String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/disasterdata";
             try {
@@ -123,27 +123,23 @@ public class RvAzure_DisasterCardHome extends Fragment
                     System.out.println("NEW STUFF"+i);
                 }
 
+//                ArrayList<DisasterData> recylerviewdata=list.getData();
+//
+//
+//                data.clear();
+//                for(int i=0;i<recylerviewdata.size();i++)
+//                {
+//
+//                    data.add(new RvAzure_DataModelForCards(
+//                            recylerviewdata.get(i).getDisaster_name(),
+//                            recylerviewdata.get(i).getGetDisaster_type(),
+//                            recylerviewdata.get(i).getDisaster_id(),
+//                            recylerviewdata.get(i).getImage_url()
+//                    ));
+//                }
+//                adapter.notifyDataSetChanged();
 
-
-                ArrayList<DisasterData> recylerviewdata=list.getData();
-
-
-                data.clear();
-                for(int i=0;i<recylerviewdata.size();i++)
-                {
-
-                    data.add(new RvAzure_DataModelForCards(
-                            recylerviewdata.get(i).getDisaster_name(),
-                            recylerviewdata.get(i).getGetDisaster_type(),
-                            recylerviewdata.get(i).getDisaster_id(),
-                            recylerviewdata.get(i).getImage_url()
-                    ));
-                }
-                adapter.notifyDataSetChanged();
-
-
-                return null;
-
+                return list;
 
             }
             catch (Exception ex)
@@ -154,10 +150,24 @@ public class RvAzure_DisasterCardHome extends Fragment
 
         }
 
-        protected void onPostExecute(Void... params)
+        protected void onPostExecute(DisasterList list)
         {
             //You can access the list here
+            ArrayList<DisasterData> recylerviewdata=list.getData();
 
+
+            data.clear();
+            for(int i=0;i<recylerviewdata.size();i++)
+            {
+
+                data.add(new RvAzure_DataModelForCards(
+                        recylerviewdata.get(i).getDisaster_name(),
+                        recylerviewdata.get(i).getGetDisaster_type(),
+                        recylerviewdata.get(i).getDisaster_id(),
+                        recylerviewdata.get(i).getImage_url()
+                ));
+            }
+            adapter.notifyDataSetChanged();
 
 
         }
