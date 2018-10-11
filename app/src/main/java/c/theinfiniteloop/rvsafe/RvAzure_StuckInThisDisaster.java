@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -30,10 +31,13 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -138,6 +142,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
             }
         });
+
+        new RescueQueryAsync().execute();
 
 
 
@@ -327,6 +333,66 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    private class RescueQueryAsync extends AsyncTask<Void, Void,RescueDataList> {
+
+        RescueDataList list;
+
+
+        protected RescueDataList doInBackground(Void... params) {
+            String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/rescueGroupData";
+            try {
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                // optional default is GET
+                con.setRequestMethod("GET");
+                //add request header
+                //con.setRequestProperty("User-Agent", "Mozilla/5.0");
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + url);
+                System.out.println("Response Code : " + responseCode);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response);
+                in.close();
+
+                Gson gson = new Gson();
+
+
+                //JSONObject myResponse = new JSONObject(response.toString());
+                list = gson.fromJson(response.toString(), RescueDataList.class);
+                //System.out.println(list.toString());
+                for (RescueGroupData i : list.data) {
+                    System.out.println("NEW STUFF" + i);
+                }
+
+
+
+                return list;
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+
+        }
+
+        protected void onPostExecute(RescueDataList list) {
+            //You can access the list here
+            ArrayList<RescueGroupData> recylerviewdata = list.getData();
+
+
+
+
+
+        }
+    }
+
+
 
 
 
