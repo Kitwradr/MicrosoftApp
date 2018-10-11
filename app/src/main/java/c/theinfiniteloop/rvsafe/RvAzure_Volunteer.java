@@ -46,6 +46,9 @@ public class RvAzure_Volunteer extends Fragment
     {
         super.onCreate(savedInstanceState);
 
+        data = new ArrayList<RvAzure_DataModelForVolunteerService>();
+        adapter = new RvAzure_CustomAdapaterForRecylerViewVolunteer(data);
+
 
     }
 
@@ -66,26 +69,9 @@ public class RvAzure_Volunteer extends Fragment
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-        data = new ArrayList<RvAzure_DataModelForVolunteerService>();
-        for (int i = 0; i < RvAzure_MyDataVolunteer.volunteerteamname.length; i++)
-        {
-            data.add(new RvAzure_DataModelForVolunteerService(
-
-                    RvAzure_MyDataVolunteer.volunteerteamname[i],
-                    RvAzure_MyDataVolunteer.startlocation[i],
-                    RvAzure_MyDataVolunteer.startdate[i],
-                    RvAzure_MyDataVolunteer.numberofmembers[i],
-                    RvAzure_MyDataVolunteer.id_[i],
-                    RvAzure_MyDataVolunteer.drawableArray[i]
-
-                    ));
-        }
-
-        adapter = new RvAzure_CustomAdapaterForRecylerViewVolunteer(data);
         recyclerView.setAdapter(adapter);
 
-
-//        Toast.makeText(getContext(),""+disaster_id,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),""+disaster_id,Toast.LENGTH_SHORT).show();
 
 
 
@@ -155,6 +141,33 @@ public class RvAzure_Volunteer extends Fragment
         {
             //You can access the list here
             ArrayList<VolunteerGroupData> recylerviewdata=list.getData();
+
+
+         for(int i=0;i<recylerviewdata.size();i++)
+         {
+             if(recylerviewdata.get(i).getDiasaster_id()==disaster_id)
+             {
+                 data.add(new RvAzure_DataModelForVolunteerService(
+
+                         recylerviewdata.get(i).getGroup_name(),
+                         recylerviewdata.get(i).getGroup_description(),
+                         recylerviewdata.get(i).getStarted_by(),
+                         recylerviewdata.get(i).getStart_location(),
+                         recylerviewdata.get(i).getDestination(),
+                         recylerviewdata.get(i).getDate(),
+                         recylerviewdata.get(i).getExpected_duration(),
+                         recylerviewdata.get(i).getMale_members(),
+                         recylerviewdata.get(i).getFemale_members(),
+                         recylerviewdata.get(i).getNumber_of_members(),
+                         recylerviewdata.get(i).get_id(),
+                         recylerviewdata.get(i).getGroup_image_url()
+
+                 ));
+             }
+
+         }
+
+         adapter.notifyDataSetChanged();
 
 
 

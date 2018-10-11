@@ -143,7 +143,7 @@ public class VolunteerGroupData {
     }
 
     public int getNumber_of_members() {
-        return number_of_members;
+        return male_members+female_members;
     }
 
     public void setNumber_of_members(int number_of_members) {

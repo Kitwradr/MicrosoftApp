@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class RvAzure_CustomAdapaterForRecylerViewVolunteer extends RecyclerView.Adapter<RvAzure_CustomAdapaterForRecylerViewVolunteer.VolunteerViewHolder>
@@ -84,10 +86,10 @@ public class RvAzure_CustomAdapaterForRecylerViewVolunteer extends RecyclerView.
         textViewVStartLocation.setText(dataSet.get(listPosition).getStartlocation());
         textViewVStartDate.setText(dataSet.get(listPosition).getStartdate());
         textViewNumberOfMembers.setText(dataSet.get(listPosition).getNumber_of_members());
-        imageViewVteamImage.setImageResource(dataSet.get(listPosition).getTeamimage());
+        Picasso.get().load(dataSet.get(listPosition).getTeamimage()).placeholder(R.drawable.volunteergroup1).error(R.drawable.volunteergroup2).into(imageViewVteamImage);
 
 
-          viewComposition.setOnClickListener(new View.OnClickListener()
+        viewComposition.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -95,6 +97,10 @@ public class RvAzure_CustomAdapaterForRecylerViewVolunteer extends RecyclerView.
 
 
                 Intent i=new Intent(context,RvAzure_VolunteerGroupProfile.class);
+
+                RvAzure_DataModelForVolunteerService volunteergroup=dataSet.get(listPosition);
+
+                i.putExtra("VOLUNTEER-INFO",volunteergroup);
 
                 context.startActivity(i);
 

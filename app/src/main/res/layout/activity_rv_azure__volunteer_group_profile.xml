@@ -166,7 +166,7 @@
         </ScrollView>
 
             <Button
-                android:id="@+id/vteam_view_composition"
+                android:id="@+id/vteam_request_to_join"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:background="@drawable/oval_button"
