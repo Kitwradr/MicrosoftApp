@@ -1,5 +1,7 @@
 package c.theinfiniteloop.rvsafe;
 
+import java.util.ArrayList;
+
 public class RescueGroupData {
 
     public int _id;
@@ -14,12 +16,28 @@ public class RescueGroupData {
 
     public String contact_no;
 
-    public int getDisaster_id() {
-        return disaster_id;
-    }
+    public  String group_type;
 
-    public void setDisaster_id(int disaster_id) {
-        this.disaster_id = disaster_id;
+    public int number_of_victims;
+
+    public String safety;
+
+    public ArrayList<String> blobURLs;
+
+    @Override
+    public String toString() {
+        return "RescueGroupData{" +
+                "_id=" + _id +
+                ", disaster_id=" + disaster_id +
+                ", group_name='" + group_name + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", contact_no='" + contact_no + '\'' +
+                ", group_type='" + group_type + '\'' +
+                ", number_of_victims=" + number_of_victims +
+                ", safety='" + safety + '\'' +
+                ", blobURLs=" + blobURLs +
+                '}';
     }
 
     public int get_id() {
@@ -28,6 +46,14 @@ public class RescueGroupData {
 
     public void set_id(int _id) {
         this._id = _id;
+    }
+
+    public int getDisaster_id() {
+        return disaster_id;
+    }
+
+    public void setDisaster_id(int disaster_id) {
+        this.disaster_id = disaster_id;
     }
 
     public String getGroup_name() {
@@ -62,15 +88,35 @@ public class RescueGroupData {
         this.contact_no = contact_no;
     }
 
-    @Override
-    public String toString() {
-        return "RescueGroupData{" +
-                "_id=" + _id +
-                ", disaster_id=" + disaster_id +
-                ", group_name='" + group_name + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", contact_no='" + contact_no + '\'' +
-                '}';
+    public String getGroup_type() {
+        return group_type;
+    }
+
+    public void setGroup_type(String group_type) {
+        this.group_type = group_type;
+    }
+
+    public int getNumber_of_victims() {
+        return number_of_victims;
+    }
+
+    public void setNumber_of_victims(int number_of_victims) {
+        this.number_of_victims = number_of_victims;
+    }
+
+    public String getSafety() {
+        return safety;
+    }
+
+    public void setSafety(String safety) {
+        this.safety = safety;
+    }
+
+    public ArrayList<String> getBlobURLs() {
+        return blobURLs;
+    }
+
+    public void setBlobURLs(ArrayList<String> blobURLs) {
+        this.blobURLs = blobURLs;
     }
 }
