@@ -9,7 +9,7 @@
     <android.support.v7.widget.CardView
 
         android:id="@+id/volunteer_card"
-        android:descendantFocusability="blocksDescendants"
+        android:focusableInTouchMode="false"
         android:layout_width="match_parent"
         android:layout_margin="5dp"
         android:layout_height="150dp"
@@ -66,9 +66,9 @@
                 <Button
                     android:id="@+id/markercall"
                     android:layout_width="0dp"
-                    android:focusableInTouchMode="true"
-                    android:background="@drawable/oval_button_light_green"
-                    android:text="CALL"
+                    android:focusable="false"
+                    android:background="@drawable/oval_button"
+                    android:text="TAP TO CALL"
                     android:textAlignment="center"
                     android:layout_gravity="center"
 

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -50,6 +52,9 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     private GoogleMap mMap;
 
     SharedPreferences sharedPreferences;
+    LocationManager lm;
+    RvAzure_GPStracker mygps;
+
 
 
 
@@ -180,6 +185,14 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
           }
       });
+
+     // lm=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+      //mygps=new RvAzure_GPStracker(this.getApplicationContext(),lm);
+     // lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,6000,1000,mygps);
+
+
+
+
     }
 
 
@@ -260,6 +273,25 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
      mMap=googleMap;
      mMap.setInfoWindowAdapter(new RvAzure_CustomMarkerWindow(getBaseContext()));
+
+
+//     double mylatitude=Double.parseDouble(mygps.getLongitude());
+//     double mylongitude=Double.parseDouble(mygps.getLongitude());
+
+
+  //   LatLng mylocation=new LatLng(mylatitude,mylongitude);
+    // CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(mylocation,10);
+    // mMap.animateCamera(cameraUpdate);
+
+        //mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.setMyLocationEnabled(true);
+
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+
+
 
       /*  Random rand  = new Random();
 
@@ -409,12 +441,12 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                              if(rescuegroupinfo.get(i).getSafety().matches("SAFE"))
                              {
                                  LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
-                                 mMap.addMarker(new MarkerOptions().position(safezone).title("SAFE ZONE").snippet("CONTACT: " + rescuegroupinfo.get(i).getContact_no()).icon(getVictimMarkerIcon("#CC00ff99")));
+                                 mMap.addMarker(new MarkerOptions().position(safezone).title("SAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC00ff99")));
                              }
                              else
                              {
                                  LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
-                                 mMap.addMarker(new MarkerOptions().position(safezone).title("UNSAFE ZONE").snippet("CONTACT: " + rescuegroupinfo.get(i).getContact_no()).icon(getVictimMarkerIcon("#CCff0000")));
+                                 mMap.addMarker(new MarkerOptions().position(safezone).title("UNSAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CCff0000")));
 
                              }
 
@@ -422,14 +454,14 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
                     case "2"://rescue group
                         LatLng rescuegroup=new LatLng(rescuegroupinfo.get(i).getLatitude(),rescuegroupinfo.get(i).getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(rescuegroup).title(rescuegroupinfo.get(i).getGroup_name()).snippet("CONTACT: "+rescuegroupinfo.get(i).getContact_no()).icon(getVictimMarkerIcon("#CC0099ff")));
+                        mMap.addMarker(new MarkerOptions().position(rescuegroup).title("RESCUE GROUP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC0099ff")));
 
                         break;
 
 
                     case "3"://relief camp
                         LatLng reliefgroup=new LatLng(rescuegroupinfo.get(i).getLatitude(),rescuegroupinfo.get(i).getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(reliefgroup).title(rescuegroupinfo.get(i).getGroup_name()).snippet("CONTACT: "+rescuegroupinfo.get(i).getContact_no()).icon(getVictimMarkerIcon("#CCff9900")));
+                        mMap.addMarker(new MarkerOptions().position(reliefgroup).title("RELIEF CAMP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CCff9900")));
 
                         break;
 

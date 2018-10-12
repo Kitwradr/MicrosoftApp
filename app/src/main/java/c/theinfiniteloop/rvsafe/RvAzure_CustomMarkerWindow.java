@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -36,8 +37,26 @@ public class RvAzure_CustomMarkerWindow implements GoogleMap.InfoWindowAdapter {
 
 
 
+
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Toast.makeText(context,"TEST",Toast.LENGTH_SHORT);
+            }
+        });
+
+
+
+
         TextView markertype=v.findViewById(R.id.marker_type);
+        TextView markername=v.findViewById(R.id.marker_name);
+
+
         markertype.setText(marker.getTitle());
+        markername.setText(marker.getSnippet());
+
+
 
 
 
