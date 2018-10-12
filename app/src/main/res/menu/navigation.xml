@@ -7,6 +7,14 @@
         android:title="Volunteer" />
 
     <item
+        android:id="@+id/navigation_mygroup"
+        android:icon="@drawable/ic_group_add_black_24dp"
+        android:title="MY GROUP" />
+
+
+
+
+    <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_favorite_black_24dp"
         android:title="Donate" />

@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 
 @Entity("WantToHelpGroupData")
-public class WantToHelpGroupData {
+public class WantToHelpGroupData
+{
 
     @Id
     public int wantToHelp_id;
