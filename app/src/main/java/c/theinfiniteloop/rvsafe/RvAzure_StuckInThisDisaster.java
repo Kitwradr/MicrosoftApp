@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -442,6 +443,12 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                              {
                                  LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
                                  mMap.addMarker(new MarkerOptions().position(safezone).title("SAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC00ff99")));
+
+
+
+
+
+
                              }
                              else
                              {
@@ -479,8 +486,20 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
         }
+
+
     }
 
+
+    public float distancebetweenpoints(LatLng mypos,LatLng grouppos)
+    {
+        float[] result=new float[1];
+
+        Location.distanceBetween(mypos.latitude,mypos.longitude,grouppos.latitude,grouppos.longitude,result);
+
+        return result[1];
+
+    }
 
 
 
