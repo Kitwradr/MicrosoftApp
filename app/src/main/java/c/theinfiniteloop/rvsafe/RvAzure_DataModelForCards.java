@@ -24,6 +24,7 @@ public class RvAzure_DataModelForCards {
     public String getImage()
     {
         return imageurl;
+
     }
 
     public int getId() {

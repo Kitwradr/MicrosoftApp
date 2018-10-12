@@ -259,6 +259,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     public void onMapReady(GoogleMap googleMap) {
 
      mMap=googleMap;
+     mMap.setInfoWindowAdapter(new RvAzure_CustomMarkerWindow(getBaseContext()));
+
       /*  Random rand  = new Random();
 
         ArrayList<LatLng> locationsList = new ArrayList<LatLng>() ;
@@ -381,10 +383,65 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         }
 
-        protected void onPostExecute(RescueDataList list) {
-            //You can access the list here
-            ArrayList<RescueGroupData> recylerviewdata = list.getData();
+        public BitmapDescriptor getVictimMarkerIcon(String color)
+        {
+            float[] hsv =new float[3];
+            Color.colorToHSV(Color.parseColor(color),hsv);
+            return BitmapDescriptorFactory.defaultMarker(hsv[0]);
 
+        }
+
+
+
+        protected void onPostExecute(RescueDataList list)
+        {
+            //You can access the list here
+            ArrayList<RescueGroupData> rescuegroupinfo = list.getData();
+
+
+            for(int i=0;i<rescuegroupinfo.size();i++)
+            {
+                switch(rescuegroupinfo.get(i).getGroup_type())
+                {
+
+
+                    case "1": //safe zone
+                             if(rescuegroupinfo.get(i).getSafety().matches("SAFE"))
+                             {
+                                 LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
+                                 mMap.addMarker(new MarkerOptions().position(safezone).title("SAFE ZONE").snippet("CONTACT: " + rescuegroupinfo.get(i).getContact_no()).icon(getVictimMarkerIcon("#CC00ff99")));
+                             }
+                             else
+                             {
+                                 LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
+                                 mMap.addMarker(new MarkerOptions().position(safezone).title("UNSAFE ZONE").snippet("CONTACT: " + rescuegroupinfo.get(i).getContact_no()).icon(getVictimMarkerIcon("#CCff0000")));
+
+                             }
+
+                             break;
+
+                    case "2"://rescue group
+                        LatLng rescuegroup=new LatLng(rescuegroupinfo.get(i).getLatitude(),rescuegroupinfo.get(i).getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(rescuegroup).title(rescuegroupinfo.get(i).getGroup_name()).snippet("CONTACT: "+rescuegroupinfo.get(i).getContact_no()).icon(getVictimMarkerIcon("#CC0099ff")));
+
+                        break;
+
+
+                    case "3"://relief camp
+                        LatLng reliefgroup=new LatLng(rescuegroupinfo.get(i).getLatitude(),rescuegroupinfo.get(i).getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(reliefgroup).title(rescuegroupinfo.get(i).getGroup_name()).snippet("CONTACT: "+rescuegroupinfo.get(i).getContact_no()).icon(getVictimMarkerIcon("#CCff9900")));
+
+                        break;
+
+
+                }
+
+
+
+
+
+
+            }
 
 
 

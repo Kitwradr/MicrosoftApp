@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mygroup"
-    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
     <android.support.v7.widget.CardView
+
         android:id="@+id/volunteer_card"
+        android:descendantFocusability="blocksDescendants"
         android:layout_width="match_parent"
         android:layout_margin="5dp"
         android:layout_height="150dp"
@@ -29,7 +31,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/vteam_start_location"
+                android:id="@+id/marker_type"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:textColor="#000000"
@@ -37,43 +39,23 @@
                 android:textAllCaps="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="10dp"
-                android:text="SHUBHAM PHAL"
+                android:text="AFFECTED GROUP"
                 android:textStyle="bold"
                 android:layout_weight="0.3"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                 android:layout_weight="0.45"
-                android:layout_height="0dp">
-
-
             <TextView
-                android:id="@+id/vteam_start_date"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:id="@+id/marker_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:textColor="#000000"
                 android:textSize="15dp"
                 android:textAllCaps="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="10dp"
-                android:text="Mob no:8830800912"
-                android:layout_weight="0.45"/>
+                android:text="Shubham phal"
+                android:layout_weight="0.3"/>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/whatsappnew"
-                android:layout_weight="0.5"/>
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_phone_green_24dp"
-                    android:scaleType="fitCenter"
-                    android:layout_weight="0.5"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,10 +64,11 @@
                 android:orientation="horizontal"
                 android:layout_weight="0.4">
                 <Button
-                    android:id="@+id/accept"
+                    android:id="@+id/markercall"
                     android:layout_width="0dp"
+                    android:focusableInTouchMode="true"
                     android:background="@drawable/oval_button_light_green"
-                    android:text="ACCEPT"
+                    android:text="CALL"
                     android:textAlignment="center"
                     android:layout_gravity="center"
 
@@ -93,26 +76,6 @@
                     android:textColor="@android:color/white"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
-
-
-
-
-                <Button
-                    android:id="@+id/decline"
-                    android:layout_width="0dp"
-                    android:background="@drawable/oval_button_light_red"
-                    android:text="DECLINE"
-                    android:textAlignment="center"
-                    android:layout_gravity="center"
-                    android:layout_margin="5dp"
-                    android:textColor="@android:color/white"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-
-
-
-
 
 
 
