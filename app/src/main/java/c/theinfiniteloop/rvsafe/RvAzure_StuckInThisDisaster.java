@@ -54,12 +54,16 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -70,6 +74,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 
 public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnMapReadyCallback {
@@ -193,8 +198,9 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             }
         });
 
-        new RescueQueryAsync().execute();
-        new uploadImage().execute(new File(victimrestoredPath));
+        //new RescueQueryAsync().execute();
+        //new uploadImage().execute(new File(victimrestoredPath));
+        new getWeatherDetails().execute();
 
 
         SmsReceiver.bindListener(new SmsListener() {
@@ -724,5 +730,61 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         }
 
 
+    }
+
+    private class getWeatherDetails extends AsyncTask<Void, Void, HashMap> {
+
+        protected HashMap doInBackground(Void... data) {
+            HashMap<String,String> map = new HashMap<String,String>();
+
+            try {
+                String getUrl = "https://aztests.azurewebsites.net/weather";
+
+                URL urlObj = new URL(getUrl);
+                //URL urlObj = new URL("http://192.168.43.27:8080/facial");
+                HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
+                conn.setRequestMethod("GET");
+
+                conn.setRequestProperty("Content-Type", "image/jpeg");
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                //Get response from server
+                int responseCode = conn.getResponseCode();
+                System.out.println("Response Code : " + responseCode);
+                // read in the response from the server
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                    System.out.println(inputLine);
+                }
+                // close the input stream
+                in.close();
+
+
+                JSONObject jObject  = new JSONObject(response.toString());
+                //JSONObject menu = jObject.getJSONObject("menu");
+
+
+                Iterator iter = jObject.keys();
+                while(iter.hasNext()) {
+                    String key = (String) iter.next();
+                    String value = jObject.getString(key);
+                    map.put(key, value);
+
+
+                    System.out.println("key = "+key +"value = "+value);
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return map;
+
+        }
+
+        protected void onPostExecute(HashMap... params) {
+
+        }
     }
 }
