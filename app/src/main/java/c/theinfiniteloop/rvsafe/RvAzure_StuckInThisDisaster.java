@@ -1,8 +1,10 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,12 +17,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -55,19 +59,42 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     SharedPreferences sharedPreferences;
     LocationManager lm;
     RvAzure_GPStracker mygps;
+    float safezonedistanceinm;
+    float rescuegroupdistanceinm;
+
+    String safezonenamestring;
+    String rescuegroupnamestring;
+
+    String safezonecontactstring;
+    String rescuegroupcontacstring;
 
 
+
+    TextView rescugroupname;
+    TextView rescuegroupdistance;
+    Button rescuegroupcall;
+
+
+    TextView safezonename;
+    TextView safezonedistance;
+    Button safezonecall;
+
+
+    private static final int minimumtimeofrequest = 100;
+
+    private static final int minimumdistanceofrequest = 1;
 
 
     private static final int REQUEST_TAKE_PHOTO = 0;
     private static final int REQUEST_SELECT_VICTIM_IMAGE_IN_ALBUM = 1;
     private Uri mUriPhotoTaken;
     ImageView victimimage;
-    private String victimimagepathtag="VICTIM IMAGE";
-    String VICTIM_PREF="VICTIM-URL";
+    private String victimimagepathtag = "VICTIM IMAGE";
+    String VICTIM_PREF = "VICTIM-URL";
     String victimrestoredPath;
     Button victimimageupload;
-
+    double mylatitude;
+    double mylongitude;
 
 
     private String DistressMessageNearestGroupLat;
@@ -80,12 +107,19 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     private String DistressMessageNearestRescueGroupContact;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_azure__stuck_in_this_disaster);
 
 
+        rescugroupname=findViewById(R.id.nearestrescuegroupname);
+        rescuegroupdistance=findViewById(R.id.rescuegroupdistance);
+        rescuegroupcall=findViewById(R.id.rescuegroupcallbutton);
+
+
+        safezonename=findViewById(R.id.nearestsafezone);
+        safezonedistance=findViewById(R.id.nearestsafezonedistance);
+        safezonecall=findViewById(R.id.nearestsafezonecall);
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -94,16 +128,14 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         mapFragment.getMapAsync(this);
 
 
-        victimimage=(ImageView)findViewById(R.id.victimimage1);
-        victimimageupload=(Button)findViewById(R.id.victimuploadbutton);
+        victimimage = (ImageView) findViewById(R.id.victimimage1);
+        victimimageupload = (Button) findViewById(R.id.victimuploadbutton);
 
 
+        sharedPreferences = this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE);
+        victimrestoredPath = sharedPreferences.getString(victimimagepathtag, null);
 
-        sharedPreferences=this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE);
-        victimrestoredPath = sharedPreferences.getString(victimimagepathtag,null);
-
-        if(victimrestoredPath!=null)
-        {
+        if (victimrestoredPath != null) {
 
             victimimage.setImageBitmap(BitmapFactory.decodeFile(victimrestoredPath));
             victimimage.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -111,39 +143,32 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         }
 
 
-        victimimage.setOnClickListener(new View.OnClickListener()
-        {
+        victimimage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 Intent victimIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);// Start the Intent
 
                 startActivityForResult(victimIntent, REQUEST_SELECT_VICTIM_IMAGE_IN_ALBUM);
 
 
-
             }
         });
 
-        victimimageupload.setOnClickListener(new View.OnClickListener()
-        {
+        victimimageupload.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-            if(victimrestoredPath!=null) {
-                try {
-                    System.out.print("PATH ---------------------------sdfbisdfu---sdbj"+victimrestoredPath);
-                    new Uploadasynch(getApplicationContext()).execute(victimrestoredPath);
+            public void onClick(View view) {
+                if (victimrestoredPath != null) {
+                    try {
+                        System.out.print("PATH ---------------------------sdfbisdfu---sdbj" + victimrestoredPath);
+                        new Uploadasynch(getApplicationContext()).execute(victimrestoredPath);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.v("myApp", "Some error came up");
+                    }
+
 
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                    Log.v("myApp", "Some error came up");
-                }
-
-
-            }
 
 
             }
@@ -152,77 +177,82 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         new RescueQueryAsync().execute();
 
 
+        SmsReceiver.bindListener(new SmsListener() {
+            @Override
+            public void messageReceived(String messageText) {
 
 
-
-      SmsReceiver.bindListener(new SmsListener()
-      {
-          @Override
-          public void messageReceived(String messageText)
-          {
+                if (!isInternetConnection() && messageText.startsWith("RVSAFE DISTRESS HELPLINE")) {
+                    Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_SHORT).show();
 
 
-               if(!isInternetConnection()&&messageText.startsWith("RVSAFE DISTRESS HELPLINE"))
-               {
-                   Toast.makeText(getApplicationContext(),messageText,Toast.LENGTH_SHORT).show();
+                    String[] format = new String[]{"NGLA", "NGLO", "NGC", "NRGLA", "NRGLO", "NRGC"};
 
 
-                   String[] format=new String[]{"NGLA","NGLO","NGC","NRGLA","NRGLO","NRGC"};
+                    DistressMessageNearestGroupLat = messageText.split(format[0])[1].split(" ")[0];
+                    DistressMessageNearestGroupLon = messageText.split(format[1])[1].split(" ")[0];
+                    DistressMessageNearestGroupContact = messageText.split(format[2])[1].split(" ")[0];
 
 
-                  DistressMessageNearestGroupLat = messageText.split(format[0])[1].split(" ")[0];
-                  DistressMessageNearestGroupLon = messageText.split(format[1])[1].split(" ")[0];
-                  DistressMessageNearestGroupContact = messageText.split(format[2])[1].split(" ")[0];
+                    DistressMessageNearestRescueGroupLat = messageText.split(format[3])[1].split(" ")[0];
+                    DistressMessageNearestRescueGroupLon = messageText.split(format[4])[1].split(" ")[0];
+                    DistressMessageNearestRescueGroupContact = messageText.split(format[5])[1];
 
 
-                   DistressMessageNearestRescueGroupLat = messageText.split(format[3])[1].split(" ")[0];
-                   DistressMessageNearestRescueGroupLon = messageText.split(format[4])[1].split(" ")[0];
-                   DistressMessageNearestRescueGroupContact = messageText.split(format[5])[1];
+                    updatelocale();
+
+                }
+
+            }
+        });
 
 
-                   updatelocale();
-
-               }
-
-          }
-      });
-
-     // lm=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-      //mygps=new RvAzure_GPStracker(this.getApplicationContext(),lm);
-     // lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,6000,1000,mygps);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mygps = new RvAzure_GPStracker(getApplicationContext(), locationManager);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
 
 
+        boolean gpsenabled = false;
+        boolean networkenabled = false;
+
+        gpsenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        networkenabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (gpsenabled) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
+        } else if (networkenabled) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
+        } else {
+            Toast.makeText(getApplicationContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
 
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-      //  outState.putParcelable("ImageUri", mUriPhotoTaken);
+        //  outState.putParcelable("ImageUri", mUriPhotoTaken);
     }
 
 
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState)
-    {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-    //    mUriPhotoTaken = savedInstanceState.getParcelable("ImageUri");
+        //    mUriPhotoTaken = savedInstanceState.getParcelable("ImageUri");
 
     }
 
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        switch (requestCode)
-        {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
             case REQUEST_SELECT_VICTIM_IMAGE_IN_ALBUM:
-                if (resultCode == RESULT_OK&&data!=null)
-                {
+                if (resultCode == RESULT_OK && data != null) {
                     Uri selectedImage = data.getData();
-                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                    Cursor cursor = this.getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = this.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                     cursor.moveToFirst();
 
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -247,13 +277,10 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     }
 
 
-
-
-    public  void  updatelocale()
-    {
+    public void updatelocale() {
         LatLng affectedlatlon = new LatLng(Float.parseFloat(DistressMessageNearestGroupLat), Float.parseFloat(DistressMessageNearestGroupLon));
         LatLng rescuelatlang = new LatLng(Float.parseFloat(DistressMessageNearestRescueGroupLat), Float.parseFloat(DistressMessageNearestRescueGroupLon));
-       Log.i("TRIAL RESCUE",""+Float.parseFloat(DistressMessageNearestRescueGroupLat)+""+Float.parseFloat(DistressMessageNearestRescueGroupLon));
+        Log.i("TRIAL RESCUE", "" + Float.parseFloat(DistressMessageNearestRescueGroupLat) + "" + Float.parseFloat(DistressMessageNearestRescueGroupLon));
         mMap.addMarker(new MarkerOptions().position(rescuelatlang).title("NEAREST RESCUE GROUP").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         mMap.addMarker(new MarkerOptions().position(affectedlatlon).title("NEAREST AFFECTED GROUP").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
 
@@ -272,19 +299,23 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-     mMap=googleMap;
-     mMap.setInfoWindowAdapter(new RvAzure_CustomMarkerWindow(getBaseContext()));
+        mMap = googleMap;
+        mMap.setInfoWindowAdapter(new RvAzure_CustomMarkerWindow(getBaseContext()));
 
 
-//     double mylatitude=Double.parseDouble(mygps.getLongitude());
-//     double mylongitude=Double.parseDouble(mygps.getLongitude());
+        mylatitude = mygps.getLatitude();
+        mylongitude = mygps.getLongitude();
 
 
-  //   LatLng mylocation=new LatLng(mylatitude,mylongitude);
-    // CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(mylocation,10);
-    // mMap.animateCamera(cameraUpdate);
+        LatLng mylocation = new LatLng(mylatitude, mylongitude);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mylocation, 10);
+        mMap.animateCamera(cameraUpdate);
 
         //mMap.getUiSettings().setZoomControlsEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+             return;
+        }
         mMap.setMyLocationEnabled(true);
 
         mMap.getUiSettings().setZoomGesturesEnabled(true);
@@ -432,8 +463,15 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             ArrayList<RescueGroupData> rescuegroupinfo = list.getData();
 
 
+            LatLng mypos=new LatLng(mygps.getLatitude(),mygps.getLongitude());
+
+            int initsafezonecounter=0;
+            int initrescuegroupcounter=0;
+
             for(int i=0;i<rescuegroupinfo.size();i++)
             {
+
+
                 switch(rescuegroupinfo.get(i).getGroup_type())
                 {
 
@@ -444,10 +482,24 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                                  LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
                                  mMap.addMarker(new MarkerOptions().position(safezone).title("SAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC00ff99")));
 
+                                 if(initsafezonecounter==0)
+                                 {
+                                     safezonedistanceinm = distancebetweenpoints(mypos, safezone);
+                                     safezonenamestring=rescuegroupinfo.get(i).getGroup_name();
+                                     safezonecontactstring=rescuegroupinfo.get(i).getContact_no();
 
+                                     initsafezonecounter++;
+                                 }
+                                 else
+                                 {
+                                     if(safezonedistanceinm>distancebetweenpoints(mypos,safezone))
+                                     {
+                                         safezonedistanceinm=distancebetweenpoints(mypos,safezone);
+                                         safezonenamestring=rescuegroupinfo.get(i).getGroup_name();
+                                         safezonecontactstring=rescuegroupinfo.get(i).getContact_no();
 
-
-
+                                     }
+                                 }
 
                              }
                              else
@@ -463,6 +515,27 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                         LatLng rescuegroup=new LatLng(rescuegroupinfo.get(i).getLatitude(),rescuegroupinfo.get(i).getLongitude());
                         mMap.addMarker(new MarkerOptions().position(rescuegroup).title("RESCUE GROUP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC0099ff")));
 
+                        if(initrescuegroupcounter==0)
+                        {
+                            rescuegroupdistanceinm = distancebetweenpoints(mypos, rescuegroup);
+                            rescuegroupnamestring=rescuegroupinfo.get(i).getGroup_name();
+                            rescuegroupcontacstring=rescuegroupinfo.get(i).getContact_no();
+
+
+                            initrescuegroupcounter++;
+                        }
+                        else
+                        {
+                            if(rescuegroupdistanceinm>distancebetweenpoints(mypos,rescuegroup))
+                            {
+                                rescuegroupdistanceinm = distancebetweenpoints(mypos, rescuegroup);
+                                rescuegroupnamestring=rescuegroupinfo.get(i).getGroup_name();
+                                rescuegroupcontacstring=rescuegroupinfo.get(i).getContact_no();
+
+                            }
+                        }
+
+
                         break;
 
 
@@ -474,13 +547,29 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
                 }
-
-
-
-
-
-
             }
+
+            safezonename.setText(safezonenamestring);
+
+            if(safezonedistanceinm<1000)
+            {
+                safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm*100.0)/100.0 + " m");
+            }
+            else
+                {
+                    safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm/10.0)/100.0 + " km");
+
+
+                }
+
+            rescugroupname.setText(rescuegroupnamestring);
+         if(rescuegroupdistanceinm<1000) {
+             rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm*100.0)/100.0 + " m");
+         }
+         else
+         {
+             rescuegroupdistance.setText("DISTANCE: " +Math.round(rescuegroupdistanceinm/10.0)/100.0 + " km");
+         }
 
 
 
@@ -497,7 +586,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         Location.distanceBetween(mypos.latitude,mypos.longitude,grouppos.latitude,grouppos.longitude,result);
 
-        return result[1];
+        return result[0];
 
     }
 

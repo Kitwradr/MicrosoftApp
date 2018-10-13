@@ -59,7 +59,7 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
 
     private boolean permissionToInternetAccepted = false;
     /*an array of permissions for to be requested*/
-    private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.SEND_SMS,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_SMS};
+    private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.SEND_SMS,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_SMS,Manifest.permission.CALL_PHONE};
 
 
     @Override
@@ -118,8 +118,26 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
         {
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, locationListener);
 
+
+        boolean gpsenabled=false;
+        boolean networkenabled=false;
+
+        gpsenabled=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        networkenabled=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if(gpsenabled)
+        {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, locationListener);
+        }
+        else if (networkenabled)
+        {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,minimumtimeofrequest,minimumdistanceofrequest,locationListener);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"TURN ON GPS",Toast.LENGTH_SHORT).show();
+        }
 
 
 
