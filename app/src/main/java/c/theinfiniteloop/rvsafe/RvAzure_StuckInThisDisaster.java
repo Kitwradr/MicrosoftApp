@@ -41,9 +41,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -51,11 +56,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.util.EntityUtils;
 
 
 public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnMapReadyCallback {
@@ -73,7 +87,6 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
     String safezonecontactstring;
     String rescuegroupcontacstring;
-
 
 
     TextView rescugroupname;
@@ -118,14 +131,14 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         setContentView(R.layout.activity_rv_azure__stuck_in_this_disaster);
 
 
-        rescugroupname=findViewById(R.id.nearestrescuegroupname);
-        rescuegroupdistance=findViewById(R.id.rescuegroupdistance);
-        rescuegroupcall=findViewById(R.id.rescuegroupcallbutton);
+        rescugroupname = findViewById(R.id.nearestrescuegroupname);
+        rescuegroupdistance = findViewById(R.id.rescuegroupdistance);
+        rescuegroupcall = findViewById(R.id.rescuegroupcallbutton);
 
 
-        safezonename=findViewById(R.id.nearestsafezone);
-        safezonedistance=findViewById(R.id.nearestsafezonedistance);
-        safezonecall=findViewById(R.id.nearestsafezonecall);
+        safezonename = findViewById(R.id.nearestsafezone);
+        safezonedistance = findViewById(R.id.nearestsafezonedistance);
+        safezonecall = findViewById(R.id.nearestsafezonecall);
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -181,6 +194,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         });
 
         new RescueQueryAsync().execute();
+        new uploadImage().execute(new File(victimrestoredPath));
 
 
         SmsReceiver.bindListener(new SmsListener() {
@@ -320,7 +334,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         //mMap.getUiSettings().setZoomControlsEnabled(true);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
-             return;
+            return;
         }
         mMap.setMyLocationEnabled(true);
 
@@ -396,17 +410,14 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     }
 
 
-
-
-    public  boolean isInternetConnection()
-    {
+    public boolean isInternetConnection() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private class RescueQueryAsync extends AsyncTask<Void, Void,RescueDataList> {
+    private class RescueQueryAsync extends AsyncTask<Void, Void, RescueDataList> {
 
         RescueDataList list;
 
@@ -443,7 +454,6 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 }
 
 
-
                 return list;
 
             } catch (Exception ex) {
@@ -453,90 +463,74 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         }
 
-        public BitmapDescriptor getVictimMarkerIcon(String color)
-        {
-            float[] hsv =new float[3];
-            Color.colorToHSV(Color.parseColor(color),hsv);
+        public BitmapDescriptor getVictimMarkerIcon(String color) {
+            float[] hsv = new float[3];
+            Color.colorToHSV(Color.parseColor(color), hsv);
             return BitmapDescriptorFactory.defaultMarker(hsv[0]);
 
         }
 
 
-
-        protected void onPostExecute(RescueDataList list)
-        {
+        protected void onPostExecute(RescueDataList list) {
             //You can access the list here
             ArrayList<RescueGroupData> rescuegroupinfo = list.getData();
 
 
-            LatLng mypos=new LatLng(mygps.getLatitude(),mygps.getLongitude());
+            LatLng mypos = new LatLng(mygps.getLatitude(), mygps.getLongitude());
 
-            int initsafezonecounter=0;
-            int initrescuegroupcounter=0;
+            int initsafezonecounter = 0;
+            int initrescuegroupcounter = 0;
 
-            for(int i=0;i<rescuegroupinfo.size();i++)
-            {
+            for (int i = 0; i < rescuegroupinfo.size(); i++) {
 
 
-                switch(rescuegroupinfo.get(i).getGroup_type())
-                {
+                switch (rescuegroupinfo.get(i).getGroup_type()) {
 
 
                     case "1": //safe zone
-                             if(rescuegroupinfo.get(i).getSafety().matches("SAFE"))
-                             {
-                                 LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
-                                 mMap.addMarker(new MarkerOptions().position(safezone).title("SAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC00ff99")));
+                        if (rescuegroupinfo.get(i).getSafety().matches("SAFE")) {
+                            LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
+                            mMap.addMarker(new MarkerOptions().position(safezone).title("SAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC00ff99")));
 
-                                 if(initsafezonecounter==0)
-                                 {
-                                     safezonedistanceinm = distancebetweenpoints(mypos, safezone);
-                                     safezonenamestring=rescuegroupinfo.get(i).getGroup_name();
-                                     safezonecontactstring=rescuegroupinfo.get(i).getContact_no();
+                            if (initsafezonecounter == 0) {
+                                safezonedistanceinm = distancebetweenpoints(mypos, safezone);
+                                safezonenamestring = rescuegroupinfo.get(i).getGroup_name();
+                                safezonecontactstring = rescuegroupinfo.get(i).getContact_no();
 
-                                     initsafezonecounter++;
-                                 }
-                                 else
-                                 {
-                                     if(safezonedistanceinm>distancebetweenpoints(mypos,safezone))
-                                     {
-                                         safezonedistanceinm=distancebetweenpoints(mypos,safezone);
-                                         safezonenamestring=rescuegroupinfo.get(i).getGroup_name();
-                                         safezonecontactstring=rescuegroupinfo.get(i).getContact_no();
+                                initsafezonecounter++;
+                            } else {
+                                if (safezonedistanceinm > distancebetweenpoints(mypos, safezone)) {
+                                    safezonedistanceinm = distancebetweenpoints(mypos, safezone);
+                                    safezonenamestring = rescuegroupinfo.get(i).getGroup_name();
+                                    safezonecontactstring = rescuegroupinfo.get(i).getContact_no();
 
-                                     }
-                                 }
+                                }
+                            }
 
-                             }
-                             else
-                             {
-                                 LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
-                                 mMap.addMarker(new MarkerOptions().position(safezone).title("UNSAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CCff0000")));
+                        } else {
+                            LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
+                            mMap.addMarker(new MarkerOptions().position(safezone).title("UNSAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CCff0000")));
 
-                             }
+                        }
 
-                             break;
+                        break;
 
                     case "2"://rescue group
-                        LatLng rescuegroup=new LatLng(rescuegroupinfo.get(i).getLatitude(),rescuegroupinfo.get(i).getLongitude());
+                        LatLng rescuegroup = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
                         mMap.addMarker(new MarkerOptions().position(rescuegroup).title("RESCUE GROUP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC0099ff")));
 
-                        if(initrescuegroupcounter==0)
-                        {
+                        if (initrescuegroupcounter == 0) {
                             rescuegroupdistanceinm = distancebetweenpoints(mypos, rescuegroup);
-                            rescuegroupnamestring=rescuegroupinfo.get(i).getGroup_name();
-                            rescuegroupcontacstring=rescuegroupinfo.get(i).getContact_no();
+                            rescuegroupnamestring = rescuegroupinfo.get(i).getGroup_name();
+                            rescuegroupcontacstring = rescuegroupinfo.get(i).getContact_no();
 
 
                             initrescuegroupcounter++;
-                        }
-                        else
-                        {
-                            if(rescuegroupdistanceinm>distancebetweenpoints(mypos,rescuegroup))
-                            {
+                        } else {
+                            if (rescuegroupdistanceinm > distancebetweenpoints(mypos, rescuegroup)) {
                                 rescuegroupdistanceinm = distancebetweenpoints(mypos, rescuegroup);
-                                rescuegroupnamestring=rescuegroupinfo.get(i).getGroup_name();
-                                rescuegroupcontacstring=rescuegroupinfo.get(i).getContact_no();
+                                rescuegroupnamestring = rescuegroupinfo.get(i).getGroup_name();
+                                rescuegroupcontacstring = rescuegroupinfo.get(i).getContact_no();
 
                             }
                         }
@@ -546,7 +540,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
                     case "3"://relief camp
-                        LatLng reliefgroup=new LatLng(rescuegroupinfo.get(i).getLatitude(),rescuegroupinfo.get(i).getLongitude());
+                        LatLng reliefgroup = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
                         mMap.addMarker(new MarkerOptions().position(reliefgroup).title("RELIEF CAMP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CCff9900")));
 
                         break;
@@ -557,27 +551,20 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
             safezonename.setText(safezonenamestring);
 
-            if(safezonedistanceinm<1000)
-            {
-                safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm*100.0)/100.0 + " m");
+            if (safezonedistanceinm < 1000) {
+                safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm * 100.0) / 100.0 + " m");
+            } else {
+                safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm / 10.0) / 100.0 + " km");
+
+
             }
-            else
-                {
-                    safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm/10.0)/100.0 + " km");
-
-
-                }
 
             rescugroupname.setText(rescuegroupnamestring);
-         if(rescuegroupdistanceinm<1000) {
-             rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm*100.0)/100.0 + " m");
-         }
-         else
-         {
-             rescuegroupdistance.setText("DISTANCE: " +Math.round(rescuegroupdistanceinm/10.0)/100.0 + " km");
-         }
-
-
+            if (rescuegroupdistanceinm < 1000) {
+                rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm * 100.0) / 100.0 + " m");
+            } else {
+                rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm / 10.0) / 100.0 + " km");
+            }
 
 
         }
@@ -586,22 +573,16 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     }
 
 
-    public float distancebetweenpoints(LatLng mypos,LatLng grouppos)
-    {
-        float[] result=new float[1];
+    public float distancebetweenpoints(LatLng mypos, LatLng grouppos) {
+        float[] result = new float[1];
 
-        Location.distanceBetween(mypos.latitude,mypos.longitude,grouppos.latitude,grouppos.longitude,result);
+        Location.distanceBetween(mypos.latitude, mypos.longitude, grouppos.latitude, grouppos.longitude, result);
 
         return result[0];
 
     }
 
-    private class postSafetyAsync extends AsyncTask<UserData, Void,Void> {
-
-        RescueDataList list;
-
-
-
+    private class postSafetyAsync extends AsyncTask<UserData, Void, Void> {
 
         protected Void doInBackground(UserData... data) {
 
@@ -615,12 +596,12 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 post.setEntity(postingString);
                 post.setHeader("Content-type", "application/json");
 
-                HttpResponse  response = httpClient.execute(post);
+                HttpResponse response = httpClient.execute(post);
 
-               
+
                 System.out.println("\nSending 'POST' request to URL : " + postUrl);
                 int code = response.getStatusLine().getStatusCode();
-                System.out.println("Exited with status code of "+code);
+                System.out.println("Exited with status code of " + code);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -633,16 +614,115 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         }
     }
 
+    private class uploadImage extends AsyncTask<File, Void, Void> {
+
+        private byte[] read(File file){
+            //File file = new File(filepath);
+            int size = (int) file.length();
+            //System.out.println("======================================"+size);
+            byte[] bytes = new byte[size];
+            try {
+                BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+                buf.read(bytes, 0, bytes.length);
+                buf.close();
+                System.out.println(bytes.length);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return bytes;
+        }
+
+
+        protected Void doInBackground(File... data) {
+
+            try {
+                /*HttpClient httpclient = HttpClientBuilder.create().build();
+                MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+
+                HttpPost httppost = new HttpPost("http://localhost:9000/upload");
 
 
 
+                ContentBody cbFile = new FileBody(data[0]);
+                builder.addPart("userfile", cbFile);
+                HttpEntity entity = builder.build();
+
+                httppost.setEntity(entity);
+                System.out.println("executing request " + httppost.getRequestLine());
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity resEntity = response.getEntity();
+
+                System.out.println(response.getStatusLine());
+                if (resEntity != null) {
+                    System.out.println(EntityUtils.toString(resEntity));
+                }
+                if (resEntity != null) {
+                    resEntity.consumeContent();
+                }
+
+                httpclient.getConnectionManager().shutdown();*/
+                String name = data[0].getName();
+
+                String[] splits = name.split("\\.");
+
+                System.out.println("The format is " + splits[1]);
 
 
+                URL urlObj = new URL("http://aztests.azurewebsites.net/victim/upload/images/0/"+splits[1]+"/blob");
+                //URL urlObj = new URL("http://192.168.43.27:8080/facial");
+                HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true); // Allow Inputs
+                conn.setDoOutput(true);
+                //conn.setUseCaches(false); // Don't use a Cached Copy
+
+                conn.setRequestProperty("Content-Type", "image/jpeg");
+
+                OutputStream outputStream = conn.getOutputStream();
 
 
+                String path = data[0].getPath();
+
+                System.out.println("Path of the image is"+path);
+
+                byte[] bytes;
+                bytes = read(data[0]);
+
+                DataOutputStream dout = new DataOutputStream(outputStream);
+
+                dout.write(bytes,0,bytes.length);
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                //Get response from server
+                int responseCode = conn.getResponseCode();
+                System.out.println("Response Code : " + responseCode);
+                // read in the response from the server
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                    System.out.println(inputLine);
+                }
+                // close the input stream
+                in.close();
 
 
+                dout.close();
+                outputStream.close();
 
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
 
+
+        }
+
+
+    }
 }
