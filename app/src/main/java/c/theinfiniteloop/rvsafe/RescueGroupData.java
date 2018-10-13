@@ -81,7 +81,7 @@ public class RescueGroupData {
     }
 
     public String getContact_no() {
-        return  contact_no;
+        return contact_no;
     }
 
     public void setContact_no(String contact_no) {
