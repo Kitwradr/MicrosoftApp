@@ -51,6 +51,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+
 
 public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnMapReadyCallback {
 
@@ -588,6 +594,43 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         return result[0];
 
+    }
+
+    private class postSafetyAsync extends AsyncTask<UserData, Void,Void> {
+
+        RescueDataList list;
+
+
+
+
+        protected Void doInBackground(UserData... data) {
+
+            try {
+                String postUrl = "https://aztests.azurewebsites.net/victims/update";
+                Gson gson = new Gson();
+                HttpClient httpClient = HttpClientBuilder.create().build();
+                HttpPost post = new HttpPost(postUrl);
+                StringEntity postingString = new StringEntity(gson.toJson(data));
+
+                post.setEntity(postingString);
+                post.setHeader("Content-type", "application/json");
+
+                HttpResponse  response = httpClient.execute(post);
+
+               
+                System.out.println("\nSending 'POST' request to URL : " + postUrl);
+                int code = response.getStatusLine().getStatusCode();
+                System.out.println("Exited with status code of "+code);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+
+        }
+
+        protected void onPostExecute(Void... params) {
+
+        }
     }
 
 
