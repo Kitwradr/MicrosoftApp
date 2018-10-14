@@ -263,9 +263,9 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
 
         } else if (id == R.id.nav_send)
         {
-            String phno = "7019920761";
+            String phno = "8830800912";
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phno));
-            sendIntent.putExtra("sms_body", "RVSAFE: USER-ID:xxxx COORDINATES Latitude"+locationListener.getLatitude()+" LONGITUDE"+locationListener.getLongitude());
+            sendIntent.putExtra("sms_body", "RVSAFE-DISTRESS USID:xxxx LAT:"+locationListener.getLatitude()+" LON:"+locationListener.getLongitude());
             startActivity(sendIntent);
 
         }

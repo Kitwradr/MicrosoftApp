@@ -66,10 +66,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.CoreProtocolPNames;
@@ -113,10 +109,30 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     private static final int REQUEST_SELECT_VICTIM_IMAGE_IN_ALBUM = 1;
     private Uri mUriPhotoTaken;
     ImageView victimimage;
+    ImageView landmarkimage1;
+    ImageView landmarkimage2;
+    ImageView landmarkimage3;
+
+
     private String victimimagepathtag = "VICTIM IMAGE";
+    private String landmarkimagepathtag1="LANDMARK 1";
+    private String landmarkimagepathtag2="LANDMARK 2";
+    private String landmarkimagepathtag3="LANDMARK 3";
+
+
+
+
     String VICTIM_PREF = "VICTIM-URL";
     String victimrestoredPath;
+    String landmarkrestoredPath1;
+    String landmarkrestoredPath2;
+    String landmarkrestoredPath3;
+
+
+
+
     Button victimimageupload;
+    Button landmarkimageupload;
     double mylatitude;
     double mylongitude;
 
@@ -153,32 +169,119 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
         victimimage = (ImageView) findViewById(R.id.victimimage1);
+        landmarkimage1=(ImageView)findViewById(R.id.landmarkimage1);
+        landmarkimage2=(ImageView)findViewById(R.id.landmarkimage2);
+        landmarkimage3=(ImageView)findViewById(R.id.landmarkimage3);
+
+
         victimimageupload = (Button) findViewById(R.id.victimuploadbutton);
+        landmarkimageupload=(Button)findViewById(R.id.landmarkupload);
+
 
 
         sharedPreferences = this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE);
         victimrestoredPath = sharedPreferences.getString(victimimagepathtag, null);
+        landmarkrestoredPath1=sharedPreferences.getString(landmarkimagepathtag1,null);
+        landmarkrestoredPath2=sharedPreferences.getString(landmarkimagepathtag2,null);
+        landmarkrestoredPath3=sharedPreferences.getString(landmarkimagepathtag3,null);
 
-        if (victimrestoredPath != null) {
+
+
+
+
+
+
+        if (victimrestoredPath != null)
+        {
 
             victimimage.setImageBitmap(BitmapFactory.decodeFile(victimrestoredPath));
             victimimage.setScaleType(ImageView.ScaleType.FIT_XY);
 
         }
+        if(landmarkrestoredPath1!=null)
+        {
+            landmarkimage1.setImageBitmap(BitmapFactory.decodeFile(landmarkrestoredPath1));
+            landmarkimage1.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+        }
+
+        if(landmarkrestoredPath2!=null)
+        {
+            landmarkimage2.setImageBitmap(BitmapFactory.decodeFile(landmarkrestoredPath2));
+            landmarkimage2.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+        }
+        if(landmarkrestoredPath3!=null)
+        {
+            landmarkimage3.setImageBitmap(BitmapFactory.decodeFile(landmarkrestoredPath3));
+            landmarkimage3.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+        }
 
 
-        victimimage.setOnClickListener(new View.OnClickListener() {
+
+        victimimage.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
                 Intent victimIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);// Start the Intent
-
                 startActivityForResult(victimIntent, REQUEST_SELECT_VICTIM_IMAGE_IN_ALBUM);
 
 
             }
         });
 
-        victimimageupload.setOnClickListener(new View.OnClickListener() {
+        landmarkimage1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent landmarkIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);// Start the Intent
+                startActivityForResult(landmarkIntent, 2);
+
+
+            }
+        });
+
+
+        landmarkimage2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                Intent landmarkIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);// Start the Intent
+                startActivityForResult(landmarkIntent, 3);
+
+
+            }
+        });
+
+
+        landmarkimage3.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent landmarkIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);// Start the Intent
+                startActivityForResult(landmarkIntent, 4);
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+        victimimageupload.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
                 if (victimrestoredPath != null) {
@@ -200,8 +303,6 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         //new RescueQueryAsync().execute();
         //new uploadImage().execute(new File(victimrestoredPath));
-        new getWeatherDetails().execute();
-
 
         SmsReceiver.bindListener(new SmsListener() {
             @Override
@@ -274,7 +375,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case REQUEST_SELECT_VICTIM_IMAGE_IN_ALBUM:
+            case 1:
                 if (resultCode == RESULT_OK && data != null) {
                     Uri selectedImage = data.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -295,15 +396,92 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                     victimimage.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
+
                 }
                 break;
+            case 2:
+                if (resultCode == RESULT_OK && data != null)
+                {
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = this.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+                    SharedPreferences.Editor editor = this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE).edit();
+                    editor.putString(landmarkimagepathtag1, picturePath);
+                    editor.apply();
+
+                    landmarkrestoredPath1 = picturePath;
+
+                    landmarkimage1.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    landmarkimage1.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+
+
+                }
+                break;
+            case 3:
+                if (resultCode == RESULT_OK && data != null)
+                {
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = this.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+                    SharedPreferences.Editor editor = this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE).edit();
+                    editor.putString(landmarkimagepathtag2, picturePath);
+                    editor.apply();
+
+                    landmarkrestoredPath2 = picturePath;
+
+                    landmarkimage2.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    landmarkimage2.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+
+                }
+                break;
+            case 4:
+                if (resultCode == RESULT_OK && data != null)
+                {
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = this.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+                    SharedPreferences.Editor editor = this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE).edit();
+                    editor.putString(landmarkimagepathtag3, picturePath);
+                    editor.apply();
+
+                    landmarkrestoredPath3 = picturePath;
+
+                    landmarkimage3.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    landmarkimage3.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+
+
+                }
+                break;
+
             default:
                 break;
         }
     }
 
 
-    public void updatelocale() {
+    public void updatelocale()
+    {
         LatLng affectedlatlon = new LatLng(Float.parseFloat(DistressMessageNearestGroupLat), Float.parseFloat(DistressMessageNearestGroupLon));
         LatLng rescuelatlang = new LatLng(Float.parseFloat(DistressMessageNearestRescueGroupLat), Float.parseFloat(DistressMessageNearestRescueGroupLon));
         Log.i("TRIAL RESCUE", "" + Float.parseFloat(DistressMessageNearestRescueGroupLat) + "" + Float.parseFloat(DistressMessageNearestRescueGroupLon));
@@ -579,7 +757,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     }
 
 
-    public float distancebetweenpoints(LatLng mypos, LatLng grouppos) {
+    public float distancebetweenpoints(LatLng mypos, LatLng grouppos)
+    {
         float[] result = new float[1];
 
         Location.distanceBetween(mypos.latitude, mypos.longitude, grouppos.latitude, grouppos.longitude, result);
@@ -620,7 +799,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         }
     }
 
-    private class uploadImage extends AsyncTask<File, Void, Void> {
+    private class uploadImage extends AsyncTask<File, Void, Void>
+    {
 
         private byte[] read(File file){
             //File file = new File(filepath);
@@ -643,7 +823,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         }
 
 
-        protected Void doInBackground(File... data) {
+        protected Void doInBackground(File... data)
+        {
 
             try {
                 /*HttpClient httpclient = HttpClientBuilder.create().build();
@@ -732,59 +913,5 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
     }
 
-    private class getWeatherDetails extends AsyncTask<Void, Void, HashMap> {
 
-        protected HashMap doInBackground(Void... data) {
-            HashMap<String,String> map = new HashMap<String,String>();
-
-            try {
-                String getUrl = "https://aztests.azurewebsites.net/weather";
-
-                URL urlObj = new URL(getUrl);
-                //URL urlObj = new URL("http://192.168.43.27:8080/facial");
-                HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
-                conn.setRequestMethod("GET");
-
-                conn.setRequestProperty("Content-Type", "image/jpeg");
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                //Get response from server
-                int responseCode = conn.getResponseCode();
-                System.out.println("Response Code : " + responseCode);
-                // read in the response from the server
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                    System.out.println(inputLine);
-                }
-                // close the input stream
-                in.close();
-
-
-                JSONObject jObject  = new JSONObject(response.toString());
-                //JSONObject menu = jObject.getJSONObject("menu");
-
-
-                Iterator iter = jObject.keys();
-                while(iter.hasNext()) {
-                    String key = (String) iter.next();
-                    String value = jObject.getString(key);
-                    map.put(key, value);
-
-
-                    System.out.println("key = "+key +"value = "+value);
-                }
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            return map;
-
-        }
-
-        protected void onPostExecute(HashMap... params) {
-
-        }
-    }
 }
