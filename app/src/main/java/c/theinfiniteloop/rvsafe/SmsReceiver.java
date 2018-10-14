@@ -23,12 +23,7 @@ public class SmsReceiver extends BroadcastReceiver
 
         SmsMessage sms = msgs[0];
 
-        Log.v("TAG", "handleSmsReceived" + (sms.isReplace() ? "(replace)" : "") +
-                " messageUri: " +
-                ", address: " + sms.getOriginatingAddress() +
-                ", body: " + sms.getMessageBody());
-
-        String message = sms.getMessageBody();
+         String message = sms.getMessageBody();
 
         mListener.messageReceived(message);
 
