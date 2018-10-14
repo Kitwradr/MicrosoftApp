@@ -395,11 +395,12 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
 
-        safe.setOnClickListener(new View.OnClickListener() {
+        safe.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
-                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(getApplicationContext()) ;
+                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(RvAzure_StuckInThisDisaster.this);
                 alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION SAFE");
                 alertDialogBuilder.setMessage("your contribution can help us save numerous lives")
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -411,7 +412,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                         userData.setLat(""+mygps.getLatitude());
                         userData.setLong(""+mygps.getLongitude());
                         userData.setUser_id("0");
-                        Toast.makeText(getApplicationContext(),"YOU MARKED YOUR LOCATION SAFE",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RvAzure_StuckInThisDisaster.this,"YOU MARKED YOUR LOCATION SAFE",Toast.LENGTH_SHORT).show();
                         new postSafetyAsync().execute(userData);
 
                     }
@@ -435,7 +436,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             public void onClick(View view)
             {
 
-                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(getApplicationContext()) ;
+                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(RvAzure_StuckInThisDisaster.this) ;
                 alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION UNSAFE");
                 alertDialogBuilder.setMessage("your contribution can help us save numerous lives")
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -447,7 +448,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                                 userData.setLat(""+mygps.getLatitude());
                                 userData.setLong(""+mygps.getLongitude());
                                 userData.setUser_id("0");
-                                Toast.makeText(getApplicationContext(),"YOU MARKED YOUR LOCATION UNSAFE",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RvAzure_StuckInThisDisaster.this,"YOU MARKED YOUR LOCATION UNSAFE",Toast.LENGTH_SHORT).show();
                                 new postSafetyAsync().execute(userData);
 
                             }
