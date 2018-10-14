@@ -1,16 +1,19 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -75,12 +78,11 @@ public class RvAzure_am_i_safe extends Fragment
 
         super.onCreate(savedInstanceState);
 
-        new getWeatherDetails().execute();
-
-
 
 
     }
+
+
 
 
 
@@ -119,7 +121,7 @@ public class RvAzure_am_i_safe extends Fragment
         card5=(CardView)view.findViewById(R.id.card5);
 
 
-
+        ProgressBar progressBar=view.findViewById(R.id.progressbar);
 
 
         webView.getSettings().setJavaScriptEnabled(true);
@@ -172,9 +174,56 @@ public class RvAzure_am_i_safe extends Fragment
 
         webView.loadUrl("http://city.imd.gov.in/citywx/city_weather.php?id=42299");
 
+
+        webView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public void onPageFinished(WebView view, String url)
+            {
+                super.onPageFinished(view, url);
+
+
+                progressBar.setVisibility(View.GONE);
+                webView.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+
+        new getWeatherDetails().execute();
+
+
+
         return view;
 
     }
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        getView().setOnKeyListener(new View.OnKeyListener()
+        {
+
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+               if(keyEvent.getAction()==KeyEvent.ACTION_UP&&i==KeyEvent.KEYCODE_BACK)
+               {
+
+                   if(webView.canGoBack())
+                   {
+                       webView.goBack();
+                   }
+                   return true;
+               }
+
+
+                return false;
+            }
+        });
+    }
+
 
     private class getWeatherDetails extends AsyncTask<Void, Void, LinkedHashMap<String,String>>
     {
@@ -235,7 +284,6 @@ public class RvAzure_am_i_safe extends Fragment
 
 
             Log.i("CALLED","TEST CALLED"+weathermaps.size());
-            int numberofcards=weathermaps.size();
 
 
 //            LinkedHashSet<String> keyset = weathermaps.keySet();
@@ -245,6 +293,10 @@ public class RvAzure_am_i_safe extends Fragment
 
             Log.i("CALLED","TEST CALLED"+keyset.get(1));
 
+            keyset.remove(0);
+
+
+
 
 
             switch (5)
@@ -252,19 +304,19 @@ public class RvAzure_am_i_safe extends Fragment
 
                 case 1:card1.setVisibility(View.VISIBLE);
                        Date1.setText(keyset.get(0));
-                    System.out.println("Card data"+ keyset.get(0));
-                       Desc1.setText(weathermaps.get(keyset.get(0)));
+                       System.out.println("Card data"+ keyset.get(0));
+                       Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
 
                       break;
 
                 case 2:
                     card1.setVisibility(View.VISIBLE);
                     Date1.setText(keyset.get(0));
-                    Desc1.setText(weathermaps.get(keyset.get(0)));
+                    Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
 
                     card2.setVisibility(View.VISIBLE);
                     Date2.setText(keyset.get(1));
-                    Desc2.setText(weathermaps.get(keyset.get(1)));
+                    Desc2.setText("\u2022"+weathermaps.get(keyset.get(1)));
 
 
 
@@ -272,16 +324,16 @@ public class RvAzure_am_i_safe extends Fragment
                 case 3:
                     card1.setVisibility(View.VISIBLE);
                     Date1.setText(keyset.get(0));
-                    Desc1.setText(weathermaps.get(keyset.get(0)));
+                    Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
 
 
                     card2.setVisibility(View.VISIBLE);
                     Date2.setText(keyset.get(1));
-                    Desc2.setText(weathermaps.get(keyset.get(1)));
+                    Desc2.setText("\u2022"+weathermaps.get(keyset.get(1)));
 
                     card3.setVisibility(View.VISIBLE);
                     Date3.setText(keyset.get(2));
-                    Desc3.setText(weathermaps.get(keyset.get(2)));
+                    Desc3.setText("\u2022"+weathermaps.get(keyset.get(2)));
 
 
 
@@ -292,19 +344,19 @@ public class RvAzure_am_i_safe extends Fragment
 
                     card1.setVisibility(View.VISIBLE);
                     Date1.setText(keyset.get(0));
-                    Desc1.setText(weathermaps.get(keyset.get(0)));
+                    Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
 
                     card2.setVisibility(View.VISIBLE);
                     Date2.setText(keyset.get(1));
-                    Desc2.setText(weathermaps.get(keyset.get(1)));
+                    Desc2.setText("\u2022"+weathermaps.get(keyset.get(1)));
 
                     card3.setVisibility(View.VISIBLE);
                     Date3.setText(keyset.get(2));
-                    Desc3.setText(weathermaps.get(keyset.get(2)));
+                    Desc3.setText("\u2022"+weathermaps.get(keyset.get(2)));
 
                     card4.setVisibility(View.VISIBLE);
                     Date4.setText(keyset.get(3));
-                    Desc4.setText(weathermaps.get(keyset.get(3)));
+                    Desc4.setText("\u2022"+weathermaps.get(keyset.get(3)));
 
 
 
@@ -315,23 +367,23 @@ public class RvAzure_am_i_safe extends Fragment
 
                     card1.setVisibility(View.VISIBLE);
                     Date1.setText(keyset.get(0));
-                    Desc1.setText(weathermaps.get(keyset.get(0)));
+                    Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
 
                     card2.setVisibility(View.VISIBLE);
                     Date2.setText(keyset.get(1));
-                    Desc2.setText(weathermaps.get(keyset.get(1)));
+                    Desc2.setText("\u2022"+weathermaps.get(keyset.get(1)));
 
                     card3.setVisibility(View.VISIBLE);
                     Date3.setText(keyset.get(2));
-                    Desc3.setText(weathermaps.get(keyset.get(2)));
+                    Desc3.setText("\u2022"+weathermaps.get(keyset.get(2)));
 
                     card4.setVisibility(View.VISIBLE);
                     Date4.setText(keyset.get(3));
-                    Desc4.setText(weathermaps.get(keyset.get(3)));
+                    Desc4.setText("\u2022"+weathermaps.get(keyset.get(3)));
 
                     card5.setVisibility(View.VISIBLE);
                     Date5.setText(keyset.get(4));
-                    Desc5.setText(weathermaps.get(keyset.get(4)));
+                    Desc5.setText("\u2022"+weathermaps.get(keyset.get(4)));
 
 
 

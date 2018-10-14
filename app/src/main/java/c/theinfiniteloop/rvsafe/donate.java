@@ -1,6 +1,7 @@
 package c.theinfiniteloop.rvsafe;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -14,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,25 +48,20 @@ public class donate extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
 
 
-    public static boolean button1pressed =false;
-    public static boolean button2pressed =false;
-    public static boolean button3pressed =false;
-    public static boolean button4pressed =false;
+    public static boolean button1pressed = false;
+    public static boolean button2pressed = false;
+    public static boolean button3pressed = false;
+    public static boolean button4pressed = false;
 
 
-    public static donate newInstance()
-    {
+    public static donate newInstance() {
         donate fragment = new donate();
         return fragment;
     }
 
 
-
-
-
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_donate);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -74,42 +71,34 @@ public class donate extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View view=inflater.inflate(R.layout.activity_donate, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_donate, container, false);
 
-        SupportMapFragment mapFragment = (SupportMapFragment)this.getChildFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
-        final Button button1=view.findViewById(R.id.button1);
-        final Button button2=view.findViewById(R.id.button2);
-        final Button button3=view.findViewById(R.id.button3);
-        final Button button4=view.findViewById(R.id.button4);
-        Button button5=view.findViewById(R.id.button5);
+        final Button button1 = view.findViewById(R.id.button1);
+        final Button button2 = view.findViewById(R.id.button2);
+        final Button button3 = view.findViewById(R.id.button3);
+        final Button button4 = view.findViewById(R.id.button4);
+        Button button5 = view.findViewById(R.id.button5);
 
 
-
-
-        button1.setOnClickListener(new View.OnClickListener()
-        {
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
 
-                if(button1pressed)
-                {
+                if (button1pressed) {
 
 
-                     button1.setBackgroundResource(R.drawable.oval_button_white);
+                    button1.setBackgroundResource(R.drawable.oval_button_white);
 
-                    button1pressed=false;
-                }
-                else
-                {
+                    button1pressed = false;
+                } else {
                     button1.setBackgroundResource(R.drawable.oval_button_light_green);
-                    button1pressed=true;
+                    button1pressed = true;
                 }
 
 
@@ -119,21 +108,17 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
 
-                if(button2pressed)
-                {
+                if (button2pressed) {
 
 
                     button2.setBackgroundResource(R.drawable.oval_button_white);
 
-                    button2pressed=false;
-                }
-                else
-                {
+                    button2pressed = false;
+                } else {
                     button2.setBackgroundResource(R.drawable.oval_button_light_green);
-                    button2pressed=true;
+                    button2pressed = true;
                 }
 
 
@@ -142,57 +127,64 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
 
-                if(button3pressed)
-                {
+                if (button3pressed) {
 
 
                     button3.setBackgroundResource(R.drawable.oval_button_white);
 
-                    button3pressed=false;
-                }
-                else
-                {
+                    button3pressed = false;
+                } else {
                     button3.setBackgroundResource(R.drawable.oval_button_light_green);
-                    button3pressed=true;
+                    button3pressed = true;
                 }
 
 
             }
         });
-
 
 
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
 
-                if(button4pressed)
-                {
+                if (button4pressed) {
 
 
                     button4.setBackgroundResource(R.drawable.oval_button_white);
 
-                    button4pressed=false;
-                }
-                else
-                {
+                    button4pressed = false;
+                } else {
                     button4.setBackgroundResource(R.drawable.oval_button_light_green);
-                    button4pressed=true;
+                    button4pressed = true;
                 }
 
 
             }
         });
 
-        button5.setOnClickListener(new View.OnClickListener()
-        {
+        button5.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
+
+
+                TelephonyManager tmgr = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
+
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                String phonenumber = tmgr.getLine1Number();
+
+
+
 
 
                 DonateDetails donateDetails=new DonateDetails();

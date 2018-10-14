@@ -1,27 +1,59 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import net.sharewire.googlemapsclustering.Cluster;
+import net.sharewire.googlemapsclustering.ClusterManager;
+import net.sharewire.googlemapsclustering.DefaultIconGenerator;
+import net.sharewire.googlemapsclustering.IconStyle;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback {
+
+
+
+
+
+
+    private static final String TAG = Rescuer_View.class.getSimpleName();
+
+    private static final LatLngBounds NETHERLANDS = new LatLngBounds(
+            new LatLng(7.798000, 68.14712), new LatLng(37.090000, 97.34466));
+
+
+
+
+
 
     private GoogleMap mMap;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rescuer__view);
+        TextView rescueText=findViewById(R.id.rescuetext);
+        rescueText.bringToFront();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (savedInstanceState == null) {
+            setupMapFragment();
+        }
+
     }
 
 
@@ -38,9 +70,61 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
+
+        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(NETHERLANDS, 0));
+            }
+        });
+
+        ClusterManager<ClusterItemsTrial> clusterManager = new ClusterManager<>(this, googleMap);
+        clusterManager.setCallbacks(new ClusterManager.Callbacks<ClusterItemsTrial>() {
+            @Override
+            public boolean onClusterClick(@NonNull Cluster<ClusterItemsTrial> cluster) {
+                Log.d(TAG, "onClusterClick");
+                return false;
+            }
+
+            @Override
+            public boolean onClusterItemClick(@NonNull ClusterItemsTrial clusterItem) {
+                Log.d(TAG, "onClusterItemClick");
+                return false;
+            }
+        });
+        googleMap.setOnCameraIdleListener(clusterManager);
+
+
+
+
+
+
+
+        List<ClusterItemsTrial> clusterItems = new ArrayList<>();
+        for (int i = 0; i < 2000; i++) {
+            clusterItems.add(new ClusterItemsTrial(
+                    RandomLocationGenerator.generate(NETHERLANDS)));
+        }
+
+
+
+
+
+        clusterManager.setItems(clusterItems);
+
+
+
+
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+    }
+
+    private void setupMapFragment()
+    {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.setRetainInstance(true);
+        mapFragment.getMapAsync(this);
     }
 }

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class RvAzure_login extends AppCompatActivity
 {
@@ -17,6 +18,10 @@ public class RvAzure_login extends AppCompatActivity
 
 
         Button signin=findViewById(R.id.signin);
+        TextView textView =findViewById(R.id.forgot);
+
+
+
 
 
         signin.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +33,16 @@ public class RvAzure_login extends AppCompatActivity
 
             }
         });
+
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RvAzure_login.this,Rescuer_View.class));
+
+            }
+        });
+
 
 
 
