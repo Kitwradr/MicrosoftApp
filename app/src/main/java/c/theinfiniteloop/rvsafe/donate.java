@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdate;
@@ -28,8 +30,16 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class donate extends Fragment implements OnMapReadyCallback {
 
@@ -82,7 +92,8 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
 
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        button1.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
@@ -177,6 +188,47 @@ public class donate extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        button5.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
+
+                DonateDetails donateDetails=new DonateDetails();
+
+                donateDetails.setPhone_number("12345");
+                donateDetails.setAddress("useraddress");
+                donateDetails.setCity("usercity");
+                List<String> items=new ArrayList<String>();
+
+                if(button1pressed)
+                {
+                    items.add("MONEY");
+
+                }
+                if(button2pressed)
+                {
+
+                    items.add("FOOD GRAINS");
+                }
+                if(button3pressed)
+                {
+                    items.add("CLOTHES");
+                }
+                if(button4pressed)
+                {
+                    items.add("ACCESSORIES");
+                }
+
+                donateDetails.setItems(items);
+                
+                new postDonateAsync().execute(donateDetails);
+                Toast.makeText(getContext(),"THANK YOU",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
 
 
 
@@ -219,40 +271,8 @@ public class donate extends Fragment implements OnMapReadyCallback {
         mMap.getUiSettings().setZoomGesturesEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-      LatLng NGO1 = new LatLng(-34.0, 151.0);
-//      //  mMap.addMarker(new MarkerOptions().position(india).title("Marker in India"));
-//
-//        Circle circle=mMap.addCircle(new CircleOptions()
-//        .center(NGO1)
-//        .radius(10000)
-//        .strokeColor(Color.parseColor("#FF0000"))
-//        .fillColor(Color.parseColor("#33FF0000"))
-//        );
-//
-//        LatLng NGO2 = new LatLng(-50.0, 500.0);
-//        //  mMap.addMarker(new MarkerOptions().position(india).title("Marker in India"));
-//
-//        Circle circle2=mMap.addCircle(new CircleOptions()
-//                .center(NGO1)
-//                .radius(10000)
-//                .strokeColor(Color.parseColor("#00FF00"))
-//                .fillColor(Color.parseColor("#3300FF00"))
-//        );
-//
-//        Circle circle3=mMap.addCircle(new CircleOptions()
-//                .center(NGO1)
-//                .radius(10000)
-//                .strokeColor(Color.parseColor("#0000FF"))
-//                .fillColor(Color.parseColor("#330000FF"))
-//        );
-
-
-
-
-
+        LatLng NGO1 = new LatLng(-34.0, 151.0);
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(NGO1));
 
 
@@ -260,7 +280,36 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
     }
 
+    private class postDonateAsync extends AsyncTask<DonateDetails, Void, Void>
+    {
 
+        @Override
+        protected Void doInBackground(DonateDetails... data) {
+
+            try {
+                String postUrl = "https://aztests.azurewebsites.net/ngo/resources/add";
+                Gson gson = new Gson();
+                HttpClient httpClient = HttpClientBuilder.create().build();
+                HttpPost post = new HttpPost(postUrl);
+                StringEntity postingString = new StringEntity(gson.toJson(data));
+
+                post.setEntity(postingString);
+                post.setHeader("Content-type", "application/json");
+
+                HttpResponse response = httpClient.execute(post);
+
+
+                System.out.println("\nSending 'POST' request to URL : " + postUrl);
+                int code = response.getStatusLine().getStatusCode();
+                System.out.println("Exited with status code of " + code);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+
+        }
+
+    }
 
 
 

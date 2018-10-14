@@ -123,34 +123,6 @@ public class RvAzure_WantToHelpOut extends AppCompatActivity
     }
 
 
-    private class postDonateAsync extends AsyncTask<DonateDetails, Void, Void> {
 
-        @Override
-        protected Void doInBackground(DonateDetails... data) {
-
-            try {
-                String postUrl = "https://aztests.azurewebsites.net/ngo/resources/add";
-                Gson gson = new Gson();
-                HttpClient httpClient = HttpClientBuilder.create().build();
-                HttpPost post = new HttpPost(postUrl);
-                StringEntity postingString = new StringEntity(gson.toJson(data));
-
-                post.setEntity(postingString);
-                post.setHeader("Content-type", "application/json");
-
-                HttpResponse response = httpClient.execute(post);
-
-
-                System.out.println("\nSending 'POST' request to URL : " + postUrl);
-                int code = response.getStatusLine().getStatusCode();
-                System.out.println("Exited with status code of " + code);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            return null;
-
-        }
-
-    }
 
 }
