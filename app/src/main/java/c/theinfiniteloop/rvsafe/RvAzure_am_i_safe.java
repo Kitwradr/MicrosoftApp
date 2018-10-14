@@ -179,7 +179,7 @@ public class RvAzure_am_i_safe extends Fragment
     private class getWeatherDetails extends AsyncTask<Void, Void, LinkedHashMap<String,String>>
     {
 
-        protected LinkedHashMap<String,String> doInBackground(Void... data)
+        public LinkedHashMap<String,String> doInBackground(Void... data)
         {
             LinkedHashMap<String,String> map = new LinkedHashMap<String,String>();
 
@@ -247,11 +247,12 @@ public class RvAzure_am_i_safe extends Fragment
 
 
 
-            switch (numberofcards)
+            switch (5)
             {
 
                 case 1:card1.setVisibility(View.VISIBLE);
                        Date1.setText(keyset.get(0));
+                    System.out.println("Card data"+ keyset.get(0));
                        Desc1.setText(weathermaps.get(keyset.get(0)));
 
                       break;

@@ -55,8 +55,7 @@ public  class Uploadasynch extends AsyncTask<String, Void, Void> {
 
     protected Void doInBackground(String... urls) {
         try {
-            System.out.println();
-//            Bitmap bitmap;
+
 
             URL urlObj = new URL("http://mlandai.azurewebsites.net/facial");
             //URL urlObj = new URL("http://192.168.43.27:8080/facial");

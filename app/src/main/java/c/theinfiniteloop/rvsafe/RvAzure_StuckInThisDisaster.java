@@ -823,35 +823,10 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         }
 
 
-        protected Void doInBackground(File... data)
-        {
+        protected Void doInBackground(File... data) {
 
             try {
-                /*HttpClient httpclient = HttpClientBuilder.create().build();
-                MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 
-                HttpPost httppost = new HttpPost("http://localhost:9000/upload");
-
-
-
-                ContentBody cbFile = new FileBody(data[0]);
-                builder.addPart("userfile", cbFile);
-                HttpEntity entity = builder.build();
-
-                httppost.setEntity(entity);
-                System.out.println("executing request " + httppost.getRequestLine());
-                HttpResponse response = httpclient.execute(httppost);
-                HttpEntity resEntity = response.getEntity();
-
-                System.out.println(response.getStatusLine());
-                if (resEntity != null) {
-                    System.out.println(EntityUtils.toString(resEntity));
-                }
-                if (resEntity != null) {
-                    resEntity.consumeContent();
-                }
-
-                httpclient.getConnectionManager().shutdown();*/
                 String name = data[0].getName();
 
                 String[] splits = name.split("\\.");
