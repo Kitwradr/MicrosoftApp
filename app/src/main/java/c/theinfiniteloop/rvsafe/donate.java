@@ -222,7 +222,7 @@ public class donate extends Fragment implements OnMapReadyCallback {
                 }
 
                 donateDetails.setItems(items);
-                
+
                 new postDonateAsync().execute(donateDetails);
                 Toast.makeText(getContext(),"THANK YOU",Toast.LENGTH_SHORT).show();
 

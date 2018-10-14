@@ -14,4 +14,12 @@
     <string name="title_activity_donate">Map</string>
     <string name="title_activity_rv_azure__stuck_in_this_disaster">Map</string>
     <string name="title_activity_rescuer__view">Map</string>
+
+    <string-array name="loginpage">
+    <item>WELCOME TO RVCE CONNECT</item>
+    <item>PLEASE ENTER CREDENTIALS TO LOGIN INTO THE APP</item>
+    <item>MAKE SURE YOU ARE CONNECTED TO COLLEGE WIFI</item>
+    </string-array>
+
+
 </resources>
