@@ -329,7 +329,7 @@ public class RvAzure_sos extends Fragment
 
                  }
              })
-                     .setNegativeButton("GO BACK", new DialogInterface.OnClickListener() {
+                     .setNegativeButton(" BACK", new DialogInterface.OnClickListener() {
                          @Override
                          public void onClick(DialogInterface dialogInterface, int i)
                          {

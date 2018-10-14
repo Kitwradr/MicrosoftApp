@@ -70,6 +70,7 @@
                 android:layout_weight="1.5"/>
 
             <Button
+                android:id="@+id/safeid"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:textColor="#000000"
@@ -80,6 +81,7 @@
 
 
             <Button
+                android:id="@+id/unsafeid"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="5dp"
@@ -323,7 +325,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:text="UPLOAD"
             android:id="@+id/victimuploadbutton"
             android:background="@drawable/oval_button_white"/>
@@ -337,7 +339,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="0.7dp"
@@ -350,7 +352,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_height="250dp">
+            android:layout_height="match_parent">
 
 
             <TextView
@@ -371,13 +373,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:layout_height="180dp">
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_height="210dp">
 
 
                 <ImageView
                     android:id="@+id/landmarkimage1"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:layout_margin="3dp"
                     android:src="@drawable/ic_photo_black_24dp"
                     android:layout_height="match_parent" />
 
@@ -385,12 +390,14 @@
                     android:id="@+id/landmarkimage2"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:layout_margin="3dp"
                     android:src="@drawable/ic_photo_black_24dp"
                     android:layout_height="match_parent" />
                 <ImageView
                     android:id="@+id/landmarkimage3"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:layout_margin="3dp"
                     android:src="@drawable/ic_photo_black_24dp"
                     android:layout_height="match_parent" />
 
@@ -398,9 +405,10 @@
             </LinearLayout>
 
             <Button
+                android:layout_marginTop="5dp"
                 android:id="@+id/landmarkupload"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:text="UPLOAD"
                 android:background="@drawable/oval_button_white"/>
 

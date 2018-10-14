@@ -1,7 +1,9 @@
 package c.theinfiniteloop.rvsafe;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -99,6 +101,10 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     TextView safezonedistance;
     Button safezonecall;
 
+    Bitmap CurrentVictimBitmap;
+    Bitmap CurrentLandmarkBitamp;
+    Bitmap CurrentLandmark1Bitamp;
+    Bitmap CurrentLandmark2Bitamp;
 
     private static final int minimumtimeofrequest = 100;
 
@@ -133,6 +139,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
     Button victimimageupload;
     Button landmarkimageupload;
+    Button safe;
+    Button unsafe;
     double mylatitude;
     double mylongitude;
 
@@ -147,7 +155,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     private String DistressMessageNearestRescueGroupContact;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_azure__stuck_in_this_disaster);
 
@@ -174,6 +183,9 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         landmarkimage3=(ImageView)findViewById(R.id.landmarkimage3);
 
 
+
+        safe=(Button)findViewById(R.id.safeid);
+        unsafe=(Button)findViewById(R.id.unsafeid);
         victimimageupload = (Button) findViewById(R.id.victimuploadbutton);
         landmarkimageupload=(Button)findViewById(R.id.landmarkupload);
 
@@ -193,28 +205,60 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         if (victimrestoredPath != null)
         {
+            BitmapFactory.Options options=new BitmapFactory.Options();
+            options.inPreferredConfig=Bitmap.Config.ARGB_8888;
 
-            victimimage.setImageBitmap(BitmapFactory.decodeFile(victimrestoredPath));
+
+            options.inBitmap=CurrentVictimBitmap;
+
+            CurrentVictimBitmap=BitmapFactory.decodeFile(victimrestoredPath,options);
+
+            victimimage.setImageBitmap(CurrentVictimBitmap);
+
             victimimage.setScaleType(ImageView.ScaleType.FIT_XY);
 
         }
         if(landmarkrestoredPath1!=null)
         {
-            landmarkimage1.setImageBitmap(BitmapFactory.decodeFile(landmarkrestoredPath1));
-            landmarkimage1.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+            BitmapFactory.Options options=new BitmapFactory.Options();
+            options.inPreferredConfig=Bitmap.Config.RGB_565;
+            options.inBitmap=CurrentLandmarkBitamp;
+            CurrentLandmarkBitamp=BitmapFactory.decodeFile(victimrestoredPath,options);
+            landmarkimage1.setImageBitmap(CurrentLandmarkBitamp);
+            landmarkimage1.setScaleType(ImageView.ScaleType.FIT_XY);
 
         }
 
         if(landmarkrestoredPath2!=null)
         {
-            landmarkimage2.setImageBitmap(BitmapFactory.decodeFile(landmarkrestoredPath2));
-            landmarkimage2.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+            BitmapFactory.Options options=new BitmapFactory.Options();
+            options.inPreferredConfig=Bitmap.Config.RGB_565;
+
+
+
+
+
+            options.inBitmap=CurrentLandmark1Bitamp;
+
+            CurrentLandmark1Bitamp=BitmapFactory.decodeFile(landmarkrestoredPath2,options);
+            landmarkimage2.setImageBitmap(CurrentLandmark1Bitamp);
+            landmarkimage2.setScaleType(ImageView.ScaleType.FIT_XY);
 
         }
         if(landmarkrestoredPath3!=null)
         {
-            landmarkimage3.setImageBitmap(BitmapFactory.decodeFile(landmarkrestoredPath3));
-            landmarkimage3.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            BitmapFactory.Options options=new BitmapFactory.Options();
+            options.inPreferredConfig=Bitmap.Config.RGB_565;
+
+
+            options.inBitmap=CurrentLandmark2Bitamp;
+
+            CurrentLandmark2Bitamp=BitmapFactory.decodeFile(landmarkrestoredPath3,options);
+
+            landmarkimage3.setImageBitmap(CurrentLandmark2Bitamp);
+            landmarkimage3.setScaleType(ImageView.ScaleType.FIT_XY);
 
         }
 
@@ -230,6 +274,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
             }
         });
+
 
         landmarkimage1.setOnClickListener(new View.OnClickListener()
         {
@@ -288,6 +333,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                     try {
                         System.out.print("PATH ---------------------------sdfbisdfu---sdbj" + victimrestoredPath);
                         new Uploadasynch(getApplicationContext()).execute(victimrestoredPath);
+                         Toast.makeText(getApplicationContext(),"IMAGE UPLOADED",Toast.LENGTH_SHORT).show();
+
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -301,8 +348,132 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             }
         });
 
-        //new RescueQueryAsync().execute();
-        //new uploadImage().execute(new File(victimrestoredPath));
+      landmarkimageupload.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view)
+          {
+              try
+              {
+                 boolean upload=false;
+
+                  if(landmarkrestoredPath1!=null)
+                  {
+                      upload=true;
+                      new uploadImage().execute(new File(landmarkrestoredPath1));
+                  }
+                  if(landmarkrestoredPath2!=null)
+                  {
+                      upload=true;
+                      new uploadImage().execute(new File(landmarkrestoredPath2));
+                  }
+                  if(landmarkrestoredPath3!=null)
+                  {
+                      upload=true;
+                      new uploadImage().execute(new File(landmarkrestoredPath3));
+                  }
+                  if(upload)
+                  {
+                      Toast.makeText(getApplicationContext(),"IMAGE UPLAODED",Toast.LENGTH_SHORT).show();
+                  }
+
+
+
+              }
+              catch (Exception e)
+              {
+                  e.printStackTrace();
+              }
+          }
+      });
+
+
+
+
+
+
+
+
+
+
+        safe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(getApplicationContext()) ;
+                alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION SAFE");
+                alertDialogBuilder.setMessage("your contribution can help us save numerous lives")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        UserData userData=new UserData();
+                        userData.setIssafe("SAFE");
+                        userData.setLat(""+mygps.getLatitude());
+                        userData.setLong(""+mygps.getLongitude());
+                        userData.setUser_id("0");
+                        Toast.makeText(getApplicationContext(),"YOU MARKED YOUR LOCATION SAFE",Toast.LENGTH_SHORT).show();
+                        new postSafetyAsync().execute(userData);
+
+                    }
+                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                dialogInterface.cancel();
+                            }
+                        });
+
+
+                AlertDialog dialog=alertDialogBuilder.create();
+                dialog.show();
+
+            }
+        });
+        unsafe.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
+                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(getApplicationContext()) ;
+                alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION UNSAFE");
+                alertDialogBuilder.setMessage("your contribution can help us save numerous lives")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                UserData userData=new UserData();
+                                userData.setIssafe("UNSAFE");
+                                userData.setLat(""+mygps.getLatitude());
+                                userData.setLong(""+mygps.getLongitude());
+                                userData.setUser_id("0");
+                                Toast.makeText(getApplicationContext(),"YOU MARKED YOUR LOCATION UNSAFE",Toast.LENGTH_SHORT).show();
+                                new postSafetyAsync().execute(userData);
+
+                            }
+                        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        dialogInterface.cancel();
+                    }
+                });
+
+
+                AlertDialog dialog=alertDialogBuilder.create();
+                dialog.show();
+
+            }
+        });
+
+
+
+
+
+
+
+
+        new RescueQueryAsync().execute();
 
         SmsReceiver.bindListener(new SmsListener() {
             @Override
@@ -392,7 +563,11 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
                     victimrestoredPath = picturePath;
 
-                    victimimage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    BitmapFactory.Options options=new BitmapFactory.Options();
+                    options.inPreferredConfig=Bitmap.Config.RGB_565;
+                    options.inBitmap=CurrentVictimBitmap;
+                    CurrentVictimBitmap=BitmapFactory.decodeFile(picturePath,options);
+                    victimimage.setImageBitmap(CurrentVictimBitmap);
                     victimimage.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
@@ -417,8 +592,15 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
                     landmarkrestoredPath1 = picturePath;
 
-                    landmarkimage1.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                    landmarkimage1.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    BitmapFactory.Options options=new BitmapFactory.Options();
+                    options.inPreferredConfig=Bitmap.Config.RGB_565;
+
+                    options.inBitmap=CurrentLandmarkBitamp;
+
+                    CurrentLandmarkBitamp=BitmapFactory.decodeFile(picturePath,options);
+
+                    landmarkimage1.setImageBitmap(CurrentLandmarkBitamp);
+                    landmarkimage1.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
 
@@ -442,8 +624,12 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
                     landmarkrestoredPath2 = picturePath;
 
-                    landmarkimage2.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                    landmarkimage2.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    BitmapFactory.Options options=new BitmapFactory.Options();
+                    options.inPreferredConfig=Bitmap.Config.RGB_565;
+                    options.inBitmap=CurrentLandmark1Bitamp;
+                    CurrentLandmark1Bitamp=BitmapFactory.decodeFile(picturePath,options);
+                    landmarkimage2.setImageBitmap(CurrentLandmark1Bitamp);
+                    landmarkimage2.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
                 }
@@ -466,8 +652,17 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
                     landmarkrestoredPath3 = picturePath;
 
-                    landmarkimage3.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                    landmarkimage3.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+
+                    BitmapFactory.Options options=new BitmapFactory.Options();
+
+                    options.inPreferredConfig=Bitmap.Config.RGB_565;
+                    options.inBitmap=CurrentLandmark2Bitamp;
+
+                    CurrentLandmark2Bitamp=BitmapFactory.decodeFile(picturePath,options);
+
+                    landmarkimage3.setImageBitmap(CurrentLandmark2Bitamp);
+                    landmarkimage3.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
 
@@ -606,7 +801,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         RescueDataList list;
 
 
-        protected RescueDataList doInBackground(Void... params) {
+        protected RescueDataList doInBackground(Void... params)
+        {
             String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/rescueGroupData";
             try {
                 URL obj = new URL(url);
@@ -767,7 +963,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
     }
 
-    private class postSafetyAsync extends AsyncTask<UserData, Void, Void> {
+    private class postSafetyAsync extends AsyncTask<UserData, Void, Void>
+    {
 
         protected Void doInBackground(UserData... data) {
 
