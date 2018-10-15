@@ -89,7 +89,8 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      *
      * @param iconGenerator the custom icon generator that's used for generating marker icons
      */
-    public void setIconGenerator(@NonNull IconGenerator<T> iconGenerator) {
+    public void setIconGenerator(@NonNull IconGenerator<T> iconGenerator)
+    {
         checkNotNull(iconGenerator);
         mRenderer.setIconGenerator(iconGenerator);
     }
@@ -262,7 +263,8 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
         }
 
         @Override
-        protected void onPostExecute(@NonNull List<Cluster<T>> clusters) {
+        protected void onPostExecute(@NonNull List<Cluster<T>> clusters)
+        {
             mRenderer.render(clusters);
             mClusterTask = null;
         }

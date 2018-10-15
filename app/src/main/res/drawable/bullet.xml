@@ -5,15 +5,15 @@
     android:thickness="2dp"
     android:useLevel="false">
 
-    <solid android:color="#DD1600" />
+    <solid android:color="#DF1FF0" />
     <padding
         android:bottom="0dp"
         android:left="0dp"
         android:right="0dp"
         android:top="0dp" />`
 <size
-    android:height="10dp"
-    android:width="10dp">
+    android:height="12dp"
+    android:width="12dp">
 </size>
 
 

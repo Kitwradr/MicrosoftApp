@@ -12,7 +12,8 @@ import static c.theinfiniteloop.rvsafe.Preconditions.checkNotNull;
  * Represents the visual style of map marker icons. Supports customization
  * of individual attributes by setting their values with {@link Builder}.
  */
-public class IconStyle {
+public class IconStyle
+{
 
     private final int clusterBackgroundColor;
     private final int clusterTextColor;
@@ -21,7 +22,8 @@ public class IconStyle {
     private final int clusterTextSize;
     private final int clusterIconResId;
 
-    private IconStyle(@NonNull Builder builder) {
+    public IconStyle(@NonNull Builder builder)
+    {
         clusterBackgroundColor = builder.clusterBackgroundColor;
         clusterTextColor = builder.clusterTextColor;
         clusterStrokeColor = builder.clusterStrokeColor;
@@ -92,7 +94,8 @@ public class IconStyle {
      * The builder for {@link IconStyle}. Allows to customize different style attributes.
      * If a style attribute is not set explicitly, the default value will be used.
      */
-    public static class Builder {
+    public static class Builder
+    {
 
         private int clusterBackgroundColor;
         private int clusterTextColor;
@@ -104,7 +107,8 @@ public class IconStyle {
         /**
          * Creates a new builder with the default style.
          */
-        public Builder(@NonNull Context context) {
+        public Builder(@NonNull Context context)
+        {
             checkNotNull(context);
             clusterBackgroundColor = ContextCompat.getColor(
                     context, R.color.cluster_background);

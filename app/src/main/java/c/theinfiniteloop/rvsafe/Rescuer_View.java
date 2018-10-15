@@ -1,5 +1,6 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -68,15 +70,18 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback()
+        {
             @Override
-            public void onMapLoaded() {
+            public void onMapLoaded()
+            {
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(NETHERLANDS, 0));
             }
         });
 
         ClusterManager<ClusterItemsTrial> clusterManager = new ClusterManager<>(this, googleMap);
-        clusterManager.setCallbacks(new ClusterManager.Callbacks<ClusterItemsTrial>() {
+        clusterManager.setCallbacks(new ClusterManager.Callbacks<ClusterItemsTrial>()
+        {
             @Override
             public boolean onClusterClick(@NonNull Cluster<ClusterItemsTrial> cluster) {
                 Log.d(TAG, "onClusterClick");
@@ -89,6 +94,17 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
                 return false;
             }
         });
+
+
+
+
+
+
+
+
+
+
+
         googleMap.setOnCameraIdleListener(clusterManager);
 
 
@@ -97,17 +113,69 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
+
+
+
+
+
+
         List<ClusterItemsTrial> clusterItems = new ArrayList<>();
-        for (int i = 0; i < 2000; i++) {
-            clusterItems.add(new ClusterItemsTrial(
+        for (int i = 0; i < 2000; i++)
+        {
+            clusterItems.add(new ClusterItemsTrial
+                    (
                     RandomLocationGenerator.generate(NETHERLANDS)));
+
+
         }
-
-
-
-
-
         clusterManager.setItems(clusterItems);
+
+
+
+
+  /*      IconStyle.Builder custombuilder=new IconStyle.Builder(this);
+        custombuilder.setClusterBackgroundColor(Color.GREEN);
+        custombuilder.setClusterIconResId(R.drawable.ic_location_on_black_24dp);
+        IconStyle customiconstyle=new IconStyle(custombuilder);
+        DefaultIconGenerator customicongenerator=new DefaultIconGenerator(this);
+        customicongenerator.setIconStyle(customiconstyle);
+
+        ClusterManager<ClusterItemsTrial> clusterManager2 = new ClusterManager<>(this, googleMap);
+        googleMap.setOnCameraIdleListener(clusterManager2);
+
+        clusterManager2.setCallbacks(new ClusterManager.Callbacks<ClusterItemsTrial>()
+        {
+            @Override
+            public boolean onClusterClick(@NonNull Cluster<ClusterItemsTrial> cluster) {
+                Log.d(TAG, "onClusterClick");
+                return false;
+            }
+
+            @Override
+            public boolean onClusterItemClick(@NonNull ClusterItemsTrial clusterItem) {
+                Log.d(TAG, "onClusterItemClick");
+                return false;
+            }
+        });
+
+
+
+
+
+        clusterManager2.setIconGenerator(customicongenerator);
+
+
+        List<ClusterItemsTrial> clusterItems2 = new ArrayList<>();
+        for (int i = 0; i < 2000; i++)
+        {
+            clusterItems2.add(new ClusterItemsTrial(
+                    RandomLocationGenerator.generate(NETHERLANDS)));
+    }
+
+        clusterManager2.setItems(clusterItems2); */
+
+
 
 
 

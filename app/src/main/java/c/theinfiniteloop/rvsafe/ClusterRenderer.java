@@ -38,28 +38,39 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
 
     private ClusterManager.Callbacks<T> mCallbacks;
 
-    ClusterRenderer(@NonNull Context context, @NonNull GoogleMap googleMap) {
+    ClusterRenderer(@NonNull Context context, @NonNull GoogleMap googleMap)
+    {
         mGoogleMap = googleMap;
         mGoogleMap.setOnMarkerClickListener(this);
         mIconGenerator = new DefaultIconGenerator<>(context);
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public boolean onMarkerClick(Marker marker)
+    {
         Object markerTag = marker.getTag();
-        if (markerTag instanceof Cluster) {
+
+
+        if (markerTag instanceof Cluster)
+        {
             //noinspection unchecked
             Cluster<T> cluster = (Cluster<T>) marker.getTag();
             //noinspection ConstantConditions
             List<T> clusterItems = cluster.getItems();
 
             if (mCallbacks != null) {
-                if (clusterItems.size() > 1) {
+                if (clusterItems.size() > 1)
+                {
                     return mCallbacks.onClusterClick(cluster);
-                } else {
-                    return mCallbacks.onClusterItemClick(clusterItems.get(0));
                 }
+                else
+                    {
+                    return mCallbacks.onClusterItemClick(clusterItems.get(0));
+                   }
             }
+
+
+
         }
 
         return false;
@@ -73,12 +84,14 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
         mIconGenerator = iconGenerator;
     }
 
-    void render(@NonNull List<Cluster<T>> clusters) {
+    void render(@NonNull List<Cluster<T>> clusters)
+    {
         List<Cluster<T>> clustersToAdd = new ArrayList<>();
         List<Cluster<T>> clustersToRemove = new ArrayList<>();
 
         for (Cluster<T> cluster : clusters) {
-            if (!mMarkers.containsKey(cluster)) {
+            if (!mMarkers.containsKey(cluster))
+            {
                 clustersToAdd.add(cluster);
             }
         }
@@ -110,7 +123,8 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
         }
 
         // Add the new clusters.
-        for (Cluster<T> clusterToAdd : clustersToAdd) {
+        for (Cluster<T> clusterToAdd : clustersToAdd)
+        {
             Marker markerToAdd;
 
             BitmapDescriptor markerIcon = getMarkerIcon(clusterToAdd);
@@ -145,7 +159,8 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
     }
 
     @NonNull
-    private BitmapDescriptor getMarkerIcon(@NonNull Cluster<T> cluster) {
+    private BitmapDescriptor getMarkerIcon(@NonNull Cluster<T> cluster)
+    {
         BitmapDescriptor clusterIcon;
 
         List<T> clusterItems = cluster.getItems();
@@ -159,7 +174,8 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
     }
 
     @Nullable
-    private String getMarkerTitle(@NonNull Cluster<T> cluster) {
+    private String getMarkerTitle(@NonNull Cluster<T> cluster)
+    {
         List<T> clusterItems = cluster.getItems();
         if (clusterItems.size() > 1) {
             return null;
@@ -171,9 +187,12 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
     @Nullable
     private String getMarkerSnippet(@NonNull Cluster<T> cluster) {
         List<T> clusterItems = cluster.getItems();
-        if (clusterItems.size() > 1) {
+        if (clusterItems.size() > 1)
+        {
             return null;
-        } else {
+        }
+        else
+            {
             return clusterItems.get(0).getSnippet();
         }
     }

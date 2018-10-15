@@ -9,7 +9,8 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
  * should cache generated icons for subsequent use. For the example implementation see
  * {@link DefaultIconGenerator}.
  */
-public interface IconGenerator<T extends ClusterItem> {
+public interface IconGenerator<T extends ClusterItem>
+{
     /**
      * Returns an icon for the given cluster.
      *
