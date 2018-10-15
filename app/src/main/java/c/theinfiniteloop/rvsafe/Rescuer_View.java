@@ -14,10 +14,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import net.sharewire.googlemapsclustering.Cluster;
-import net.sharewire.googlemapsclustering.ClusterManager;
-import net.sharewire.googlemapsclustering.DefaultIconGenerator;
-import net.sharewire.googlemapsclustering.IconStyle;
 
 import java.util.ArrayList;
 import java.util.List;

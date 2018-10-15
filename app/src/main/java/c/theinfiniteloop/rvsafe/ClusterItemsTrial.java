@@ -4,8 +4,6 @@ import android.support.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import net.sharewire.googlemapsclustering.ClusterItem;
-
 public class ClusterItemsTrial implements ClusterItem
 {
     private final LatLng location;
