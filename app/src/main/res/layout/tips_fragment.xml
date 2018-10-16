@@ -49,7 +49,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Try to be at home if high tide and heavy rains occur simultaneously"/>
 
 
             <TextView
@@ -58,7 +58,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Make sure that each person has lantern, torch, some edibles, drinking water,dry clothes and necessary documents while evacuating or shifting."/>
 
 
 
@@ -69,7 +69,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Make sure that each family member has identity card."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -77,7 +77,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Be at safe place and they try to collect correct information."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Switch off electrical and gas appliances, and turn off services off at the mains."/>
 
 
             <TextView
@@ -102,7 +102,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don't walk through flowing water - currents can be deceptive, and shallow,fast moving water can knock you off your feet."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -110,7 +110,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don't swim through fast flowing water - you may get swept away or struck by an object in the water."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -118,7 +118,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don't eat any food that has come into contact with flood water."/>
 
 
 
@@ -128,7 +128,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don't drive through a flooded area - You may not be able to see abrupt drop - offs and only half a meter of flood water can carry a car away. Driving through flood water can also cause additional damage to nearby property."/>
 
 
 
@@ -139,7 +139,7 @@
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
                 android:layout_marginBottom="20dp"
-                android:text="TIP 1"/>
+                android:text="Never turn on ceiling fixtures if ceiling is wet. Stay away from ceilings those are sagging."/>
 
 
         </LinearLayout>
@@ -192,7 +192,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="You should find out if your home, school, workplace, or other frequently visited locations are in tsunami hazard areas."/>
 
 
             <TextView
@@ -201,7 +201,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Know the height of your street above sea level and the distance of your street from the coast or other high-risk waters."/>
 
 
 
@@ -212,7 +212,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Plan evacuation routes from your home, school, workplace, or any other place you could be where tsunamis present a risk. If possible, pick areas (30 meters) above sea level or go as far as 3 kilometres inland, away from the coastline."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -220,15 +220,8 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Use a Weather Radio or stay tuned to a local radio or television station to keep informed of local watches and warnings."/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp"
-                android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
 
 
             <TextView
@@ -245,7 +238,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Start to put together an emergency survival kit. (You should already have one prepared.)"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -253,7 +246,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Stop to pack your most cherished possessions to take with you. (You may not have time.)"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -261,28 +254,11 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Wait for an official warning if you feel an earthquake that lasts a minute or more, are on the beach and the tide suddenly goes out, or you see a wall of water rushing toward you. "/>
 
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp"
-                android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
 
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp"
-                android:drawableStart="@drawable/bullet"
-                android:layout_marginBottom="20dp"
-                android:text="TIP 1"/>
 
 
         </LinearLayout>
@@ -334,7 +310,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Take cover under a strong table or any other piece of furniture and stay put until the shaking stops. Search for a corner in your house."/>
 
 
             <TextView
@@ -343,7 +319,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Stay away from glass, window doors, walls and any other weak structure that may fall."/>
 
 
 
@@ -354,7 +330,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Try to keep your cool and don't run around here and there, coming out of your houses. Move away from tall buildings, trees, streetlights and utility wires."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -362,7 +338,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Once out of your houses, stay in open space till the shaking stops. Most casualties result from collapsing walls and falling objects."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -370,7 +346,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="If travelling in a vehicle stop as quickly as possible, but never near a tree, or a building or a structure that might collapse."/>
 
 
             <TextView
@@ -387,7 +363,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don’t panic. Panicking will only ensure that you make mistakes and possibly harm yourself or someone else. Earthquake preparedness can help build the confidence that stems the tide of panic."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -395,7 +371,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don’t go outside during a quake. Roof tiles, signs, and tree branches can all be shaken loose, causing a threat to personal safety."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -403,28 +379,10 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don’t stop suddenly if you are in a car and begin to feel shaking. Simply put on your signal to alert other drivers of your intention and then pull calmly off to the side of the road and wait for the quaking to stop."/>
 
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp"
-                android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp"
-                android:drawableStart="@drawable/bullet"
-                android:layout_marginBottom="20dp"
-                android:text="TIP 1"/>
 
 
         </LinearLayout>
@@ -474,7 +432,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Cover your nose and mouth with damp handkerchiefs or use dust masks."/>
 
 
             <TextView
@@ -483,7 +441,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Stay inside the house or a car as much as possible."/>
 
 
 
@@ -494,7 +452,8 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="If indoors, close all window, doors, and dampers to keep volcanic ash from entering.
+"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -502,15 +461,9 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Keep as much of your skin covered as possible."/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp"
-                android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+
 
 
             <TextView
@@ -527,7 +480,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don't go outside unless you have proper protective gear."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -535,7 +488,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don't watch a volcanic eruption as it can be deadly."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -543,7 +496,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don’t panic."/>
 
 
 
@@ -553,7 +506,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
-                android:text="TIP 1"/>
+                android:text="Don’t ignore your breathing."/>
 
 
 
@@ -564,7 +517,7 @@
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/bullet"
                 android:layout_marginBottom="20dp"
-                android:text="TIP 1"/>
+                android:text="Don’t act alone. Establish contact."/>
 
 
         </LinearLayout>
