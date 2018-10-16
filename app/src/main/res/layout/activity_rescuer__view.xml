@@ -73,6 +73,7 @@
 
 
             <TextView
+                android:id="@+id/number_of_people_trapped"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -82,12 +83,14 @@
 
 
           <TextView
+              android:id="@+id/number_of_elders"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:textStyle="bold"
-              android:text="NUMBER OF ELDERLY"/>
+              android:text="NUMBER OF SENIOR CITIZENS"/>
 
             <TextView
+                android:id="@+id/number_of_children"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -95,6 +98,7 @@
 
 
             <TextView
+                android:id="@+id/number_of_women"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"

@@ -120,7 +120,11 @@ public class IconStyle
                     .getDimensionPixelSize(R.dimen.cluster_stroke_width);
             clusterTextSize = context.getResources()
                     .getDimensionPixelSize(R.dimen.cluster_text_size);
+
+
             clusterIconResId = R.drawable.ic_map_marker;
+
+
         }
 
         /**

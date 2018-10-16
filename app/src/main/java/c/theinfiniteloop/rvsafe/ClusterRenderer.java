@@ -5,12 +5,19 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -22,13 +29,17 @@ import java.util.Map;
 
 import static c.theinfiniteloop.rvsafe.Preconditions.checkNotNull;
 
-class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickListener {
+public  class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickListener {
 
     private static final int BACKGROUND_MARKER_Z_INDEX = 0;
 
     private static final int FOREGROUND_MARKER_Z_INDEX = 1;
 
     private final GoogleMap mGoogleMap;
+
+
+
+    public  static  volatile  String markerid;
 
     private final List<Cluster<T>> mClusters = new ArrayList<>();
 
@@ -38,8 +49,11 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
 
     private ClusterManager.Callbacks<T> mCallbacks;
 
+
+    public Context mContext;
     ClusterRenderer(@NonNull Context context, @NonNull GoogleMap googleMap)
     {
+        mContext=context;
         mGoogleMap = googleMap;
         mGoogleMap.setOnMarkerClickListener(this);
         mIconGenerator = new DefaultIconGenerator<>(context);
@@ -48,6 +62,10 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
     @Override
     public boolean onMarkerClick(Marker marker)
     {
+
+
+
+
         Object markerTag = marker.getTag();
 
 
@@ -65,8 +83,14 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
                 }
                 else
                     {
-                    return mCallbacks.onClusterItemClick(clusterItems.get(0));
-                   }
+                      Log.i("Tag","MARKER CLICK");
+
+
+                     /*suhas write your method here*/
+
+
+                      return mCallbacks.onClusterItemClick(clusterItems.get(0));
+                    }
             }
 
 
@@ -154,6 +178,12 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             }
             markerToAdd.setTag(clusterToAdd);
 
+
+            markerid=markerTitle;
+
+
+
+
             mMarkers.put(clusterToAdd, markerToAdd);
         }
     }
@@ -164,11 +194,29 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
         BitmapDescriptor clusterIcon;
 
         List<T> clusterItems = cluster.getItems();
-        if (clusterItems.size() > 1) {
+        if (clusterItems.size() > 1)
+        {
             clusterIcon = mIconGenerator.getClusterIcon(cluster);
-        } else {
-            clusterIcon = mIconGenerator.getClusterItemIcon(clusterItems.get(0));
-        }
+        } else
+            {
+
+
+
+
+                    if(clusterItems.get(0).getTitle().matches("HIGH PRIORITY"))
+                    {
+                        clusterIcon = mIconGenerator.getClusterItemIcon(clusterItems.get(0));
+                    }
+                    else
+                    {
+
+                      BitmapDescriptor newicon= bitmapDescriptorFromVector(mContext,R.drawable.ic_location_on_black_24dp);
+                      clusterIcon =newicon;
+                    }
+
+
+            }
+
 
         return checkNotNull(clusterIcon);
     }
@@ -238,4 +286,18 @@ class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMarkerClickL
             return new LatLng(latitude, longitude);
         }
     }
+
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId)
+    {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+
+
 }

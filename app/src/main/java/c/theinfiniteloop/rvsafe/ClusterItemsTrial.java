@@ -8,10 +8,29 @@ public class ClusterItemsTrial implements ClusterItem
 {
     private final LatLng location;
 
-    public ClusterItemsTrial(LatLng location) {
+    private  String Title;
+    private  String Snippet;
+
+
+
+
+    public ClusterItemsTrial(LatLng location,String snippet,String title)
+    {
+        Title=title;
+        Snippet=snippet;
         this.location = location;
     }
 
+
+    public void setTitle(String title)
+    {
+        Title = title;
+    }
+
+    public void setSnippet(String snippet)
+    {
+        Snippet=snippet;
+    }
 
     @Override
     public double getLatitude()
@@ -28,14 +47,14 @@ public class ClusterItemsTrial implements ClusterItem
     @Nullable
     @Override
     public String getTitle() {
-        return "user id xx";
+        return Title;
     }
 
     @Nullable
     @Override
     public String getSnippet()
     {
-        return "contact yyy";
+        return Snippet;
     }
 
 

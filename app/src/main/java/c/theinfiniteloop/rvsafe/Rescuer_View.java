@@ -1,11 +1,14 @@
 package c.theinfiniteloop.rvsafe;
 
 import android.graphics.Color;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,12 +18,14 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback {
+public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
+{
 
 
 
@@ -34,6 +39,15 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
 
+    TextView number_of_people;
+    TextView women;
+    TextView children;
+    TextView elders;
+
+
+    ImageView landmark1;
+    ImageView landmark2;
+    ImageView landmark3;
 
 
 
@@ -45,10 +59,24 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rescuer__view);
         TextView rescueText=findViewById(R.id.rescuetext);
+
+
+        number_of_people =findViewById(R.id.number_of_people_trapped);
+        elders=findViewById(R.id.number_of_elders);
+        women=findViewById(R.id.number_of_women);
+        children=findViewById(R.id.number_of_children);
+
+
+        landmark1=findViewById(R.id.landmark1);
+        landmark2=findViewById(R.id.landmarkimage2);
+        landmark3=findViewById(R.id.landmark3);
+
+
         rescueText.bringToFront();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             setupMapFragment();
         }
 
@@ -65,8 +93,45 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)
+    {
         mMap = googleMap;
+
+
+      /*ArrayList<LatLng> points =new ArrayList<>();
+
+        for (int i = 0; i < 20; i++)
+        {
+
+            ClusterItemsTrial a=new ClusterItemsTrial(RandomLocationGenerator.generate(NETHERLANDS));
+
+            points.add(new LatLng(a.getLatitude(),a.getLongitude()));
+
+            }
+
+        PolylineOptions polylineOptions=new PolylineOptions().width(5).color(Color.GREEN).geodesic(true);
+
+
+       for(int i=0;i<points.size();i++)
+       {
+           polylineOptions.add(points.get(i));
+
+       }
+       googleMap.addPolyline(polylineOptions);*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -79,17 +144,33 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+
+
+
+
+
+
         ClusterManager<ClusterItemsTrial> clusterManager = new ClusterManager<>(this, googleMap);
         clusterManager.setCallbacks(new ClusterManager.Callbacks<ClusterItemsTrial>()
         {
             @Override
-            public boolean onClusterClick(@NonNull Cluster<ClusterItemsTrial> cluster) {
+            public boolean onClusterClick(@NonNull Cluster<ClusterItemsTrial> cluster)
+            {
                 Log.d(TAG, "onClusterClick");
                 return false;
             }
 
             @Override
-            public boolean onClusterItemClick(@NonNull ClusterItemsTrial clusterItem) {
+            public boolean onClusterItemClick(@NonNull ClusterItemsTrial clusterItem)
+            {
+
+
+               /*call the id function here*/
+
+
+                update_gui(clusterItem.getSnippet());
+
+
                 Log.d(TAG, "onClusterItemClick");
                 return false;
             }
@@ -121,15 +202,31 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
         List<ClusterItemsTrial> clusterItems = new ArrayList<>();
-        for (int i = 0; i < 2000; i++)
-        {
-            clusterItems.add(new ClusterItemsTrial
-                    (
-                    RandomLocationGenerator.generate(NETHERLANDS)));
+        for (int i = 0; i < 2000; i++) {
+
+            if (i < 1000) {
+                clusterItems.add(new ClusterItemsTrial
+
+                        (RandomLocationGenerator.generate(NETHERLANDS),"user 0","HIGH PRIORITY"));
+            }
+            else
+            {
+
+
+
+                clusterItems.add(new ClusterItemsTrial
+
+                        (RandomLocationGenerator.generate(NETHERLANDS),"user 1","MODERATE PRIORITY"));
+
+
+            }
+
+
+
 
 
         }
-        clusterManager.setItems(clusterItems);
+                 clusterManager.setItems(clusterItems);
 
 
 
@@ -191,4 +288,26 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         mapFragment.setRetainInstance(true);
         mapFragment.getMapAsync(this);
     }
+
+
+
+    public  void update_gui(String markerID)
+    {
+
+        elders.setText("NUMBER OF ELDERS"+" ADD NUMBER");
+        children.setText("NUMBER OF CHILDREN"+ "ADD NUMBER");
+        number_of_people.setText("NUMBER OF PEOPLE "+" ADD NUMBER");
+        women.setText("NUMBER OF WOMEN"+"ADD NUMBER");
+
+
+        /*use picasso to update image urls*/
+
+       // landmark1.setImageResource();
+
+
+
+    }
+
+
+
 }
