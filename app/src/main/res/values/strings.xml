@@ -14,6 +14,13 @@
     <string name="title_activity_donate">Map</string>
     <string name="title_activity_rv_azure__stuck_in_this_disaster">Map</string>
     <string name="title_activity_rescuer__view">Map</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="fcm_message">This is the FCM message</string>
+    <string name="msg_subscribed">Subscribed to news topic</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+
+
+    <string name="msg_subscribe_failed">Failed to subscribe to news topic</string>
 
     <string-array name="loginpage">
     <item>WELCOME TO RVCE CONNECT</item>
