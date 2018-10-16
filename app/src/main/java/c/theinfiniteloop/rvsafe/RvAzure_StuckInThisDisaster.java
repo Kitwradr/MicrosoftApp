@@ -10,7 +10,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -19,13 +21,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +44,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
@@ -144,6 +150,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     double mylatitude;
     double mylongitude;
 
+    int disaster_id;
 
     private String DistressMessageNearestGroupLat;
     private String DistressMessageNearestGroupLon;
@@ -159,6 +166,12 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_azure__stuck_in_this_disaster);
+
+
+
+        disaster_id=getIntent().getIntExtra("disaster_id",-45);
+
+
 
 
         rescugroupname = findViewById(R.id.nearestrescuegroupname);
@@ -181,6 +194,22 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         landmarkimage1=(ImageView)findViewById(R.id.landmarkimage1);
         landmarkimage2=(ImageView)findViewById(R.id.landmarkimage2);
         landmarkimage3=(ImageView)findViewById(R.id.landmarkimage3);
+
+        LinearLayout safeunsafe=findViewById(R.id.safeunsafe);
+        FloatingActionButton instahelp=findViewById(R.id.instahelp);
+
+
+        if(disaster_id==-1)
+        {
+            safeunsafe.setVisibility(View.GONE);
+            instahelp.setVisibility(View.VISIBLE);
+        }
+
+
+
+
+
+
 
 
 
@@ -292,7 +321,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         landmarkimage2.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent landmarkIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);// Start the Intent
                 startActivityForResult(landmarkIntent, 3);
 
@@ -308,6 +338,30 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             {
                 Intent landmarkIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);// Start the Intent
                 startActivityForResult(landmarkIntent, 4);
+
+
+            }
+        });
+
+        instahelp.setImageBitmap(textAsBitmap("FIND NEAREST", 40, Color.BLACK));
+
+
+
+
+        instahelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                String phno = "8830800912";
+
+
+
+                String message="RVSAFE-DISTRESS USID:xxxx LAT:"+mygps.getLatitude()+" LON:"+mygps.getLongitude();
+
+                SmsManager manager = SmsManager.getDefault();
+
+                manager.sendTextMessage(phno, null, message, null, null);
+
 
 
             }
@@ -331,10 +385,17 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             public void onClick(View view) {
                 if (victimrestoredPath != null) {
                     try {
-                        System.out.print("PATH ---------------------------sdfbisdfu---sdbj" + victimrestoredPath);
-                        new Uploadasynch(getApplicationContext()).execute(victimrestoredPath);
-                         Toast.makeText(getApplicationContext(),"IMAGE UPLOADED",Toast.LENGTH_SHORT).show();
 
+                     if(!isInternetConnection())
+                     {
+                         System.out.print("PATH ---------------------------sdfbisdfu---sdbj" + victimrestoredPath);
+                         new Uploadasynch(getApplicationContext()).execute(victimrestoredPath);
+                         Toast.makeText(getApplicationContext(), "IMAGE UPLOADED", Toast.LENGTH_SHORT).show();
+                     }
+                     else
+                     {
+                         Toast.makeText(RvAzure_StuckInThisDisaster.this,"ACTION CANNOT BE PERFORMED",Toast.LENGTH_SHORT).show();
+                     }
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -356,25 +417,28 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
               {
                  boolean upload=false;
 
-                  if(landmarkrestoredPath1!=null)
-                  {
-                      upload=true;
-                      new uploadImage().execute(new File(landmarkrestoredPath1));
-                  }
-                  if(landmarkrestoredPath2!=null)
-                  {
-                      upload=true;
-                      new uploadImage().execute(new File(landmarkrestoredPath2));
-                  }
-                  if(landmarkrestoredPath3!=null)
-                  {
-                      upload=true;
-                      new uploadImage().execute(new File(landmarkrestoredPath3));
-                  }
-                  if(upload)
-                  {
-                      Toast.makeText(getApplicationContext(),"IMAGE UPLAODED",Toast.LENGTH_SHORT).show();
-                  }
+                 if(!isInternetConnection()) {
+                     if (landmarkrestoredPath1 != null) {
+                         upload = true;
+                         new uploadImage().execute(new File(landmarkrestoredPath1));
+                     }
+                     if (landmarkrestoredPath2 != null) {
+                         upload = true;
+                         new uploadImage().execute(new File(landmarkrestoredPath2));
+                     }
+                     if (landmarkrestoredPath3 != null) {
+                         upload = true;
+                         new uploadImage().execute(new File(landmarkrestoredPath3));
+                     }
+                     if (upload) {
+                         Toast.makeText(getApplicationContext(), "IMAGE UPLAODED", Toast.LENGTH_SHORT).show();
+                     }
+
+                 }
+                 else
+                 {
+                     Toast.makeText(RvAzure_StuckInThisDisaster.this,"ACTION CANNOT BE PERFORMED",Toast.LENGTH_SHORT).show();
+                 }
 
 
 
@@ -400,70 +464,80 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             @Override
             public void onClick(View view)
             {
-                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(RvAzure_StuckInThisDisaster.this);
-                alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION SAFE");
-                alertDialogBuilder.setMessage("your contribution can help us save numerous lives")
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        UserData userData=new UserData();
-                        userData.setIssafe("SAFE");
-                        userData.setLat(""+mygps.getLatitude());
-                        userData.setLong(""+mygps.getLongitude());
-                        userData.setUser_id("0");
-                        Toast.makeText(RvAzure_StuckInThisDisaster.this,"YOU MARKED YOUR LOCATION SAFE",Toast.LENGTH_SHORT).show();
-                        new postSafetyAsync().execute(userData);
 
-                    }
-                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i)
-                            {
-                                dialogInterface.cancel();
-                            }
-                        });
+                if(!isInternetConnection())
+                {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RvAzure_StuckInThisDisaster.this);
+                    alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION SAFE");
+                    alertDialogBuilder.setMessage("your contribution can help us save numerous lives")
+                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    UserData userData = new UserData();
+                                    userData.setIssafe("SAFE");
+                                    userData.setLat("" + mygps.getLatitude());
+                                    userData.setLong("" + mygps.getLongitude());
+                                    userData.setUser_id("0");
+                                    Toast.makeText(RvAzure_StuckInThisDisaster.this, "YOU MARKED YOUR LOCATION SAFE", Toast.LENGTH_SHORT).show();
+                                    new postSafetyAsync().execute(userData);
+
+                                }
+                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
 
 
-                AlertDialog dialog=alertDialogBuilder.create();
-                dialog.show();
-
+                    AlertDialog dialog = alertDialogBuilder.create();
+                    dialog.show();
+                }
+                else
+                {
+                    Toast.makeText(RvAzure_StuckInThisDisaster.this,"THIS ACTION CANNOT BE PERFORMED",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         unsafe.setOnClickListener(new View.OnClickListener()
         {
+
+
             @Override
             public void onClick(View view)
             {
+               if(!isInternetConnection()) {
+                   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RvAzure_StuckInThisDisaster.this);
+                   alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION UNSAFE");
+                   alertDialogBuilder.setMessage("your contribution can help us save numerous lives")
+                           .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialogInterface, int i)
+                               {
+                                   UserData userData = new UserData();
+                                   userData.setIssafe("UNSAFE");
+                                   userData.setLat("" + mygps.getLatitude());
+                                   userData.setLong("" + mygps.getLongitude());
+                                   userData.setUser_id("0");
+                                   Toast.makeText(RvAzure_StuckInThisDisaster.this, "YOU MARKED YOUR LOCATION UNSAFE", Toast.LENGTH_SHORT).show();
+                                   new postSafetyAsync().execute(userData);
 
-                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(RvAzure_StuckInThisDisaster.this) ;
-                alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION UNSAFE");
-                alertDialogBuilder.setMessage("your contribution can help us save numerous lives")
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i)
-                            {
-                                UserData userData=new UserData();
-                                userData.setIssafe("UNSAFE");
-                                userData.setLat(""+mygps.getLatitude());
-                                userData.setLong(""+mygps.getLongitude());
-                                userData.setUser_id("0");
-                                Toast.makeText(RvAzure_StuckInThisDisaster.this,"YOU MARKED YOUR LOCATION UNSAFE",Toast.LENGTH_SHORT).show();
-                                new postSafetyAsync().execute(userData);
-
-                            }
-                        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        dialogInterface.cancel();
-                    }
-                });
+                               }
+                           }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialogInterface, int i) {
+                           dialogInterface.cancel();
+                       }
+                   });
 
 
-                AlertDialog dialog=alertDialogBuilder.create();
-                dialog.show();
-
+                   AlertDialog dialog = alertDialogBuilder.create();
+                   dialog.show();
+               }
+               else
+               {
+                   Toast.makeText(RvAzure_StuckInThisDisaster.this,"ACTION CANNOT BE PERFORMED",Toast.LENGTH_SHORT).show();
+               }
             }
         });
 
@@ -474,33 +548,47 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
 
-        new RescueQueryAsync().execute();
+        if(isInternetConnection())
+        {
+            new RescueQueryAsync().execute();
+        }
 
-        SmsReceiver.bindListener(new SmsListener() {
+
+        SmsReceiver.bindListener(new SmsListener()
+
+        {
             @Override
             public void messageReceived(String messageText) {
 
-
-                if (!isInternetConnection() && messageText.startsWith("RVSAFE DISTRESS HELPLINE")) {
-                    Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_SHORT).show();
-
-
-                    String[] format = new String[]{"NGLA", "NGLO", "NGC", "NRGLA", "NRGLO", "NRGC"};
+     try {
+         if (!isInternetConnection() && messageText.startsWith("RVSAFE DISTRESS HELPLINE")) {
+             //             Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_SHORT).show();
 
 
-                    DistressMessageNearestGroupLat = messageText.split(format[0])[1].split(" ")[0];
-                    DistressMessageNearestGroupLon = messageText.split(format[1])[1].split(" ")[0];
-                    DistressMessageNearestGroupContact = messageText.split(format[2])[1].split(" ")[0];
+             String[] format = new String[]{"NGLA", "NGLO", "NGC", "NRGLA", "NRGLO", "NRGC"};
 
 
-                    DistressMessageNearestRescueGroupLat = messageText.split(format[3])[1].split(" ")[0];
-                    DistressMessageNearestRescueGroupLon = messageText.split(format[4])[1].split(" ")[0];
-                    DistressMessageNearestRescueGroupContact = messageText.split(format[5])[1];
+             DistressMessageNearestGroupLat = messageText.split(format[0])[1].split(" ")[0];
+             DistressMessageNearestGroupLon = messageText.split(format[1])[1].split(" ")[0];
+             DistressMessageNearestGroupContact = messageText.split(format[2])[1].split(" ")[0];
 
 
-                    updatelocale();
+             DistressMessageNearestRescueGroupLat = messageText.split(format[3])[1].split(" ")[0];
+             DistressMessageNearestRescueGroupLon = messageText.split(format[4])[1].split(" ")[0];
+             DistressMessageNearestRescueGroupContact = messageText.split(format[5])[1];
 
-                }
+
+             updatelocale();
+
+            }
+           }
+
+           catch(Exception e)
+          {
+
+          }
+
+
 
             }
         });
@@ -532,13 +620,15 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
         //  outState.putParcelable("ImageUri", mUriPhotoTaken);
     }
 
 
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState)
+    {
         super.onRestoreInstanceState(savedInstanceState);
         //    mUriPhotoTaken = savedInstanceState.getParcelable("ImageUri");
 
@@ -681,8 +771,54 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         LatLng affectedlatlon = new LatLng(Float.parseFloat(DistressMessageNearestGroupLat), Float.parseFloat(DistressMessageNearestGroupLon));
         LatLng rescuelatlang = new LatLng(Float.parseFloat(DistressMessageNearestRescueGroupLat), Float.parseFloat(DistressMessageNearestRescueGroupLon));
         Log.i("TRIAL RESCUE", "" + Float.parseFloat(DistressMessageNearestRescueGroupLat) + "" + Float.parseFloat(DistressMessageNearestRescueGroupLon));
-        mMap.addMarker(new MarkerOptions().position(rescuelatlang).title("NEAREST RESCUE GROUP").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-        mMap.addMarker(new MarkerOptions().position(affectedlatlon).title("NEAREST AFFECTED GROUP").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+
+
+        LatLng mypos=new LatLng(mygps.getLatitude(),mygps.getLongitude());
+
+        safezonename.setText("");
+        safezonedistanceinm =distancebetweenpoints(affectedlatlon,mypos);
+        if (safezonedistanceinm < 1000)
+        {
+            safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm * 100.0) / 100.0 + " m");
+        }
+        else
+            {
+            safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm / 10.0) / 100.0 + " km");
+           }
+
+         rescuegroupdistanceinm=distancebetweenpoints(rescuelatlang,mypos);
+
+        rescugroupname.setText("");
+        if (rescuegroupdistanceinm < 1000)
+        {
+            rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm * 100.0) / 100.0 + " m");
+        }
+        else
+            {
+            rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm / 10.0) / 100.0 + " km");
+            }
+
+
+
+
+
+
+
+
+
+        mMap.addMarker(new MarkerOptions().position(rescuelatlang).title("NEAREST RESCUE GROUP").snippet(DistressMessageNearestRescueGroupContact).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+        mMap.addMarker(new MarkerOptions().position(affectedlatlon).title("NEAREST SAFE ZONE").snippet(DistressMessageNearestRescueGroupContact).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(affectedlatlon, 10);
+        mMap.animateCamera(cameraUpdate);
+
+
+
+
+
+
+
 
     }
 
@@ -723,6 +859,29 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
 
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker)
+            {
+
+                Intent phoneIntent=new Intent(Intent.ACTION_DIAL);
+
+
+                if (ActivityCompat.checkSelfPermission(RvAzure_StuckInThisDisaster.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    Toast.makeText(RvAzure_StuckInThisDisaster.this,"GRANT PHONE CALL PERMISSION",Toast.LENGTH_SHORT).show();
+
+
+                    return false;
+                }
+
+                phoneIntent.setData(Uri.parse("tel:"+marker.getSnippet()));
+
+                startActivity(phoneIntent);
+
+                return true;
+            }
+        });
 
 
       /*  Random rand  = new Random();
@@ -790,7 +949,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     }
 
 
-    public boolean isInternetConnection() {
+    public boolean isInternetConnection()
+    {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -940,6 +1100,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
             }
 
+
+
             rescugroupname.setText(rescuegroupnamestring);
             if (rescuegroupdistanceinm < 1000) {
                 rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm * 100.0) / 100.0 + " m");
@@ -1085,6 +1247,131 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
     }
+
+
+
+    private class GetClustersAsync extends AsyncTask<Void, Void, ClusterData> {
+
+        ClusterData clusterData;
+
+        @Override
+        protected ClusterData doInBackground(Void... params) {
+            String url = "https://aztests.azurewebsites.net/victims/diasasters/clusters/1";
+            try {
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                // optional default is GET
+                con.setRequestMethod("GET");
+                //add request header
+                //con.setRequestProperty("User-Agent", "Mozilla/5.0");
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + url);
+                System.out.println("Response Code : " + responseCode);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response);
+                in.close();
+
+                JSONObject jsonObject = new JSONObject(response.toString());
+
+                JSONObject safeClusters = jsonObject.getJSONObject("safe");
+                JSONObject unSafeclusters = jsonObject.getJSONObject("unsafe");
+
+                Gson gson = new Gson();
+
+
+                //JSONObject myResponse = new JSONObject(response.toString());
+                clusterData = gson.fromJson(response.toString(), ClusterData.class);
+
+                HashMap<String,String> safe_clusterData = new HashMap<String,String>();
+                HashMap<String,String> unsafe_clusterData = new HashMap<String,String>();
+
+                Iterator iter1 = safeClusters.keys();
+                Iterator iter2 = unSafeclusters.keys();
+
+                while(iter1.hasNext())
+                {
+                    String key = (String) iter1.next();
+                    String value = safeClusters.getString(key);
+                    safe_clusterData.put(key,value);
+                }
+                while(iter2.hasNext())
+                {
+                    String key = (String) iter2.next();
+                    String value = unSafeclusters.getString(key);
+                    unsafe_clusterData.put(key,value);
+                }
+
+                System.out.println("manual output "+safe_clusterData);
+                System.out.println("manual output "+unsafe_clusterData);
+
+                clusterData.setSafe(new SingleCusterData(safe_clusterData));
+                clusterData.setUnsafe(new SingleCusterData(unsafe_clusterData));
+
+                //System.out.println(list.toString());
+
+
+
+                return clusterData;
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return clusterData;
+
+        }
+        @Override
+        protected void onPostExecute(ClusterData data)
+        {
+
+            System.out.println(data);
+
+            int numsafe = data.getNumsafe();
+            int numunsafe = data.getNumunsafe();
+
+            SingleCusterData safe = data.getSafe();
+
+
+
+
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTextSize(textSize);
+        paint.setColor(textColor);
+        paint.setTextAlign(Paint.Align.LEFT);
+        float baseline = -paint.ascent(); // ascent() is negative
+        int width = (int) (paint.measureText(text) + 0.0f); // round
+        int height = (int) (baseline + paint.descent() + 0.0f);
+        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(image);
+        canvas.drawText(text, 0, baseline, paint);
+        return image;
+    }
+
+
+
+
 
 
 }

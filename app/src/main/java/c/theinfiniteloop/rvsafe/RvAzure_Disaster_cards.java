@@ -4,6 +4,7 @@ import android.Manifest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +34,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -44,6 +47,12 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
     static View.OnClickListener myOnClickListener;
     RvAzure_GPStracker locationListener;
 
+
+    private String usercodepathtag = "USER DETAILS";
+    String USER_PREF = "USER-URL";
+    String usernamepathtag="USERNAME";
+
+    SharedPreferences sharedPreferences;
 
     public String LOG_TAG = "AUDIO-LOG";
 
@@ -67,6 +76,9 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         /*code snippet to request permission for audio */
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
+
         switch (requestCode)
         {
             /*check whether permission to record audio is given*/
@@ -91,13 +103,24 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_azure__disaster_cards);
 
+        sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
+
+        String username=sharedPreferences.getString(usernamepathtag,null);
+
+
+
+
+
+
         ActivityCompat.requestPermissions(this, permissions, REQUEST_GPS_PERMISSION);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -105,6 +128,14 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+     View hview =navigationView.getHeaderView(0);
+
+        TextView txt=(TextView) hview.findViewById(R.id.header);
+        txt.setText(username);
+
+
+
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -235,7 +266,19 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
+
+
+            SharedPreferences.Editor editor =sharedPreferences.edit();
+            editor.putString(usercodepathtag,null);
+            editor.putString(usernamepathtag,null);
+            editor.commit();
+
+
+            Intent i=new Intent(RvAzure_Disaster_cards.this,RvAzure_login.class);
+            startActivity(i);
+
             return true;
         }
 
@@ -252,18 +295,16 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send)
+        if (id == R.id.nav_share)
         {
+
+            /*code to share after app is published */
+
+        }
+        else if (id == R.id.nav_send)
+        {
+
+         /*code to share after app is published */
             String phno = "8830800912";
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phno));
             sendIntent.putExtra("sms_body", "RVSAFE-DISTRESS USID:xxxx LAT:"+locationListener.getLatitude()+" LON:"+locationListener.getLongitude());

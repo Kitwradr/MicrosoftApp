@@ -28,14 +28,9 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 {
 
 
-
-
-
-
     private static final String TAG = Rescuer_View.class.getSimpleName();
 
-    private static final LatLngBounds NETHERLANDS = new LatLngBounds(
-            new LatLng(7.798000, 68.14712), new LatLng(37.090000, 97.34466));
+    private static final LatLngBounds NETHERLANDS = new LatLngBounds(new LatLng(7.798000, 68.14712), new LatLng(37.090000, 97.34466));
 
 
 
@@ -204,10 +199,9 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         List<ClusterItemsTrial> clusterItems = new ArrayList<>();
         for (int i = 0; i < 2000; i++) {
 
-            if (i < 1000) {
-                clusterItems.add(new ClusterItemsTrial
-
-                        (RandomLocationGenerator.generate(NETHERLANDS),"user 0","HIGH PRIORITY"));
+            if (i < 1000)
+            {
+                clusterItems.add(new ClusterItemsTrial(RandomLocationGenerator.generate(NETHERLANDS),"MODERATE PRIORITY","user x","1"));
             }
             else
             {
@@ -216,7 +210,7 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
                 clusterItems.add(new ClusterItemsTrial
 
-                        (RandomLocationGenerator.generate(NETHERLANDS),"user 1","MODERATE PRIORITY"));
+                        (RandomLocationGenerator.generate(NETHERLANDS),"user 1","LOW PRIORITY","0"));
 
 
             }
@@ -303,8 +297,6 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         /*use picasso to update image urls*/
 
        // landmark1.setImageResource();
-
-
 
     }
 

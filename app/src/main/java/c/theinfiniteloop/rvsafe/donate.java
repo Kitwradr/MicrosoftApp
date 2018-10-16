@@ -171,7 +171,8 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
                 TelephonyManager tmgr = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
 
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+                {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
@@ -215,8 +216,10 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
                 donateDetails.setItems(items);
 
-                new postDonateAsync().execute(donateDetails);
-                Toast.makeText(getContext(),"THANK YOU",Toast.LENGTH_SHORT).show();
+             //   new postDonateAsync().execute(donateDetails);
+
+
+             //   Toast.makeText(getContext(),"THANK YOU",Toast.LENGTH_SHORT).show();
 
             }
         });

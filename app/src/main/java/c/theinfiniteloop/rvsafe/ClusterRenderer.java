@@ -203,16 +203,26 @@ public  class ClusterRenderer<T extends ClusterItem> implements GoogleMap.OnMark
 
 
 
-                    if(clusterItems.get(0).getTitle().matches("HIGH PRIORITY"))
+                    if(clusterItems.get(0).getpriority().matches("2"))
                     {
                         clusterIcon = mIconGenerator.getClusterItemIcon(clusterItems.get(0));
+
+
+                    }
+                    else if (clusterItems.get(0).getpriority().matches("1"))
+                    {
+
+                  //    BitmapDescriptor newicon1=BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+                      BitmapDescriptor newicon= bitmapDescriptorFromVector(mContext,R.drawable.ic_location_on_orange_24dp);
+                      clusterIcon =newicon;
                     }
                     else
                     {
+                        BitmapDescriptor newicon= bitmapDescriptorFromVector(mContext,R.drawable.ic_location_on_yellow_24dp);
+                        clusterIcon =newicon;
 
-                      BitmapDescriptor newicon= bitmapDescriptorFromVector(mContext,R.drawable.ic_location_on_black_24dp);
-                      clusterIcon =newicon;
                     }
+
 
 
             }

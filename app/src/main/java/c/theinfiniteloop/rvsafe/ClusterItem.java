@@ -37,4 +37,9 @@ public interface ClusterItem extends QuadTreePoint {
      */
     @Nullable
     String getSnippet();
+
+    @Nullable
+    String getpriority();
+
+
 }

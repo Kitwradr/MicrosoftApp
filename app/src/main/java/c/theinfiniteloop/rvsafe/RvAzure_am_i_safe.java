@@ -190,7 +190,7 @@ public class RvAzure_am_i_safe extends Fragment
         });
 
 
-        new getWeatherDetails().execute();
+     //   new getWeatherDetails().execute();
 
 
 

@@ -71,6 +71,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:9.2.1'
 
 
+   // implementation 'com.google.firebase:firebase-messaging:17.0.0:15.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -10,14 +10,16 @@ public class ClusterItemsTrial implements ClusterItem
 
     private  String Title;
     private  String Snippet;
+    private String priority;
 
 
 
 
-    public ClusterItemsTrial(LatLng location,String snippet,String title)
+    public ClusterItemsTrial(LatLng location,String snippet,String title,String priority)
     {
         Title=title;
         Snippet=snippet;
+        this.priority=priority;
         this.location = location;
     }
 
@@ -58,6 +60,9 @@ public class ClusterItemsTrial implements ClusterItem
     }
 
 
-
-
+    @Nullable
+    @Override
+    public String getpriority() {
+        return priority;
+    }
 }

@@ -1,4 +1,7 @@
 package c.theinfiniteloop.rvsafe;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -68,15 +71,25 @@ public class RvAzure_DisasterCardHome extends Fragment
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-        new QueryAsync().execute();
-
-        new GetClustersAsync().execute();
 
 
+//        new QueryAsync().execute();
 
-
+     //   new GetClustersAsync().execute();
 
         recyclerView.setAdapter(adapter);
+
+
+
+        if(!isInternetConnection())
+        {
+
+            data.add(new RvAzure_DataModelForCards("UNKNOWN","UNKNOWN",-1,"DEFAULT"));
+
+            adapter.notifyDataSetChanged();
+        }
+
+
 
 
         return view;
@@ -130,7 +143,8 @@ public class RvAzure_DisasterCardHome extends Fragment
 
         }
 
-        protected void onPostExecute(DisasterList list) {
+        protected void onPostExecute(DisasterList list)
+        {
             //You can access the list here
             ArrayList<DisasterData> recylerviewdata = list.getData();
 
@@ -151,97 +165,16 @@ public class RvAzure_DisasterCardHome extends Fragment
         }
     }
 
-    private class GetClustersAsync extends AsyncTask<Void, Void, ClusterData> {
+    public boolean isInternetConnection()
+    {
 
-        ClusterData clusterData;
-
-        @Override
-        protected ClusterData doInBackground(Void... params) {
-            String url = "https://aztests.azurewebsites.net/victims/diasasters/clusters/1";
-            try {
-                URL obj = new URL(url);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-                // optional default is GET
-                con.setRequestMethod("GET");
-                //add request header
-                //con.setRequestProperty("User-Agent", "Mozilla/5.0");
-                int responseCode = con.getResponseCode();
-                System.out.println("\nSending 'GET' request to URL : " + url);
-                System.out.println("Response Code : " + responseCode);
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                System.out.println(response);
-                in.close();
-
-                JSONObject jsonObject = new JSONObject(response.toString());
-
-                JSONObject safeClusters = jsonObject.getJSONObject("safe");
-                JSONObject unSafeclusters = jsonObject.getJSONObject("unsafe");
-
-                Gson gson = new Gson();
-
-
-                //JSONObject myResponse = new JSONObject(response.toString());
-                clusterData = gson.fromJson(response.toString(), ClusterData.class);
-
-                HashMap<String,String> safe_clusterData = new HashMap<String,String>();
-                HashMap<String,String> unsafe_clusterData = new HashMap<String,String>();
-
-                Iterator iter1 = safeClusters.keys();
-                Iterator iter2 = unSafeclusters.keys();
-
-                while(iter1.hasNext())
-                {
-                    String key = (String) iter1.next();
-                    String value = safeClusters.getString(key);
-                    safe_clusterData.put(key,value);
-                }
-                while(iter2.hasNext())
-                {
-                    String key = (String) iter2.next();
-                    String value = unSafeclusters.getString(key);
-                    unsafe_clusterData.put(key,value);
-                }
-
-                System.out.println("manual output "+safe_clusterData);
-                System.out.println("manual output "+unsafe_clusterData);
-
-                clusterData.setSafe(new SingleCusterData(safe_clusterData));
-                clusterData.setUnsafe(new SingleCusterData(unsafe_clusterData));
-
-                //System.out.println(list.toString());
-
-
-
-                return clusterData;
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            return clusterData;
-
-        }
-        @Override
-        protected void onPostExecute(ClusterData data){
-
-            System.out.println(data);
-
-            int numsafe = data.getNumsafe();
-            int numunsafe = data.getNumunsafe();
-
-            SingleCusterData safe = data.getSafe();
-            
-
-
-
-
-        }
-
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+
+
 
 
 

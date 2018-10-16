@@ -2,6 +2,7 @@ package c.theinfiniteloop.rvsafe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,22 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
 
 
 
+        if(disaster_id==-1)
+        {
+            stuck_in_this_disaster.setText("INSTA HELP");
+
+            stuck_in_this_disaster.setBackgroundResource(R.drawable.oval_button_light_red);
+
+
+
+            want_to_help_out.setVisibility(View.GONE);
+        }
+
+
+
+
+
+
 
         stuck_in_this_disaster.setOnClickListener(new View.OnClickListener()
         {
@@ -94,6 +111,9 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
 
 
                 Intent i=new Intent(context,RvAzure_StuckInThisDisaster.class);
+
+
+                i.putExtra("disaster_id",disaster_id);
 
                 context.startActivity(i);
 

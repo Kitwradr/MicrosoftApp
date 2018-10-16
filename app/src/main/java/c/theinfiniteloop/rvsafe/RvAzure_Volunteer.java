@@ -74,12 +74,7 @@ public class RvAzure_Volunteer extends Fragment
         Toast.makeText(getContext(),""+disaster_id,Toast.LENGTH_SHORT).show();
 
 
-
-
-
-
         return view;
-
     }
 
     private class QueryAsyncVolunteerData extends AsyncTask<Void, Void,VolunteerDataList>
