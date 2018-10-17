@@ -859,29 +859,43 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker)
-            {
-
-                Intent phoneIntent=new Intent(Intent.ACTION_DIAL);
 
 
-                if (ActivityCompat.checkSelfPermission(RvAzure_StuckInThisDisaster.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(RvAzure_StuckInThisDisaster.this,"GRANT PHONE CALL PERMISSION",Toast.LENGTH_SHORT).show();
+
+   mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+       @Override
+       public void onInfoWindowLongClick(Marker marker) {
 
 
-                    return false;
-                }
 
-                phoneIntent.setData(Uri.parse("tel:"+marker.getSnippet()));
 
-                startActivity(phoneIntent);
 
-                return true;
-            }
-        });
+           Intent phoneIntent=new Intent(Intent.ACTION_DIAL);
+
+
+           if (ActivityCompat.checkSelfPermission(RvAzure_StuckInThisDisaster.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+           {
+               Toast.makeText(RvAzure_StuckInThisDisaster.this,"GRANT PHONE CALL PERMISSION",Toast.LENGTH_SHORT).show();
+
+
+
+           }
+
+           phoneIntent.setData(Uri.parse("tel:"+marker.getSnippet()));
+
+           startActivity(phoneIntent);
+
+
+
+
+       }
+   });
+
+
+
+
+
+
 
 
       /*  Random rand  = new Random();
