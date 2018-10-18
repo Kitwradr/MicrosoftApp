@@ -190,6 +190,9 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
     @Override
     public void onBackPressed()
     {
+
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START))
         {
@@ -198,6 +201,16 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
             {
             super.onBackPressed();
             }
+
+
+     /*   Intent i=new Intent(RvAzure_Disaster_cards.this,RvAzure_Disaster_cards.class);
+        startActivity(i);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.relativelayouthomepage, RvAzure_DisasterCardHome.newInstance());
+        transaction.commit(); */
+
+
     }
 
 

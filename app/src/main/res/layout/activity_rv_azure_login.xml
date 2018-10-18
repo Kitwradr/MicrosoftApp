@@ -3,18 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#FFFFFF"
     android:layout_height="match_parent"
     tools:context=".RvAzure_login">
 
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="140dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="70dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="38dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_person_black_24dp" />
+        android:src="@drawable/loginlogo" />
 
 
 
@@ -28,21 +30,27 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="189dp"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
         android:ems="10"
-        android:hint="Enter user name"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"
+        android:textColorHint="#000000"
+        android:hint="USERNAME"
+        android:backgroundTint="#000000"
         android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="216dp"
-        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
         android:ems="10"
-        android:hint="Enter password"
+        android:textColorHint="#000000"
+        android:backgroundTint="#000000"
+        android:hint="PASSWORD"
         android:inputType="textPassword" />
 
     <Button
@@ -52,22 +60,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="92dp"
-        android:layout_marginBottom="111dp"
+        android:layout_marginStart="94dp"
+        android:layout_marginBottom="106dp"
         android:background="@drawable/oval_button"
-        android:text="SIGN IN"
+        android:text="LOGIN"
         android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/forgot"
-        android:layout_width="239dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="34dp"
-        android:layout_marginEnd="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="36dp"
+        android:text="register as a rescuer"
         android:textAlignment="center"
-        android:text="register as a rescuer" />
+        android:textColor="#000000" />
 
 
 
