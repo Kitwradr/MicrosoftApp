@@ -57,7 +57,7 @@ public  class Uploadasynch extends AsyncTask<String, Void, Void> {
         try {
 
 
-            URL urlObj = new URL("http://mlandai.azurewebsites.net/facial");
+            URL urlObj = new URL("http://mlandai.azurewebsites.net//victims/<userid>/facial");
             //URL urlObj = new URL("http://192.168.43.27:8080/facial");
             HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
             conn.setRequestMethod("POST");

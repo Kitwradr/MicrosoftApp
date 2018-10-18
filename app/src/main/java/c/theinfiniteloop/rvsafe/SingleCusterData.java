@@ -7,7 +7,6 @@ public class SingleCusterData {
 
     public HashMap<String,String> data;
 
-
     public HashMap<String, String> getData() {
         return data;
     }

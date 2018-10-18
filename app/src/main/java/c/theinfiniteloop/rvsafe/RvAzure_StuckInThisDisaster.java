@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 
 import java.io.BufferedInputStream;
@@ -64,6 +65,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -550,7 +552,10 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         if(isInternetConnection())
         {
-            new RescueQueryAsync().execute();
+
+//            new RescueQueryAsync().execute();
+            new GetClustersAsync().execute();
+             //new RetrieveImagesAsync().execute();
         }
 
 
@@ -1270,7 +1275,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         @Override
         protected ClusterData doInBackground(Void... params) {
-            String url = "https://aztests.azurewebsites.net/victims/diasasters/clusters/1";
+            String url = "https://aztests.azurewebsites.net/victims/disasters/clusters/0";
             try {
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -1342,12 +1347,96 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         protected void onPostExecute(ClusterData data)
         {
 
-            System.out.println(data);
+            Gson gson = new Gson();
+
+            HashMap<String,String> safe_clusterData = new HashMap<String,String>();
+            HashMap<String,String> unsafe_clusterData = new HashMap<String,String>();
+
+
+            SingleCusterData safeclusters = data.getSafe();
+            SingleCusterData unsafeclusters = data.getUnsafe();
 
             int numsafe = data.getNumsafe();
             int numunsafe = data.getNumunsafe();
 
-            SingleCusterData safe = data.getSafe();
+            safe_clusterData = safeclusters.getData();
+
+            unsafe_clusterData = unsafeclusters.getData();
+
+
+            for(String key : safe_clusterData.keySet())
+            {
+                String values = safe_clusterData.get(key);
+
+                System.out.println("Value = "+values);
+
+                ClusterDatamini doubleList = gson.fromJson("{\"doubles\":"+values+"}".toString(),ClusterDatamini.class);
+
+                double[] list = doubleList.getDoubles();
+
+                System.out.println(list[0]);
+                int num_people = (int)list[2];
+
+                double radius = num_people*2000/100;
+
+                LatLng point = new LatLng(list[0],list[1]);
+                CircleOptions circleOptions = new CircleOptions();
+                circleOptions.center(point);
+
+                // Radius of the circle
+                circleOptions.radius(radius);
+
+                // Border color of the circle
+                circleOptions.strokeColor(Color.TRANSPARENT);
+
+                // Fill color of the circle
+                circleOptions.fillColor(Color.GREEN);
+
+                // Border width of the circle
+                circleOptions.strokeWidth(2);
+
+                // Adding the circle to the GoogleMap
+                mMap.addCircle(circleOptions);
+
+
+
+            }
+
+            for(String key : unsafe_clusterData.keySet())
+            {
+                String values = unsafe_clusterData.get(key);
+
+                System.out.println("Value = "+values);
+
+                ClusterDatamini doubleList = gson.fromJson("{\"doubles\":"+values+"}".toString(),ClusterDatamini.class);
+
+                double[] list = doubleList.getDoubles();
+
+                System.out.println(list[0]);
+                int num_people = (int)list[2];
+
+                double radius = num_people*2000/100;
+
+                LatLng point = new LatLng(list[0],list[1]);
+                CircleOptions circleOptions = new CircleOptions();
+                circleOptions.center(point);
+
+                // Radius of the circle
+                circleOptions.radius(radius);
+
+                // Border color of the circle
+                circleOptions.strokeColor(Color.TRANSPARENT);
+
+                // Fill color of the circle
+                circleOptions.fillColor(Color.RED);
+
+                // Border width of the circle
+                circleOptions.strokeWidth(2);
+
+                // Adding the circle to the GoogleMap
+                mMap.addCircle(circleOptions);
+
+            }
 
 
 
@@ -1356,6 +1445,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         }
 
     }
+
+
 
 
 
