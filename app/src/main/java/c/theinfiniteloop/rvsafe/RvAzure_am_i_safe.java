@@ -172,7 +172,7 @@ public class RvAzure_am_i_safe extends Fragment
         webView.getSettings().setBuiltInZoomControls(true);
 
 
-        webView.loadUrl("http://city.imd.gov.in/citywx/city_weather.php?id=42299");
+        webView.loadUrl("http://city.imd.gov.in/citywx/city_weather.php?id=43295");
 
 
         webView.setWebViewClient(new WebViewClient(){
@@ -190,7 +190,7 @@ public class RvAzure_am_i_safe extends Fragment
         });
 
 
-     //   new getWeatherDetails().execute();
+       new getWeatherDetails().execute();
 
 
 
@@ -249,7 +249,8 @@ public class RvAzure_am_i_safe extends Fragment
                 // read in the response from the server
                 String inputLine;
                 StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
+                while ((inputLine = in.readLine()) != null)
+                {
                     response.append(inputLine);
                     System.out.println(inputLine);
                 }

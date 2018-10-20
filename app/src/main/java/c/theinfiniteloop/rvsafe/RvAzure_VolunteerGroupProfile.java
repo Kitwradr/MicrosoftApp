@@ -2,7 +2,10 @@ package c.theinfiniteloop.rvsafe;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class RvAzure_VolunteerGroupProfile extends AppCompatActivity
 {
@@ -24,6 +27,8 @@ public class RvAzure_VolunteerGroupProfile extends AppCompatActivity
         TextView expectedduration=findViewById(R.id.vteam_duration);
         TextView malemembers=findViewById(R.id.vteam_number_of_male_members);
         TextView femalemembers=findViewById(R.id.vteam_number_of_female_members);
+       ImageView teamimage=findViewById(R.id.v_team_image);
+
 
          teamname.setText(volunteergroupinfo.getTeamname());
          groupdescription.setText(volunteergroupinfo.getDescription());
@@ -34,6 +39,8 @@ public class RvAzure_VolunteerGroupProfile extends AppCompatActivity
          expectedduration.setText(volunteergroupinfo.getExpectedduration());
          malemembers.setText(volunteergroupinfo.getMalemembers());
          femalemembers.setText(volunteergroupinfo.getFemalemembers());
+
+        Picasso.get().load(volunteergroupinfo.getTeamimage()).placeholder(R.drawable.volunteergroup1).error(R.drawable.volunteergroup2).into(teamimage);
 
 
 

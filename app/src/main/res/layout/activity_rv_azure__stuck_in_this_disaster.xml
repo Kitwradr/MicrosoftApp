@@ -45,7 +45,7 @@
     <android.support.v7.widget.CardView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="0.7dp"
         app:cardMaxElevation="1dp"
@@ -54,12 +54,11 @@
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:contentPadding="10dp">
+
+
 <RelativeLayout
      android:layout_width="match_parent"
-     android:layout_height="match_parent">
-
-
-
+     android:layout_height="150dp">
 
      <android.support.design.widget.FloatingActionButton
          android:id="@+id/instahelp"
@@ -111,9 +110,6 @@
 
         </LinearLayout>
 </RelativeLayout>
-
-
-
 
 
 

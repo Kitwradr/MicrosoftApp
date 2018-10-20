@@ -52,6 +52,7 @@ import com.google.gson.JsonObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -60,6 +61,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -388,7 +390,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 if (victimrestoredPath != null) {
                     try {
 
-                     if(!isInternetConnection())
+                     if(isInternetConnection())
                      {
                          System.out.print("PATH ---------------------------sdfbisdfu---sdbj" + victimrestoredPath);
                          new Uploadasynch(getApplicationContext()).execute(victimrestoredPath);
@@ -419,8 +421,9 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
               {
                  boolean upload=false;
 
-                 if(!isInternetConnection()) {
-                     if (landmarkrestoredPath1 != null) {
+                 if(isInternetConnection()) {
+                     if (landmarkrestoredPath1 != null)
+                     {
                          upload = true;
                          new uploadImage().execute(new File(landmarkrestoredPath1));
                      }
@@ -467,7 +470,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             public void onClick(View view)
             {
 
-                if(!isInternetConnection())
+                if(isInternetConnection())
                 {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RvAzure_StuckInThisDisaster.this);
                     alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION SAFE");
@@ -476,7 +479,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     UserData userData = new UserData();
-                                    userData.setIssafe("SAFE");
+                                    userData.setIssafe("true");
                                     userData.setLat("" + mygps.getLatitude());
                                     userData.setLong("" + mygps.getLongitude());
                                     userData.setUser_id("0");
@@ -508,7 +511,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             @Override
             public void onClick(View view)
             {
-               if(!isInternetConnection()) {
+               if(isInternetConnection()) {
                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RvAzure_StuckInThisDisaster.this);
                    alertDialogBuilder.setTitle("DO YOU WANT MARK YOUR CURRENT LOCATION UNSAFE");
                    alertDialogBuilder.setMessage("your contribution can help us save numerous lives")
@@ -517,7 +520,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                                public void onClick(DialogInterface dialogInterface, int i)
                                {
                                    UserData userData = new UserData();
-                                   userData.setIssafe("UNSAFE");
+                                   userData.setIssafe("false");
                                    userData.setLat("" + mygps.getLatitude());
                                    userData.setLong("" + mygps.getLongitude());
                                    userData.setUser_id("0");
@@ -553,7 +556,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         if(isInternetConnection())
         {
 
-//            new RescueQueryAsync().execute();
+            new RescueQueryAsync().execute();
             new GetClustersAsync().execute();
              //new RetrieveImagesAsync().execute();
         }
@@ -1023,7 +1026,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
         }
 
-        public BitmapDescriptor getVictimMarkerIcon(String color) {
+        public BitmapDescriptor getVictimMarkerIcon(String color)
+        {
             float[] hsv = new float[3];
             Color.colorToHSV(Color.parseColor(color), hsv);
             return BitmapDescriptorFactory.defaultMarker(hsv[0]);
@@ -1111,9 +1115,12 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
             safezonename.setText(safezonenamestring);
 
-            if (safezonedistanceinm < 1000) {
+            if (safezonedistanceinm < 1000)
+            {
                 safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm * 100.0) / 100.0 + " m");
-            } else {
+            }
+            else
+                {
                 safezonedistance.setText("DISTANCE: " + Math.round(safezonedistanceinm / 10.0) / 100.0 + " km");
 
 
@@ -1122,11 +1129,14 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
             rescugroupname.setText(rescuegroupnamestring);
-            if (rescuegroupdistanceinm < 1000) {
+            if (rescuegroupdistanceinm < 1000)
+            {
                 rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm * 100.0) / 100.0 + " m");
-            } else {
-                rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm / 10.0) / 100.0 + " km");
             }
+            else
+                {
+                rescuegroupdistance.setText("DISTANCE: " + Math.round(rescuegroupdistanceinm / 10.0) / 100.0 + " km");
+               }
 
 
         }
@@ -1153,24 +1163,54 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             try {
                 String postUrl = "https://aztests.azurewebsites.net/victims/update";
                 Gson gson = new Gson();
-                HttpClient httpClient = HttpClientBuilder.create().build();
-                HttpPost post = new HttpPost(postUrl);
-                StringEntity postingString = new StringEntity(gson.toJson(data));
+                System.out.println(data[0]);
 
-                post.setEntity(postingString);
-                post.setHeader("Content-type", "application/json");
+                //StringEntity postingString = new StringEntity(gson.toJson(data[0]));
 
-                HttpResponse response = httpClient.execute(post);
+                String postingString = gson.toJson(data[0]);
+
+                System.out.println("Posting data ============== " + postingString);
+
+                HttpURLConnection urlConnection;
 
 
-                System.out.println("\nSending 'POST' request to URL : " + postUrl);
-                int code = response.getStatusLine().getStatusCode();
-                System.out.println("Exited with status code of " + code);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            return null;
+                urlConnection = (HttpURLConnection) ((new URL(postUrl).openConnection()));
+                //System.out.println("Response code: "+urlConnection.getResponseCode());
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
 
+
+                //Write
+                OutputStream outputStream = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                writer.write(postingString.toString());
+                writer.close();
+                outputStream.close();
+                //System.out.println("Response code: "+urlConnection.getResponseCode());
+
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+
+                String line = null;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                String result = sb.toString();
+
+                System.out.println("Result == " + result);
+                }
+                catch(Exception e) {
+                }
+
+
+                return null;
         }
 
         protected void onPostExecute(Void... params) {
@@ -1377,7 +1417,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 System.out.println(list[0]);
                 int num_people = (int)list[2];
 
-                double radius = num_people*2000/100;
+                double radius = num_people*100;
 
                 LatLng point = new LatLng(list[0],list[1]);
                 CircleOptions circleOptions = new CircleOptions();
@@ -1390,9 +1430,9 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 circleOptions.strokeColor(Color.TRANSPARENT);
 
                 // Fill color of the circle
-                circleOptions.fillColor(Color.GREEN);
+                circleOptions.fillColor(Color.parseColor("#5500FF00"));
 
-                // Border width of the circle
+                // Border widtoh of the circle
                 circleOptions.strokeWidth(2);
 
                 // Adding the circle to the GoogleMap
@@ -1415,7 +1455,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 System.out.println(list[0]);
                 int num_people = (int)list[2];
 
-                double radius = num_people*2000/100;
+                double radius = num_people*100;
 
                 LatLng point = new LatLng(list[0],list[1]);
                 CircleOptions circleOptions = new CircleOptions();
@@ -1428,7 +1468,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 circleOptions.strokeColor(Color.TRANSPARENT);
 
                 // Fill color of the circle
-                circleOptions.fillColor(Color.RED);
+                circleOptions.fillColor(Color.parseColor("#55FF0000"));
 
                 // Border width of the circle
                 circleOptions.strokeWidth(2);

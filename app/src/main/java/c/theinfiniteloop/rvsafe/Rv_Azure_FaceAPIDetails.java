@@ -5,6 +5,8 @@ import java.util.Arrays;
 public class Rv_Azure_FaceAPIDetails {
 
 
+    public  String user_id;
+
     public String Lat;
 
     public String Long;
@@ -36,6 +38,15 @@ public class Rv_Azure_FaceAPIDetails {
                 ", elders='" + elders + '\'' +
                 ", blobs=" + Arrays.toString(blobs) +
                 '}';
+    }
+
+
+    public String getUserid() {
+        return user_id;
+    }
+
+    public void setUserid(String userid) {
+        this.user_id = userid;
     }
 
     public String getLat() {

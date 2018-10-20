@@ -110,10 +110,19 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      *
      * @param clusterItems the items to be clustered
      */
-    public void setItems(@NonNull List<T> clusterItems) {
+    public void setItems(@NonNull List<T> clusterItems,boolean clear)
+    {
         checkNotNull(clusterItems);
-        buildQuadTree(clusterItems);
-    }
+        if(clear)
+        {
+            clusterItems.clear();
+        }
+        else {
+
+            buildQuadTree(clusterItems);
+            }
+
+        }
 
     /**
      * Sets the minimum size of a cluster. If the cluster size

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+    </TextView>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/phonenumber"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/address"
+        android:layout_height="wrap_content" />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/city"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

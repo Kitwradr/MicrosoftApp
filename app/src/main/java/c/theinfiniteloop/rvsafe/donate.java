@@ -1,10 +1,15 @@
 package c.theinfiniteloop.rvsafe;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
@@ -16,10 +21,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,6 +36,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,6 +49,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +63,19 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
+    RvAzure_GPStracker mygps;
+    private static final int minimumtimeofrequest = 100;
+
+    private static final int minimumdistanceofrequest = 1;
+
 
     public static boolean button1pressed = false;
     public static boolean button2pressed = false;
     public static boolean button3pressed = false;
     public static boolean button4pressed = false;
+    public ArrayList<LatLng> ngolocations;
+
+
 
 
     public static donate newInstance() {
@@ -68,6 +92,36 @@ public class donate extends Fragment implements OnMapReadyCallback {
 //        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 //                .findFragmentById(R.id.map);
 //        mapFragment.getMapAsync(this);
+
+
+
+        LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        mygps = new RvAzure_GPStracker(getContext(), locationManager);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+
+        boolean gpsenabled = false;
+        boolean networkenabled = false;
+
+        gpsenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        networkenabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (gpsenabled) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
+        } else if (networkenabled) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
+        } else {
+            Toast.makeText(getContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+
+
+
     }
 
 
@@ -88,7 +142,8 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
 
                 if (button1pressed) {
 
@@ -190,9 +245,8 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
                 DonateDetails donateDetails=new DonateDetails();
 
-                donateDetails.setPhone_number("12345");
-                donateDetails.setAddress("useraddress");
-                donateDetails.setCity("usercity");
+                donateDetails.setId("0");
+
                 List<String> items=new ArrayList<String>();
 
                 if(button1pressed)
@@ -214,14 +268,105 @@ public class donate extends Fragment implements OnMapReadyCallback {
                     items.add("ACCESSORIES");
                 }
 
-                donateDetails.setItems(items);
 
-             //   new postDonateAsync().execute(donateDetails);
+               LatLng pos= new LatLng(mygps.getLatitude(),mygps.getLongitude());
+                float mindistance=distancebetweenpoints(pos,ngolocations.get(0));
+
+               int position =0;
 
 
-             //   Toast.makeText(getContext(),"THANK YOU",Toast.LENGTH_SHORT).show();
+               for(int i=0;i<ngolocations.size();i++)
+                {
+                    if(mindistance>distancebetweenpoints(pos,ngolocations.get(i)))
+                    {
+                        position=i;
+                    }
+                }
 
-            }
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.custom_donate_dialog, null);
+                dialogBuilder.setView(dialogView);
+
+
+
+                final  TextView message=(TextView)dialogView.findViewById(R.id.message);
+
+                message.setText("YOUR DETAILS WILL BE SHARED WITH NGO "+position);
+
+
+
+                final EditText phno = (EditText) dialogView.findViewById(R.id.phonenumber);
+
+                phno.setText("PHONE NO: "+phonenumber);
+
+
+                final EditText address=(EditText)dialogView.findViewById(R.id.address);
+
+
+                if(mygps.getThoroughfare()!=null) {
+                    address.setText("ADDRESS: " + mygps.getThoroughfare());
+                }
+                else {
+                    address.setText("ADDRESS: ");
+                }
+
+
+                final EditText city=(EditText)dialogView.findViewById(R.id.city);
+
+              if(mygps.getCityname()!=null)
+              {
+                  city.setText("CITY: " + mygps.getCityname());
+              }
+              else
+              {
+                  city.setText("CITY: ");
+              }
+
+                dialogBuilder.setTitle("WE ARE GLAD YOU WANT TO HELP");
+                dialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+
+
+                        donateDetails.setPhone_number((""+phno.getText()).split("PHONE NO: ")[1]);
+                        donateDetails.setAddress((""+address.getText()).split("ADDRESS: ")[1]);
+                        donateDetails.setCity((""+city.getText()).split("CITY: ")[1]);
+                        
+
+                        donateDetails.setItems(items);
+
+
+                        if(isInternetConnection())
+                        {
+                            new postDonateAsync().execute(donateDetails);
+                        }
+
+                        //do something with edt.getText().toString();
+                    }
+                });
+                dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        //pass
+                    }
+                });
+                AlertDialog b = dialogBuilder.create();
+                b.show();
+
+
+
+
+
+
+
+
+
+
+
+            //
+
+        }
         });
 
 
@@ -237,6 +382,15 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
     }
 
+
+
+    public boolean isInternetConnection()
+    {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 
 
@@ -271,32 +425,105 @@ public class donate extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(NGO1));
 
 
+        ngolocations=new ArrayList<>();
+        ngolocations.add(new LatLng(12.934,77.593));
+        ngolocations.add(new LatLng(13.01,77.64));
+        ngolocations.add(new LatLng(13.05,77.68));
+        ngolocations.add(new LatLng(12.988,77.565));
+        ngolocations.add(new LatLng(13.0677,77.564));
+        ngolocations.add(new LatLng(12.938,77.61));
+
+
+
+
+       for(int i=0;i<ngolocations.size();i++)
+       {
+           mMap.addMarker(new MarkerOptions().position(ngolocations.get(i)).title("NGO "+i).snippet("CONTACT NUMBER  984543482"+i).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
+       }
+
 
 
     }
+
+
+
+    public float distancebetweenpoints(LatLng mypos, LatLng grouppos)
+    {
+        float[] result = new float[1];
+
+        Location.distanceBetween(mypos.latitude, mypos.longitude, grouppos.latitude, grouppos.longitude, result);
+
+        return result[0];
+
+    }
+
+
+
+
+
+
+
+
 
     private class postDonateAsync extends AsyncTask<DonateDetails, Void, Void>
     {
 
         @Override
-        protected Void doInBackground(DonateDetails... data) {
+        protected Void doInBackground(DonateDetails... data)
+        {
+            Log.i("new stuffs",data.toString());
+
 
             try {
                 String postUrl = "https://aztests.azurewebsites.net/ngo/resources/add";
                 Gson gson = new Gson();
-                HttpClient httpClient = HttpClientBuilder.create().build();
-                HttpPost post = new HttpPost(postUrl);
-                StringEntity postingString = new StringEntity(gson.toJson(data));
+                System.out.println(data[0]);
 
-                post.setEntity(postingString);
-                post.setHeader("Content-type", "application/json");
+                //StringEntity postingString = new StringEntity(gson.toJson(data[0]));
 
-                HttpResponse response = httpClient.execute(post);
+                String postingString = gson.toJson(data[0]);
+
+                System.out.println("Posting data = "+ postingString);
+
+                HttpURLConnection urlConnection;
 
 
-                System.out.println("\nSending 'POST' request to URL : " + postUrl);
-                int code = response.getStatusLine().getStatusCode();
-                System.out.println("Exited with status code of " + code);
+
+                urlConnection = (HttpURLConnection) ((new URL(postUrl).openConnection()));
+                //System.out.println("Response code: "+urlConnection.getResponseCode());
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+
+                //Write
+                OutputStream outputStream = urlConnection.getOutputStream();
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
+                    writer.write(postingString.toString());
+                    writer.close();
+                }
+                outputStream.close();
+                //System.out.println("Response code: "+urlConnection.getResponseCode());
+
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+
+                String line = null;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                String result = sb.toString();
+
+                System.out.println("Result == "+result);
+
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

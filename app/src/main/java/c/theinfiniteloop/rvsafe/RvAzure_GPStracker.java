@@ -21,6 +21,8 @@ public class RvAzure_GPStracker implements LocationListener {
 
     private Context context;
     private LocationManager locationManager;
+
+    public  String thoroughfare;
     public String cityname;
     public String statename;
     public double latitude;
@@ -35,6 +37,10 @@ public class RvAzure_GPStracker implements LocationListener {
    // public void setLongitude(String longitude)
     {
         this.longitude = longitude;
+    }
+
+    public String getThoroughfare() {
+        return thoroughfare;
     }
 
     public double getLongitude()
@@ -79,6 +85,7 @@ public class RvAzure_GPStracker implements LocationListener {
             longitude =  loc.getLongitude();
             latitude =   loc.getLatitude();
 
+
             Geocoder gcd = new Geocoder(context, Locale.getDefault());
             List<Address> addresses;
 
@@ -88,6 +95,7 @@ public class RvAzure_GPStracker implements LocationListener {
                 if (addresses.size() > 0)
                 {
 
+                    thoroughfare=addresses.get(0).getThoroughfare();
                     cityname = addresses.get(0).getLocality();
                     statename = addresses.get(0).getAdminArea();
                 }

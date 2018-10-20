@@ -57,8 +57,7 @@ public  class Uploadasynch extends AsyncTask<String, Void, Void> {
         try {
 
 
-            URL urlObj = new URL("http://mlandai.azurewebsites.net//victims/<userid>/facial");
-            //URL urlObj = new URL("http://192.168.43.27:8080/facial");
+            URL urlObj = new URL("http://aztests.azurewebsites.net/victims/0/facial");  //URL urlObj = new URL("http://192.168.43.27:8080/facial");
             HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoInput(true); // Allow Inputs
@@ -119,12 +118,7 @@ return null;
     protected void onPostExecute(Void v) {
         // TODO: check this.exception
         // TODO: do something with the feed
-        if(flag){
-            Toast.makeText(contexts, "upload success ", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(contexts, "HttpHostConnectException Occured ", Toast.LENGTH_SHORT).show();
-        }
+
 
     }
 }

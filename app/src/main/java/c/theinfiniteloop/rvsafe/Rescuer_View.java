@@ -1,9 +1,13 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,14 +44,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
-{
+public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback {
+
+
+    RvAzure_GPStracker mygps;
+
+    private static final int minimumtimeofrequest = 100;
+
+    private static final int minimumdistanceofrequest = 1;
 
 
     private static final String TAG = Rescuer_View.class.getSimpleName();
 
-    private static final LatLngBounds NETHERLANDS = new LatLngBounds(new LatLng(7.798000, 68.14712), new LatLng(37.090000, 97.34466));
-
+    private static final LatLngBounds NETHERLANDS = new LatLngBounds(new LatLng(12.736903,77.380965 ), new LatLng(13.165234, 77.834417));
 
 
     TextView number_of_people;
@@ -61,30 +70,29 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
     ImageView landmark3;
 
 
-
     private GoogleMap mMap;
-
+    List<ClusterItemsTrial> clusterItems;
+    ClusterManager<ClusterItemsTrial> clusterManager;
     public Boolean detailsDownloaded = false;
-    public List<Rv_Azure_FaceAPIDetails> apiList ;
+    public List<Rv_Azure_FaceAPIDetails> apiList;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rescuer__view);
-        TextView rescueText=findViewById(R.id.rescuetext);
+        TextView rescueText = findViewById(R.id.rescuetext);
 
 
-        number_of_people =findViewById(R.id.number_of_people_trapped);
-        elders=findViewById(R.id.number_of_elders);
-        women=findViewById(R.id.number_of_women);
-        children=findViewById(R.id.number_of_children);
+        number_of_people = findViewById(R.id.number_of_people_trapped);
+        elders = findViewById(R.id.number_of_elders);
+        women = findViewById(R.id.number_of_women);
+        children = findViewById(R.id.number_of_children);
 
 
-        landmark1=findViewById(R.id.landmark1);
-        landmark2=findViewById(R.id.landmark2);
-        landmark3=findViewById(R.id.landmark3);
+        landmark1 = findViewById(R.id.landmark1);
+        landmark2 = findViewById(R.id.landmark2);
+        landmark3 = findViewById(R.id.landmark3);
 
 
         rescueText.bringToFront();
@@ -96,6 +104,28 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         }
 
         new RetrieveImagesAsync().execute();
+
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mygps = new RvAzure_GPStracker(getApplicationContext(), locationManager);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+
+        boolean gpsenabled = false;
+        boolean networkenabled = false;
+
+        gpsenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        networkenabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (gpsenabled) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
+        } else if (networkenabled) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
+        } else {
+            Toast.makeText(getApplicationContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -111,9 +141,20 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
+    public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+
 
 
       /*ArrayList<LatLng> points =new ArrayList<>();
@@ -168,7 +209,7 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        ClusterManager<ClusterItemsTrial> clusterManager = new ClusterManager<>(this, googleMap);
+        clusterManager = new ClusterManager<>(this, googleMap);
         clusterManager.setCallbacks(new ClusterManager.Callbacks<ClusterItemsTrial>()
         {
             @Override
@@ -185,9 +226,10 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
                /*call the id function here*/
 
-                while(!detailsDownloaded);
-                update_gui(clusterItem.getSnippet());
-
+                if(detailsDownloaded);
+                {
+                    update_gui(clusterItem.getTitle());
+                }
 
                 Log.d(TAG, "onClusterItemClick");
                 return false;
@@ -209,31 +251,46 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        List<ClusterItemsTrial> clusterItems = new ArrayList<>();
-        for (int i = 0; i < 2000; i++) {
+        clusterItems = new ArrayList<>();
+        for (int i = 0; i < 400; i++)
+        {
 
-            if (i < 1000)
+            if (i<100)
             {
-                clusterItems.add(new ClusterItemsTrial(RandomLocationGenerator.generate(NETHERLANDS),"MODERATE PRIORITY","user x","1"));
+                clusterItems.add(new ClusterItemsTrial(RandomLocationGenerator.generate(NETHERLANDS),"","user 1","2"));
+
+
+            }
+            else if(i<200)
+            {
+
+                clusterItems.add(new ClusterItemsTrial(RandomLocationGenerator.generate(NETHERLANDS),"","user 2","1"));
+
+
             }
             else
             {
-
-
-
                 clusterItems.add(new ClusterItemsTrial
 
-                        (RandomLocationGenerator.generate(NETHERLANDS),"user 1","LOW PRIORITY","0"));
-
+                        (RandomLocationGenerator.generate(NETHERLANDS),"","user 3","0"));
 
             }
-
 
 
 
 
         }
-                 clusterManager.setItems(clusterItems);
+
+
+        clusterItems.add(new ClusterItemsTrial(new LatLng(mygps.getLatitude(),mygps.getLongitude()),"","user 0","2"));
+
+
+
+
+        // clusterManager
+
+        clusterManager.setItems(clusterItems,false);
+
 
 
 
@@ -279,6 +336,11 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
         clusterManager2.setItems(clusterItems2); */
 
+//        clusterItems.add(new ClusterItemsTrial((new LatLng(Double.parseDouble(obj.getLat()),Double.parseDouble(obj.getLong()))),"user 0","HIGH PRIORITY",""+obj.getPriority()));
+//        clusterManager.setItems(clusterItems,true);
+//        clusterManager.setItems(clusterItems,false);
+//
+
 
 
 
@@ -300,26 +362,54 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
     public  void update_gui(String markerID)
     {
-        Rv_Azure_FaceAPIDetails obj = apiList.get(0);
-
-        System.out.println("marker ID = "+markerID);
-
-        elders.setText("NUMBER OF ELDERS : "+obj.getElders());
-        children.setText("NUMBER OF CHILDREN : "+obj.getChildren());
-        number_of_people.setText("NUMBER OF PEOPLE : "+obj.getNumstuck());
-        women.setText("NUMBER OF WOMEN : "+obj.getFemale());
 
 
-        /*use picasso to update image urls*/
-
-        System.out.println(obj.getBlobs()[0]+obj.getBlobs()[1]+obj.getBlobs()[2]);
-
-        Picasso.get().load(obj.getBlobs()[0]).placeholder(R.drawable.keralafloodsimage1).error(R.drawable.tamilnadutsunami).into(landmark1);
-        Picasso.get().load(obj.getBlobs()[1]).placeholder(R.drawable.keralafloodsimage1).error(R.drawable.tamilnadutsunami).into(landmark2);
-        Picasso.get().load(obj.getBlobs()[2]).placeholder(R.drawable.keralafloodsimage1).error(R.drawable.tamilnadutsunami).into(landmark3);
 
 
-        // landmark1.setImageResource();
+
+   for(int i=0;i<apiList.size();i++)
+   {
+
+
+       System.out.println("RESCUER VIEW "+apiList.get(i));
+
+
+
+       try {
+           if (("user "+apiList.get(i).getUserid()).matches(markerID))
+           {
+               Rv_Azure_FaceAPIDetails obj = apiList.get(i);
+               System.out.println("marker ID = " + markerID);
+
+               elders.setText("NUMBER OF ELDERS : " + obj.getElders());
+               children.setText("NUMBER OF CHILDREN : " + obj.getChildren());
+               number_of_people.setText("NUMBER OF PEOPLE : " + obj.getNumstuck());
+               women.setText("NUMBER OF WOMEN : " + obj.getFemale());
+
+
+
+
+
+               /*use picasso to update image urls*/
+
+               System.out.println(obj.getBlobs()[0] + obj.getBlobs()[1] + obj.getBlobs()[2]);
+
+               Picasso.get().load(obj.getBlobs()[0]).placeholder(R.drawable.ic_photo_black_24dp).error(R.drawable.ic_photo_black_24dp).into(landmark1);
+               Picasso.get().load(obj.getBlobs()[1]).placeholder(R.drawable.ic_photo_black_24dp).error(R.drawable.ic_photo_black_24dp).into(landmark2);
+               Picasso.get().load(obj.getBlobs()[2]).placeholder(R.drawable.ic_photo_black_24dp).error(R.drawable.ic_photo_black_24dp).into(landmark3);
+
+
+               return;
+               // landmark1.setImageResource();
+           }
+
+       }
+       catch(Exception e)
+       {
+           e.printStackTrace();
+       }
+   }
+
 
     }
 
@@ -406,13 +496,46 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
         @Override
-        protected void onPostExecute(List<Rv_Azure_FaceAPIDetails> details) {
+        protected void onPostExecute(List<Rv_Azure_FaceAPIDetails> details)
+        {
 
             detailsDownloaded = true;
+
+
+
             apiList = details;
+
+       //     addnewpoint();
+
+
+
+            for(int i=0;i<apiList.size();i++)
+            {
+                Log.i("user id priority",apiList.get(i).getUserid()+" "+apiList.get(i).getPriority());
+
+            }
+
+
+
+
 
         }
     }
+
+    public  void addnewpoint()
+    {
+
+
+
+        clusterItems.add(new ClusterItemsTrial(new LatLng(mygps.getLatitude(),mygps.getLongitude()),"","user 0","0"));
+
+
+        clusterManager.setItems(clusterItems,false);
+
+
+
+    }
+
 	
 
 
