@@ -105,11 +105,7 @@ This tab basically educates the users on best practices to be followed if  a dis
 
 ### Rescuer View
 
-<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181026-200701.png" width="200"/>
-
-<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181026-200708.png" width="200"/>
- 
-<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181026-200745 (1).png" width="200"/>
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181026-200701.png" width="200"/> <img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181026-200708.png" width="200"/> <img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181026-200745 (1).png" width="200"/>
  
  
 
