@@ -14,6 +14,8 @@ The following are the azure services used by RV Safe-
 4. Azure Blob Services.
 5. Azure App services.
 
+Download of (client app) apk available at http://aztests.azurewebsites.net/download
+
 ## Features Of RVSAFE:
 
 RVSAFE opens with a simple user login/registration activity that assigns each user a unique id and lets him choose a password. We use the one time authentication feature so as to skip the arduous task of entering a password each time. The user is then presented with 4 different tabs each serving an important function.
