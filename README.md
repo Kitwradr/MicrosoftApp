@@ -5,7 +5,8 @@ Disasters often strike, when we are least prepared to face them. They leave behi
 Essentially RVSAFE is an Azure powered Android App that draws inspiration from the problems faced by people during disasters and seeks to solve them in the best possible manner.  We explain each feature of the app below using the prospective GUI designed by us(work in progress).
 
 <img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Features_of_app.png" width="800" align="middle"/>
-#### Azure services used:
+
+### Azure services used:
 The following are the azure services used by RV Safe-
 1. Azure Cosmos DB
 2. Azure Cognitive Services
