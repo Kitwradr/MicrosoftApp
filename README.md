@@ -91,7 +91,7 @@ Apart from this we also provide live data of the conditions of the dams near the
 This tab basically educates the users on best practices to be followed if  a disaster strikes. This can help keep the users better informed on how to effectively handle disasters.
 
 
-###### Rescuer View
+### Rescuer View
 The rescuer view shows a mission map that has multiple clusters. Each of these clusters shows you the number of people trapped within that region. Zooming out causes the clusters to combine to form larger clusters which can provide an overview to the rescuers on the number of people, yet to be rescued. Zooming in causes the clusters to split into markers on the map, depicting the specific locations on the map where the people are trapped. The rescuers can see different colored markers wherein the color represents the priority that is calculated by taking factors like number of people trapped, status (safe/unsafe) etc into consideration. Clicking on the markers pushes up a sliding window that shows landmarks uploaded by the victims as well as the demographic analytics of the victim image, as computed by the azure face api.  
 
 
