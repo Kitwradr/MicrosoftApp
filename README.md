@@ -12,7 +12,7 @@ RVSAFE opens with a simple user login/registration activity that assigns each us
 The home tab presents the user with different disaster cards, each representing  an active disaster. The app admins can easily start a new card for any disaster simply by entering a few lines of information in our admin service that is backed by Azure Cosmos DB. The user at this point can either indicate if he/she  is stuck in the disaster or if he/she wants to help out by choosing any one of the options.
 
 
-<img src="/images/Screenshot_20181008-132158.png" width="200" align="middle"/>
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181008-132158.png" width="200" align="middle"/>
 
 
 #### Choice STUCK IN THIS DISASTER:
@@ -44,7 +44,7 @@ All these features as you can see require internet connection. But what if the u
 To accommodate this possibility and provide offline feasibility we designed a novel architecture for RVSAFE called insta-help. Due to the unavailability of messaging API’s  like Twilio we decided to use our own architecture for the time being, by using a dedicated mobile number  to relay information. The working of insta-help is as follows.
 
 
-<img src="images/Insta-Help.png" width="100%"/>
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Insta-Help.png" width="100%"/>
 
 With Insta-Help incorporated RVSAFE becomes feasible both online as well as offline. The (Insta-Help feature is complete and will be integrated into the app in the next few days)
 
@@ -56,18 +56,18 @@ This feature is made for those who wish to extend their help to people trapped i
 + Donate
 
 
-<img src="images/Screenshot_20181008-132342.png" width="200"/><img src="images/Screenshot_20181008-132335.png" width="200"/>
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181008-132342.png" width="200"/><img src="images/Screenshot_20181008-132335.png" width="200"/>
 
 Volunteer groups play very important and diverse roles in disaster management ranging from the distribution of food packets and administering first aid to victims, to participating in actual rescue operations   
 This tab presents the user with an option to either join an existing volunteer group or start his/her own volunteer group. If a user wishes to start your his/her own volunteer group then he/she is required  to fill out a simple registration form after which the user shall receive a confirmation call from app admins and a card will be created for his/her group.A user can also choose to join an existing volunteer group by using the request to join option after which the group founder will receive the user's name and contact details and can choose to accept/decline the request. The user can choose to volunteer in at max 1 group. 
 
 ### Donate Tab
-<img src="images/Screenshot_20181008-132354.png" width="200"/>
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181008-132354.png" width="200"/>
 The other way for people to help out indirectly is through RVSAFE’s donate option.In the donate option the user is presented with a map that shows the location of the office of all NGO’s registered with our app and currently engaged in helping out in the disaster. Clicking on any marker on this map displays the name and contact number the NGO. The user can either personally choose to donate items by reaching out to them at their registered office or can select categories of items that they seek to donate and hit the donate button. The nearest NGO will be notified about the user's willingness to donate and is required to contact the user to decide upon a convinient time to collect the items from the user’s home. 
 
 We have managed to design a simple web portal for NGO’s to facilitate this process. The integration with our database is however pending and will be completed soon.
 
-<img src="images/Screenshot from 2018-10-09 20-54-59.png" width="100%"/>
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot from 2018-10-09 20-54-59.png" width="100%"/>
 
 
 
@@ -78,20 +78,20 @@ Coming back to the starting view  we have 3 other tabs
 
 In order to make RVSAFE a constant security companion we have included  the SOS facility as well. The SOS facility allows users to immediately alert emergency services with just a single tap. Apart from that users  also have an option to send their location in the form of a google maps link via sms to any  3 contacts they choose. 
 
-<img src="/images/Screenshot_20181008-132203.png" width="200"/>
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181008-132203.png" width="200"/>
 
 ### Tab 3: Am I Safe
 This feature provides weather forecast of your city from registered sources. It gives you a week of predicted  weather data backed with relevant indicators of the level of criticality.
 The weather data includes the temperature variations during the past week, the maximum and minimum temperature recorded, level of rainfall etc
 Apart from this we also provide live data of the conditions of the dams near the user's locality. We monitor their conditions continuously and raise alerts when the water levels in them reach dangerously high levels. The Am i safe feature acts as an intelligent watchdog that faithfully alerts the user of any threats. The work on this feature is still under progress.
 
-<img src="/images/Screenshot_20181008-132219.png" width="200"/>
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181008-132219.png" width="200"/>
 
 ### Tab 4 tips
 This tab basically educates the users on best practices to be followed if  a disaster strikes. This can help keep the users better informed on how to effectively handle disasters.
 
 
-##### Reccuer View
+###### Rescuer View
 The rescuer view shows a mission map that has multiple clusters. Each of these clusters shows you the number of people trapped within that region. Zooming out causes the clusters to combine to form larger clusters which can provide an overview to the rescuers on the number of people, yet to be rescued. Zooming in causes the clusters to split into markers on the map, depicting the specific locations on the map where the people are trapped. The rescuers can see different colored markers wherein the color represents the priority that is calculated by taking factors like number of people trapped, status (safe/unsafe) etc into consideration. Clicking on the markers pushes up a sliding window that shows landmarks uploaded by the victims as well as the demographic analytics of the victim image, as computed by the azure face api.  
 
 
