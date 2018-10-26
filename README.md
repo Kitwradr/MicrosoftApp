@@ -15,6 +15,7 @@ The following are the azure services used by RV Safe-
 5. Azure App services.
 
 Download of (client app) apk available at http://aztests.azurewebsites.net/download
+Download the Insta Help Server App at http://aztests.azurewebsites.net/download/server
 
 ## Features Of RVSAFE:
 
