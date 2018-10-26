@@ -104,6 +104,15 @@ This tab basically educates the users on best practices to be followed if  a dis
 
 
 ### Rescuer View
+
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181026-200701.png" width="200"/>
+
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181026-200708.png" width="200"/>
+ 
+<img src="https://github.com/Kitwradr/MicrosoftApp/blob/master/images/Screenshot_20181026-200745 (1).png" width="200"/>
+ 
+ 
+
 The rescuer view shows a mission map that has multiple clusters. Each of these clusters shows you the number of people trapped within that region. Zooming out causes the clusters to combine to form larger clusters which can provide an overview to the rescuers on the number of people, yet to be rescued. Zooming in causes the clusters to split into markers on the map, depicting the specific locations on the map where the people are trapped. The rescuers can see different colored markers wherein the color represents the priority that is calculated by taking factors like number of people trapped, status (safe/unsafe) etc into consideration. Clicking on the markers pushes up a sliding window that shows landmarks uploaded by the victims as well as the demographic analytics of the victim image, as computed by the azure face api.  
 
 
