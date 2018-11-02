@@ -27,6 +27,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -85,7 +86,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 
-public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnMapReadyCallback {
+public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnMapReadyCallback
+{
 
     private GoogleMap mMap;
 
@@ -352,19 +354,57 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
 
-        instahelp.setOnClickListener(new View.OnClickListener() {
+        instahelp.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
-                String phno = "8830800912";
 
 
 
-                String message="RVSAFE-DISTRESS USID:xxxx LAT:"+mygps.getLatitude()+" LON:"+mygps.getLongitude();
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RvAzure_StuckInThisDisaster.this);
 
-                SmsManager manager = SmsManager.getDefault();
+                dialogBuilder.setTitle("MARK YOUR LOCATION");
+                dialogBuilder.setPositiveButton("SAFE", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
 
-                manager.sendTextMessage(phno, null, message, null, null);
+
+                        String phno ="8618452952";
+
+                        String message="RVSAFE-DISTRESS USID:xxxx LAT:"+mygps.getLatitude()+" LON:"+mygps.getLongitude();
+
+                        SmsManager manager = SmsManager.getDefault();
+
+                        manager.sendTextMessage(phno, null, message, null, null);
+
+
+
+                        //do something with edt.getText().toString();
+                    }
+                });
+                dialogBuilder.setNegativeButton("IN DANGER", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        //pass
+
+                        String phno =" 8618452952";
+
+                        String message="RVSAFE-DISTRESS USID:xxxx LAT:"+mygps.getLatitude()+" LON:"+mygps.getLongitude();
+
+                        SmsManager manager = SmsManager.getDefault();
+
+                        manager.sendTextMessage(phno, null, message, null, null);
+
+
+                    }
+                });
+
+
+                AlertDialog b = dialogBuilder.create();
+                b.show();
+
+
 
 
 

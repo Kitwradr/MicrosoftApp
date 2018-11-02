@@ -121,7 +121,7 @@ public class RvAzure_am_i_safe extends Fragment
         card5=(CardView)view.findViewById(R.id.card5);
 
 
-        ProgressBar progressBar=view.findViewById(R.id.progressbar);
+//        ProgressBar progressBar=view.findViewById(R.id.progressbar);
 
 
         webView.getSettings().setJavaScriptEnabled(true);
@@ -147,7 +147,6 @@ public class RvAzure_am_i_safe extends Fragment
                 webView.loadUrl("javascript:(function(){ document.getElementsByTagName('center')[0].getElementsByTagName('font')[0].getElementsByTagName('table')[0].width='100%';})()");
 
                 webView.loadUrl("javascript:(function(){ document.getElementsByTagName('body')[0].background=\"\";})()");
-
 
 
 //                webView.loadUrl("javascript:(function(){ var x = document.getElementsByTagName('table')[2]; var y = x.getElementsByTagName('tbody')[0]; var z = y.getElementsByTagName('tr')[0];" +
@@ -183,8 +182,8 @@ public class RvAzure_am_i_safe extends Fragment
                 super.onPageFinished(view, url);
 
 
-                progressBar.setVisibility(View.GONE);
-                webView.setVisibility(View.VISIBLE);
+       //         progressBar.setVisibility(View.GONE);
+
 
             }
         });

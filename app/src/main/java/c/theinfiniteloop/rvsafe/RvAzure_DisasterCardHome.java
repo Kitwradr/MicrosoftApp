@@ -72,8 +72,8 @@ public class RvAzure_DisasterCardHome extends Fragment
 
 
 
-
-        new QueryAsync().execute();
+       if(isInternetConnection())
+       { new QueryAsync().execute();}
 
      //   new GetClustersAsync().execute();
 

@@ -58,6 +58,8 @@ public class RvAzure_sos extends Fragment
 
 
 
+
+
     String contact1phonerestored;
     String contact2phonerestored;
     String contact3phonerestored;
@@ -132,7 +134,7 @@ public class RvAzure_sos extends Fragment
 
         contact1=view.findViewById(R.id.contact1);
         contact2=view.findViewById(R.id.contact2);
-         contact3=view.findViewById(R.id.contact3);
+        contact3=view.findViewById(R.id.contact3);
 
 
 
