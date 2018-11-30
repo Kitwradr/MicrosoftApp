@@ -89,7 +89,10 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
         {
             stuck_in_this_disaster.setText("INSTA HELP");
 
-            stuck_in_this_disaster.setBackgroundResource(R.drawable.oval_button_light_red);
+            stuck_in_this_disaster.setTextColor(Color.WHITE);
+
+            stuck_in_this_disaster.setBackgroundColor(Color.RED);
+         //   stuck_in_this_disaster.setBackgroundResource(R.drawable.oval_button_light_red);
 
 
 

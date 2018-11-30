@@ -159,7 +159,7 @@
                    android:textStyle="bold"
                    android:textColor="#CC7C4DFF"
                    android:layout_gravity="center_vertical"
-                   android:text="TEAM: ALPHA ONE"
+                   android:text="DEFAULT"
                    android:layout_weight="1"/>
 
                  <TextView
@@ -171,7 +171,7 @@
                      android:textStyle="bold"
                      android:textColor="#99FF0000"
                      android:layout_gravity="center_vertical"
-                     android:text="Distance: 400m"
+                     android:text="Distance:"
                      android:layout_weight="0.8"/>
              </LinearLayout>
                <Button
@@ -239,7 +239,7 @@
                        android:textStyle="bold"
                        android:textColor="#CC7C4DFF"
                        android:layout_gravity="center_vertical"
-                       android:text="MAYUR'S FAMILY"
+                       android:text="DEFAULT"
                        android:layout_weight="1"/>
 
                    <TextView
@@ -251,7 +251,7 @@
                        android:textStyle="bold"
                        android:textColor="#99FF0000"
                        android:layout_gravity="center_vertical"
-                       android:text="Distance: 250m"
+                       android:text="Distance:"
                        android:layout_weight="0.8"/>
 
                </LinearLayout>

@@ -27,8 +27,7 @@ public class RvAzure_WantToHelpOut extends AppCompatActivity
     private int disaster_id;
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener()
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener()
     {
 
         android.support.v4.app.Fragment selectedFragment = null;

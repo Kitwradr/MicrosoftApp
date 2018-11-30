@@ -23,9 +23,9 @@
     <string name="msg_subscribe_failed">Failed to subscribe to news topic</string>
 
     <string-array name="loginpage">
-    <item>WELCOME TO RVCE CONNECT</item>
-    <item>PLEASE ENTER CREDENTIALS TO LOGIN INTO THE APP</item>
-    <item>MAKE SURE YOU ARE CONNECTED TO COLLEGE WIFI</item>
+        <item>WELCOME TO RVCE CONNECT</item>
+        <item>PLEASE ENTER CREDENTIALS TO LOGIN INTO THE APP</item>
+        <item>MAKE SURE YOU ARE CONNECTED TO COLLEGE WIFI</item>
     </string-array>
 
 

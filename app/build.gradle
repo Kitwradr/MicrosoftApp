@@ -69,9 +69,9 @@ dependencies {
     implementation 'com.firebase:firebase-jobdispatcher:0.5.2'
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.google.firebase:firebase-auth:9.2.1'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
-
-   // implementation 'com.google.firebase:firebase-messaging:17.0.0:15.0.0'
+    // implementation 'com.google.firebase:firebase-messaging:17.0.0:15.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

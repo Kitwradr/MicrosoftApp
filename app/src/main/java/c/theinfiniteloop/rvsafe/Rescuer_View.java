@@ -365,55 +365,51 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
 
+if(apiList!=null) {
+    for (int i = 0; i < apiList.size(); i++) {
 
 
-   for(int i=0;i<apiList.size();i++)
-   {
+        System.out.println("RESCUER VIEW " + apiList.get(i));
 
+        try {
+            if (("user " + apiList.get(i).getUserid()).matches(markerID)) {
+                Rv_Azure_FaceAPIDetails obj = apiList.get(i);
+                System.out.println("marker ID = " + markerID);
 
-       System.out.println("RESCUER VIEW "+apiList.get(i));
-
-
-
-       try {
-           if (("user "+apiList.get(i).getUserid()).matches(markerID))
-           {
-               Rv_Azure_FaceAPIDetails obj = apiList.get(i);
-               System.out.println("marker ID = " + markerID);
-
-               elders.setText("NUMBER OF ELDERS : " + obj.getElders());
-               children.setText("NUMBER OF CHILDREN : " + obj.getChildren());
-               number_of_people.setText("NUMBER OF PEOPLE : " + obj.getNumstuck());
-               women.setText("NUMBER OF WOMEN : " + obj.getFemale());
+                elders.setText("NUMBER OF ELDERS : " + obj.getElders());
+                children.setText("NUMBER OF CHILDREN : " + obj.getChildren());
+                number_of_people.setText("NUMBER OF PEOPLE : " + obj.getNumstuck());
+                women.setText("NUMBER OF WOMEN : " + obj.getFemale());
 
 
 
 
 
-               /*use picasso to update image urls*/
+                /*use picasso to update image urls*/
 
-               System.out.println(obj.getBlobs()[0] + obj.getBlobs()[1] + obj.getBlobs()[2]);
+                System.out.println(obj.getBlobs()[0] + obj.getBlobs()[1] + obj.getBlobs()[2]);
 
-               Picasso.get().load(obj.getBlobs()[0]).placeholder(R.drawable.ic_photo_black_24dp).error(R.drawable.ic_photo_black_24dp).into(landmark1);
-               Picasso.get().load(obj.getBlobs()[1]).placeholder(R.drawable.ic_photo_black_24dp).error(R.drawable.ic_photo_black_24dp).into(landmark2);
-               Picasso.get().load(obj.getBlobs()[2]).placeholder(R.drawable.ic_photo_black_24dp).error(R.drawable.ic_photo_black_24dp).into(landmark3);
+                Picasso.get().load(obj.getBlobs()[0]).placeholder(R.drawable.ic_photo_black_24dp).error(R.drawable.ic_photo_black_24dp).into(landmark1);
+                Picasso.get().load(obj.getBlobs()[1]).placeholder(R.drawable.ic_photo_black_24dp).error(R.drawable.ic_photo_black_24dp).into(landmark2);
+                Picasso.get().load(obj.getBlobs()[2]).placeholder(R.drawable.ic_photo_black_24dp).error(R.drawable.ic_photo_black_24dp).into(landmark3);
 
 
-               return;
-               // landmark1.setImageResource();
-           }
+                return;
+                // landmark1.setImageResource();
+            }
 
-       }
-       catch(Exception e)
-       {
-           e.printStackTrace();
-       }
-   }
-
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+      }
+    }
 
     }
 
-    public  class RetrieveImagesAsync extends AsyncTask<Void, Void, List<Rv_Azure_FaceAPIDetails>> {
+    public  class RetrieveImagesAsync extends AsyncTask<Void, Void, List<Rv_Azure_FaceAPIDetails>>
+    {
 
         ArrayList<Rv_Azure_FaceAPIDetails> list;
 
@@ -508,14 +504,16 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
        //     addnewpoint();
 
 
-
-            for(int i=0;i<apiList.size();i++)
+        if(apiList!=null)
+        {
+            for (int i = 0; i < apiList.size(); i++)
             {
-                Log.i("user id priority",apiList.get(i).getUserid()+" "+apiList.get(i).getPriority());
+
+                Log.i("user id priority", apiList.get(i).getUserid() + " " + apiList.get(i).getPriority());
 
             }
 
-
+        }
 
 
 
@@ -524,8 +522,6 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
     public  void addnewpoint()
     {
-
-
 
         clusterItems.add(new ClusterItemsTrial(new LatLng(mygps.getLatitude(),mygps.getLongitude()),"","user 0","0"));
 

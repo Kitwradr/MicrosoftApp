@@ -1,10 +1,14 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,19 +31,35 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-public class RvAzure_login extends AppCompatActivity
+
+import java.util.ArrayList;
+import java.util.Locale;
+
+public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnInitListener
 {
     private static final String TAG = "MyFirebaseMsgService";
+
+    private  static final String intial_query ="DO YOU PREFER ONLY A VOICE BASED INTERFACE";
 
  private   String usernameentered;
  private   String passwordentered;
  private  String userID;
-SharedPreferences sharedPreferences;
+ private String speech_input="";
+ private TextToSpeech tts;
+
+
+
+
+    SharedPreferences sharedPreferences;
 
     private String usercodepathtag = "USER DETAILS";
     String USER_PREF = "USER-URL";
     String usernamepathtag="USERNAME";
+    String dumb_user_name_path="DUMB USER";
     String userrestoredPath;
+
+
+    private final int REQ_CODE_SPEECH_INPUT = 100;
 
 
     @Override
@@ -51,10 +71,23 @@ SharedPreferences sharedPreferences;
 
         Button signin=findViewById(R.id.signin);
         TextView textView =findViewById(R.id.forgot);
-
         EditText username=findViewById(R.id.username);
-
         EditText password =findViewById(R.id.password);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -64,23 +97,65 @@ SharedPreferences sharedPreferences;
 
 
 
+
+
+
+
         if(sharedPreferences.getString(usernamepathtag,null)!=null)
         {
             startActivity(new Intent(RvAzure_login.this,RvAzure_Disaster_cards.class));
         }
+     else
+        {
+            tts = new TextToSpeech(this, this);
+
+            new CountDownTimer(3000,1000)
+            {
+                @Override
+                public void onFinish()
+                {
+                    speakOut(intial_query);
+
+                }
+
+                @Override
+                public void onTick(long l) {
+
+                }
+            }.start();
+
+
+
+            new CountDownTimer(3000,1000)
+            {
+                @Override
+                public void onFinish()
+                {
+                    askSpeechInput();
+                }
+
+                @Override
+                public void onTick(long l) {
+
+                }
+            }.start();
+
+        }
+
 
 
        FirebaseMessaging.getInstance().subscribeToTopic("hackathon")
                 .addOnCompleteListener(new OnCompleteListener<Void>()
                 {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
                         String msg = getString(R.string.msg_subscribed);
                         if (!task.isSuccessful()) {
                             msg = getString(R.string.msg_subscribe_failed);
                         }
                         Log.d(TAG, msg);
-                        Toast.makeText(RvAzure_login.this, msg, Toast.LENGTH_SHORT).show();
+                     //   Toast.makeText(RvAzure_login.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -169,5 +244,111 @@ SharedPreferences sharedPreferences;
 
 
     }
+
+
+    private void askSpeechInput()
+    {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        }
+        catch (ActivityNotFoundException a)
+        {
+
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode)
+        {
+            case REQ_CODE_SPEECH_INPUT:
+            {
+                if (resultCode == RESULT_OK && null != data)
+                {
+
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                //    voiceInput.setText(result.get(0));
+
+                     speech_input=result.get(0);
+
+                //Trigger Acti
+
+
+//                    Toast.makeText(this,""+speech_input,Toast.LENGTH_LONG).show();
+
+
+                    if(speech_input.toLowerCase().contains("yes"))
+                    {
+
+               //         Toast.makeText(this,"TEST FOR YES",Toast.LENGTH_LONG).show();
+
+                        startActivity(new Intent(RvAzure_login.this, AudioProcessor.class));
+
+
+                    }
+                    else
+                    {
+
+                    }
+
+
+                }
+                break;
+            }
+
+        }
+    }
+
+
+
+    public void onInit(int status)
+    {
+
+        if (status == TextToSpeech.SUCCESS)
+        {
+
+            int result = tts.setLanguage(Locale.US);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED)
+            {
+                Log.e("TTS", "This Language is not supported");
+            }
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+
+    }
+
+    private void speakOut(String text)
+    {
+
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,null);
+
+    }
+
+
+    public void onDestroy()
+    {
+        // Don't forget to shutdown tts!
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
+    }
+
+
+
+
+
 
 }

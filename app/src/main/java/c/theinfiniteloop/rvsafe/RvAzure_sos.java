@@ -3,6 +3,7 @@ package c.theinfiniteloop.rvsafe;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -151,6 +154,11 @@ public class RvAzure_sos extends Fragment
             contact1.setText(contact1namerestored);
             contactimage1.setImageResource(R.drawable.ic_account_circle_black_24dp);
 
+//            Uri   uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"+getContext().getPackageName()+"/drawable/" + );
+//            Picasso.get().load(R.drawable.ic_account_circle_black_24dp).error(R.drawable.ic_account_circle_black_24dp).into(contactimage1);
+
+
+
         }
 
 
@@ -163,6 +171,9 @@ public class RvAzure_sos extends Fragment
             contact2.setText(contact2namerestored);
             contactimage2.setImageResource(R.drawable.ic_account_circle_black_24dp);
 
+//            Picasso.get().load(R.drawable.ic_account_circle_black_24dp).error(R.drawable.ic_account_circle_black_24dp).into(contactimage2);
+
+
         }
 
 
@@ -174,7 +185,10 @@ public class RvAzure_sos extends Fragment
         if(contact3namerestored!=null)
         {
             contact3.setText(contact3namerestored);
-            contactimage3.setImageResource(R.drawable.ic_account_circle_black_24dp);
+          contactimage3.setImageResource(R.drawable.ic_account_circle_black_24dp);
+
+  //          Picasso.get().load(R.drawable.ic_account_circle_black_24dp).error(R.drawable.ic_account_circle_black_24dp).into(contactimage3);
+
 
         }
 
@@ -361,11 +375,15 @@ public class RvAzure_sos extends Fragment
         gpsenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         networkenabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if (gpsenabled) {
+        if (gpsenabled)
+        {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
-        } else if (networkenabled) {
+        }
+        else if (networkenabled)
+        {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
-        } else {
+        }
+        else {
             Toast.makeText(getContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
         }
 
@@ -406,6 +424,8 @@ public class RvAzure_sos extends Fragment
                 //contactName.setText(name);
 
                 contact1.setText(name);
+ //              Picasso.get().load(R.drawable.ic_account_circle_black_24dp).into(contactimage1);
+   //             Picasso.get().load(R.drawable.ic_account_circle_black_24dp).error(R.drawable.ic_account_circle_black_24dp).into(contactimage1);
                 contactimage1.setImageResource(R.drawable.ic_account_circle_black_24dp);
 
 
@@ -451,6 +471,11 @@ public class RvAzure_sos extends Fragment
                 //contactName.setText(name);
                 contact2.setText(name);
                 contactimage2.setImageResource(R.drawable.ic_account_circle_black_24dp);
+
+   //             Picasso.get().load(R.drawable.ic_account_circle_black_24dp).into(contactimage2);
+              //  Picasso.get().load(R.drawable.ic_account_circle_black_24dp).error(R.drawable.ic_account_circle_black_24dp).into(contactimage2);
+
+
                 SharedPreferences.Editor editor=sharedPreferences.edit();
                 editor.putString(contact2name,name);
                 editor.putString(contact2phone,number);
@@ -491,7 +516,12 @@ public class RvAzure_sos extends Fragment
 
                 //contactName.setText(name);
                 contact3.setText(name);
-                contactimage3.setImageResource(R.drawable.ic_account_circle_black_24dp);
+              contactimage3.setImageResource(R.drawable.ic_account_circle_black_24dp);
+
+//                Picasso.get().load(R.drawable.ic_account_circle_black_24dp).into(contactimage3);
+
+               // Picasso.get().load(R.drawable.ic_account_circle_black_24dp).error(R.drawable.ic_account_circle_black_24dp).into(contactimage3);
+
 
                 SharedPreferences.Editor editor=sharedPreferences.edit();
                 editor.putString(contact3name,name);
@@ -539,9 +569,8 @@ public class RvAzure_sos extends Fragment
 
         SmsManager manager = SmsManager.getDefault();
         manager.sendTextMessage(phonenumber, null, message, null, null);
-
-
     }
+
 
 
 

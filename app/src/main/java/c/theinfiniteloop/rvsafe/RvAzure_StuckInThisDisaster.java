@@ -153,6 +153,9 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     Button landmarkimageupload;
     Button safe;
     Button unsafe;
+    Button nearest_rescue_group_call;
+    Button nearest_safe_zone_call;
+
     double mylatitude;
     double mylongitude;
 
@@ -226,11 +229,20 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
 
+
         sharedPreferences = this.getSharedPreferences(VICTIM_PREF, Context.MODE_PRIVATE);
         victimrestoredPath = sharedPreferences.getString(victimimagepathtag, null);
         landmarkrestoredPath1=sharedPreferences.getString(landmarkimagepathtag1,null);
         landmarkrestoredPath2=sharedPreferences.getString(landmarkimagepathtag2,null);
         landmarkrestoredPath3=sharedPreferences.getString(landmarkimagepathtag3,null);
+
+
+
+
+
+
+
+
 
 
 
@@ -309,6 +321,9 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
             }
         });
+
+
+
 
 
         landmarkimage1.setOnClickListener(new View.OnClickListener()
@@ -570,7 +585,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                                }
                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
                        @Override
-                       public void onClick(DialogInterface dialogInterface, int i) {
+                       public void onClick(DialogInterface dialogInterface, int i)
+                       {
                            dialogInterface.cancel();
                        }
                    });
@@ -586,9 +602,50 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             }
         });
 
+     safezonecall.setOnClickListener(new View.OnClickListener()
+     {
+         @Override
+         public void onClick(View view)
+         {
+
+             Intent phoneIntent=new Intent(Intent.ACTION_DIAL);
 
 
+             if (ActivityCompat.checkSelfPermission(RvAzure_StuckInThisDisaster.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+             {
+                 Toast.makeText(RvAzure_StuckInThisDisaster.this,"GRANT PHONE CALL PERMISSION",Toast.LENGTH_SHORT).show();
+                 return;
+             }
 
+             phoneIntent.setData(Uri.parse("tel:"+DistressMessageNearestGroupContact));
+
+             startActivity(phoneIntent);
+
+         }
+
+     });
+
+     rescuegroupcall.setOnClickListener(new View.OnClickListener()
+     {
+         @Override
+         public void onClick(View view)
+         {
+
+
+             Intent phoneIntent=new Intent(Intent.ACTION_DIAL);
+
+
+             if (ActivityCompat.checkSelfPermission(RvAzure_StuckInThisDisaster.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+             {
+                 Toast.makeText(RvAzure_StuckInThisDisaster.this,"GRANT PHONE CALL PERMISSION",Toast.LENGTH_SHORT).show();
+                 return;
+             }
+
+             phoneIntent.setData(Uri.parse("tel:"+  DistressMessageNearestRescueGroupContact));
+
+             startActivity(phoneIntent);
+         }
+     });
 
 
 
@@ -603,7 +660,6 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
         SmsReceiver.bindListener(new SmsListener()
-
         {
             @Override
             public void messageReceived(String messageText) {
@@ -1099,42 +1155,46 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                             if (initsafezonecounter == 0) {
                                 safezonedistanceinm = distancebetweenpoints(mypos, safezone);
                                 safezonenamestring = rescuegroupinfo.get(i).getGroup_name();
-                                safezonecontactstring = rescuegroupinfo.get(i).getContact_no();
+                                DistressMessageNearestGroupContact= rescuegroupinfo.get(i).getContact_no();
 
                                 initsafezonecounter++;
                             } else {
                                 if (safezonedistanceinm > distancebetweenpoints(mypos, safezone)) {
                                     safezonedistanceinm = distancebetweenpoints(mypos, safezone);
                                     safezonenamestring = rescuegroupinfo.get(i).getGroup_name();
-                                    safezonecontactstring = rescuegroupinfo.get(i).getContact_no();
+                                    DistressMessageNearestGroupContact = rescuegroupinfo.get(i).getContact_no();
 
                                 }
                             }
 
-                        } else {
+                        }
+                        else
+                            {
                             LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
                             mMap.addMarker(new MarkerOptions().position(safezone).title("UNSAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CCff0000")));
-
-                        }
+                            }
 
                         break;
 
                     case "2"://rescue group
                         LatLng rescuegroup = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(rescuegroup).title("RESCUE GROUP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC0099ff")));
+                        mMap.addMarker(new MarkerOptions().position(rescuegroup).title("RESCUE GROUP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(BitmapDescriptorFactory.fromResource(R.drawable.rescue1)));
+                                //getVictimMarkerIcon("#CC0099ff")));
 
-                        if (initrescuegroupcounter == 0) {
+                        if (initrescuegroupcounter == 0)
+                        {
                             rescuegroupdistanceinm = distancebetweenpoints(mypos, rescuegroup);
                             rescuegroupnamestring = rescuegroupinfo.get(i).getGroup_name();
-                            rescuegroupcontacstring = rescuegroupinfo.get(i).getContact_no();
-
-
+                            DistressMessageNearestRescueGroupContact = rescuegroupinfo.get(i).getContact_no();
                             initrescuegroupcounter++;
-                        } else {
-                            if (rescuegroupdistanceinm > distancebetweenpoints(mypos, rescuegroup)) {
+                        }
+                        else
+                            {
+                            if (rescuegroupdistanceinm > distancebetweenpoints(mypos, rescuegroup))
+                            {
                                 rescuegroupdistanceinm = distancebetweenpoints(mypos, rescuegroup);
                                 rescuegroupnamestring = rescuegroupinfo.get(i).getGroup_name();
-                                rescuegroupcontacstring = rescuegroupinfo.get(i).getContact_no();
+                                DistressMessageNearestGroupContact= rescuegroupinfo.get(i).getContact_no();
 
                             }
                         }
@@ -1145,8 +1205,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
                     case "3"://relief camp
                         LatLng reliefgroup = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(reliefgroup).title("RELIEF CAMP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CCff9900")));
-
+                        mMap.addMarker(new MarkerOptions().position(reliefgroup).title("RELIEF CAMP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(BitmapDescriptorFactory.fromResource(R.drawable.reliefcamp)));
                         break;
 
 
@@ -1356,7 +1415,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         @Override
         protected ClusterData doInBackground(Void... params) {
             String url = "https://aztests.azurewebsites.net/victims/disasters/clusters/0";
-            try {
+            try
+            {
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
                 // optional default is GET
@@ -1489,6 +1549,8 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 System.out.println("Value = "+values);
 
                 ClusterDatamini doubleList = gson.fromJson("{\"doubles\":"+values+"}".toString(),ClusterDatamini.class);
+
+
 
                 double[] list = doubleList.getDoubles();
 

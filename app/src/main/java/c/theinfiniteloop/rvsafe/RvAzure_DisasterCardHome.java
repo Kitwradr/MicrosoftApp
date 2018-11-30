@@ -101,7 +101,8 @@ public class RvAzure_DisasterCardHome extends Fragment
         DisasterList list;
 
 
-        protected DisasterList doInBackground(Void... params) {
+        protected DisasterList doInBackground(Void... params)
+        {
             String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/disasterdata";
             try {
                 URL obj = new URL(url);

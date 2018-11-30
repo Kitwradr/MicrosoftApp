@@ -78,14 +78,16 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
 
 
-    public static donate newInstance() {
+    public static donate newInstance()
+    {
         donate fragment = new donate();
         return fragment;
     }
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_donate);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -96,8 +98,10 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
 
         LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+
         mygps = new RvAzure_GPStracker(getContext(), locationManager);
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
             return;
         }
 
@@ -108,11 +112,16 @@ public class donate extends Fragment implements OnMapReadyCallback {
         gpsenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         networkenabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if (gpsenabled) {
+        if (gpsenabled)
+        {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
-        } else if (networkenabled) {
+        }
+        else if (networkenabled)
+        {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
-        } else {
+        }
+        else
+            {
             Toast.makeText(getContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
         }
 
@@ -125,11 +134,11 @@ public class donate extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.activity_donate, container, false);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
@@ -140,7 +149,8 @@ public class donate extends Fragment implements OnMapReadyCallback {
         Button button5 = view.findViewById(R.id.button5);
 
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        button1.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
@@ -184,33 +194,35 @@ public class donate extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
 
-                if (button3pressed) {
-
-
+                if (button3pressed)
+                {
                     button3.setBackgroundResource(R.drawable.oval_button_white);
-
                     button3pressed = false;
-                } else {
+                }
+                else
+                    {
                     button3.setBackgroundResource(R.drawable.oval_button_light_green);
                     button3pressed = true;
-                }
+                   }
 
 
             }
         });
 
 
-        button4.setOnClickListener(new View.OnClickListener() {
+        button4.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
 
-                if (button4pressed) {
-
-
+                if (button4pressed)
+                {
                     button4.setBackgroundResource(R.drawable.oval_button_white);
-
                     button4pressed = false;
-                } else {
+                }
+                else
+                    {
                     button4.setBackgroundResource(R.drawable.oval_button_light_green);
                     button4pressed = true;
                 }
@@ -219,7 +231,8 @@ public class donate extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        button5.setOnClickListener(new View.OnClickListener() {
+        button5.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
 
@@ -304,15 +317,17 @@ public class donate extends Fragment implements OnMapReadyCallback {
                 final EditText address=(EditText)dialogView.findViewById(R.id.address);
 
 
-                if(mygps.getThoroughfare()!=null) {
+                if(mygps.getThoroughfare()!=null)
+                {
                     address.setText("ADDRESS: " + mygps.getThoroughfare());
                 }
-                else {
+                else
+                    {
                     address.setText("ADDRESS: ");
-                }
+                    }
 
 
-                final EditText city=(EditText)dialogView.findViewById(R.id.city);
+                    final EditText city=(EditText)dialogView.findViewById(R.id.city);
 
               if(mygps.getCityname()!=null)
               {
@@ -415,11 +430,17 @@ public class donate extends Fragment implements OnMapReadyCallback {
         }
         mMap.setMyLocationEnabled(true);
 
+
+
+
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+
+
         LatLng NGO1 = new LatLng(-34.0, 151.0);
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(NGO1));
@@ -438,7 +459,7 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
        for(int i=0;i<ngolocations.size();i++)
        {
-           mMap.addMarker(new MarkerOptions().position(ngolocations.get(i)).title("NGO "+i).snippet("CONTACT NUMBER  984543482"+i).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+           mMap.addMarker(new MarkerOptions().position(ngolocations.get(i)).title("NGO "+i).snippet("CONTACT NUMBER  984543482"+i).icon(BitmapDescriptorFactory.fromResource(R.drawable.ngo)));
 
        }
 
@@ -514,7 +535,8 @@ public class donate extends Fragment implements OnMapReadyCallback {
                 String line = null;
                 StringBuilder sb = new StringBuilder();
 
-                while ((line = bufferedReader.readLine()) != null) {
+                while ((line = bufferedReader.readLine()) != null)
+                {
                     sb.append(line);
                 }
 
