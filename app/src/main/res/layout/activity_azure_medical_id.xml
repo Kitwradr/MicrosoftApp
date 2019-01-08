@@ -107,6 +107,7 @@
 
 
             <TextView
+                android:drawableStart="@drawable/ic_baseline_accessibility_24px"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -131,6 +132,7 @@
                 android:textColor="#000000" />
 
             <TextView
+                android:drawableStart="@drawable/ic_weight"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -155,6 +157,7 @@
 
 
             <TextView
+                android:drawableStart="@drawable/ic_baseline_local_hospital_24px"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -183,6 +186,7 @@
 
 
             <TextView
+                android:drawableStart="@drawable/ic_baseline_local_hospital_24px"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -207,6 +211,7 @@
                 android:textColor="#000000" />
 
             <TextView
+                android:drawableStart="@drawable/ic_baseline_assignment_24px"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"

@@ -21,6 +21,8 @@ import android.widget.ImageView;
 
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -32,6 +34,12 @@ import java.net.URL;
 public class AzureMedicalID extends AppCompatActivity
 {
 
+    EditText  bloodgroup;
+    EditText  height;
+    EditText  weight;
+    EditText  medicalconditions;
+    EditText  allergies;
+    EditText  medicalnotes;
     Button add;
     ImageView edit;
 
@@ -53,14 +61,20 @@ public class AzureMedicalID extends AppCompatActivity
         ColorDrawable colorDrawable=new ColorDrawable(Color.parseColor("#FF0000"));
         actionBar.setBackgroundDrawable(colorDrawable);
 
-   EditText  bloodgroup=(EditText)findViewById(R.id.bloodgroup);
-   EditText  height=(EditText)findViewById(R.id.height);
-   EditText  weight=(EditText)findViewById(R.id.weight);
-   EditText  medicalconditions=(EditText)findViewById(R.id.medicalconditions);
-   EditText  allergies=(EditText)findViewById(R.id.allergies);
-   EditText  medicalnotes=(EditText)findViewById(R.id.medicalnotes);
+        bloodgroup=(EditText)findViewById(R.id.bloodgroup);
+        height=(EditText)findViewById(R.id.height);
+        weight=(EditText)findViewById(R.id.weight);
+        medicalconditions=(EditText)findViewById(R.id.medicalconditions);
+        allergies=(EditText)findViewById(R.id.allergies);
+        medicalnotes=(EditText)findViewById(R.id.medicalnotes);
         add=(Button)findViewById(R.id.addbutton);
         edit=(ImageView)findViewById(R.id.edit);
+
+        if(isInternetConnection())
+        {
+            new getMedicalAsync().execute();
+        }
+
 
 
         disableEditText(bloodgroup);
@@ -228,6 +242,87 @@ public class AzureMedicalID extends AppCompatActivity
         }
 
     }
+    private class getMedicalAsync extends AsyncTask<Integer, Void,PMedicalDetails>
+    {
+        PMedicalDetails list;
 
+        protected PMedicalDetails doInBackground(Integer... params)
+        {
+            String url = "https://aztests.azurewebsites.net/victims/get/medical";
+            try {
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+                con.setRequestMethod("POST");
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setDoInput(true);
+                con.setDoInput(true);
+                con.connect();
+
+                JSONObject json = new JSONObject();
+                json.put("user_id",params[0].toString());
+
+                OutputStream outputStream = con.getOutputStream();
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
+                    writer.write(json.toString());
+                    writer.close();
+                }
+                outputStream.close();
+
+
+
+                System.out.println("\nSending 'POST' request to URL : " + url);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response);
+                int responseCode = con.getResponseCode();
+
+                System.out.println("Response Code : " + responseCode);
+                //add request header
+
+                in.close();
+
+                Gson gson = new Gson();
+
+
+                JSONObject myResponse = new JSONObject(response.toString());
+                JSONObject data = myResponse.getJSONObject("data");
+                list = gson.fromJson(data.toString(), PMedicalDetails.class);
+                System.out.println(list.toString());
+
+
+
+
+                return list;
+
+            } catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+            return null;
+
+        }
+
+        protected void onPostExecute(PMedicalDetails list)
+        {
+
+               if(list!=null)
+               {
+                   bloodgroup.setText(list.getBlood());
+                   allergies.setText(list.getAllergy());
+                   height.setText(list.getHeight());
+                   weight.setText(list.getWeight());
+                   medicalconditions.setText(list.getMedical_condition());
+                   medicalnotes.setText(list.getNotes());
+
+                   Log.i("CHECK MEDICAL ID",list.getBlood());
+               }
+
+        }
+    }
 
 }

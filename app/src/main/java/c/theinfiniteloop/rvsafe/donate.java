@@ -357,20 +357,21 @@ public class donate extends Fragment implements OnMapReadyCallback {
                     public void onClick(DialogInterface dialog, int whichButton)
                     {
 
-                            donateDetails.setPhone_number(("" + phno.getText()).split("PHONE NO: ")[1]);
 
-                            donateDetails.setAddress(("" + address.getText()).split("ADDRESS: ")[1]);
-                            donateDetails.setCity(("" + city.getText()).split("CITY: ")[1]);
+                        donateDetails.setPhone_number((""+phno.getText()).split("PHONE NO: ")[1]);
+                        donateDetails.setAddress((""+address.getText()).split("ADDRESS: ")[1]);
+                        donateDetails.setCity((""+city.getText()).split("CITY: ")[1]);
+                        
 
-
-                            donateDetails.setItems(items);
-                            if (isInternetConnection()) {
-                                new postDonateAsync().execute(donateDetails);
-                            }
+                        donateDetails.setItems(items);
 
 
+                        if(isInternetConnection())
+                        {
+                            new postDonateAsync().execute(donateDetails);
+                        }
 
-
+                        //do something with edt.getText().toString();
                     }
                 });
                 dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -567,6 +568,12 @@ public class donate extends Fragment implements OnMapReadyCallback {
         }
 
     }
+
+
+
+
+
+
 
 
 

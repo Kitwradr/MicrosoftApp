@@ -103,7 +103,8 @@ public class PMedicalDetails {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "PMedicalDetails{" +
                 "name='" + name + '\'' +
                 ", age='" + age + '\'' +

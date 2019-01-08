@@ -28,8 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_edit_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\shubham" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_baseline_accessibility_24px" />
+                            <entry key="sourceFile" value="C:\Users\shubham\Downloads\baseline-accessibility-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>
