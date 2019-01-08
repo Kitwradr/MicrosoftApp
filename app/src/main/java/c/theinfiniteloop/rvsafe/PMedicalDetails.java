@@ -101,4 +101,20 @@ public class PMedicalDetails {
     public void setPitureLink(String pitureLink) {
         this.pitureLink = pitureLink;
     }
+
+    @Override
+    public String toString() {
+        return "PMedicalDetails{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", blood='" + blood + '\'' +
+                ", height='" + height + '\'' +
+                ", weight='" + weight + '\'' +
+                ", medical_condition='" + medical_condition + '\'' +
+                ", allergy='" + allergy + '\'' +
+                ", notes='" + notes + '\'' +
+                ", pitureLink='" + pitureLink + '\'' +
+                '}';
+    }
 }
