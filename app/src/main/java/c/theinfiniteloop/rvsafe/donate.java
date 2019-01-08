@@ -600,8 +600,6 @@ public class donate extends Fragment implements OnMapReadyCallback {
                 urlConnection.setRequestProperty("Content-Type", "application/json");
                 urlConnection.setRequestMethod("POST");
                 urlConnection.connect();
-
-
                 //Write
                 OutputStream outputStream = urlConnection.getOutputStream();
                 try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
@@ -635,6 +633,79 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
         }
 
+    }
+
+    private class getMedicalAsync extends AsyncTask<Integer, Void,PMedicalDetails> {
+
+        PMedicalDetails list;
+
+
+        protected PMedicalDetails doInBackground(Integer... params)
+        {
+            String url = "https://aztests.azurewebsites.net/victims/get/medical";
+            try {
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+                con.setRequestMethod("POST");
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setDoInput(true);
+                con.setDoInput(true);
+                con.connect();
+
+                JSONObject json = new JSONObject();
+                json.put("user_id",params[0].toString());
+
+                OutputStream outputStream = con.getOutputStream();
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
+                    writer.write(json.toString());
+                    writer.close();
+                }
+                outputStream.close();
+
+
+
+                System.out.println("\nSending 'POST' request to URL : " + url);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response);
+                int responseCode = con.getResponseCode();
+
+                System.out.println("Response Code : " + responseCode);
+                //add request header
+
+                in.close();
+
+                Gson gson = new Gson();
+
+
+                JSONObject myResponse = new JSONObject(response.toString());
+                JSONObject data = myResponse.getJSONObject("data");
+                list = gson.fromJson(data.toString(), PMedicalDetails.class);
+                System.out.println(list.toString());
+
+
+
+
+                return list;
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+
+        }
+
+        protected void onPostExecute(DisasterList list)
+        {
+
+
+
+        }
     }
 
 
