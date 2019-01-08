@@ -75,6 +75,9 @@ public class donate extends Fragment implements OnMapReadyCallback {
     public static boolean button4pressed = false;
     public ArrayList<LatLng> ngolocations;
 
+    PMedicalDetails medicalDetails = new PMedicalDetails();
+
+
 
 
 
@@ -125,8 +128,19 @@ public class donate extends Fragment implements OnMapReadyCallback {
             Toast.makeText(getContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
         }
 
-
-
+//        POSTING MEDICL DATA TESTING
+//        medicalDetails.setAge("10");
+//        medicalDetails.setAllergy("Allergies entered");
+//        medicalDetails.setBlood("0+");
+//        medicalDetails.setMedical_condition("Medical conditions entered");
+//        medicalDetails.setHeight("9");
+//        medicalDetails.setPitureLink("picture link to be updated");
+//        medicalDetails.setUser_id("0");
+//        medicalDetails.setNotes("Notes to be entered");
+//        medicalDetails.setWeight("60kg");
+//        medicalDetails.setName("Suhas");
+//
+//        new postMedicalAsync().execute(medicalDetails);
 
 
 
@@ -498,6 +512,74 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
             try {
                 String postUrl = "https://aztests.azurewebsites.net/ngo/resources/add";
+                Gson gson = new Gson();
+                System.out.println(data[0]);
+
+                //StringEntity postingString = new StringEntity(gson.toJson(data[0]));
+
+                String postingString = gson.toJson(data[0]);
+
+                System.out.println("Posting data = "+ postingString);
+
+                HttpURLConnection urlConnection;
+
+
+
+                urlConnection = (HttpURLConnection) ((new URL(postUrl).openConnection()));
+                //System.out.println("Response code: "+urlConnection.getResponseCode());
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+
+                //Write
+                OutputStream outputStream = urlConnection.getOutputStream();
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
+                    writer.write(postingString.toString());
+                    writer.close();
+                }
+                outputStream.close();
+                //System.out.println("Response code: "+urlConnection.getResponseCode());
+
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+
+                String line = null;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null)
+                {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                String result = sb.toString();
+
+                System.out.println("Result == "+result);
+
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+
+        }
+
+    }
+
+    private class postMedicalAsync extends AsyncTask<PMedicalDetails, Void, Void>
+    {
+
+        @Override
+        protected Void doInBackground(PMedicalDetails... data)
+        {
+            Log.i("new stuffs",data.toString());
+
+
+            try {
+                String postUrl = "https://aztests.azurewebsites.net/victims/update/medical";
                 Gson gson = new Gson();
                 System.out.println(data[0]);
 
