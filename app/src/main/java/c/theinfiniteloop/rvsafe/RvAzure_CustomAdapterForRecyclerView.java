@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class RvAzure_CustomAdapterForRecyclerView extends RecyclerView.Adapter<RvAzure_CustomAdapterForRecyclerView.MyViewHolder> {
     private ArrayList<RvAzure_DataModelForCards> dataSet;
 
-public static class MyViewHolder extends RecyclerView.ViewHolder
-{
 
+    public static class MyViewHolder extends RecyclerView.ViewHolder
+    {
     TextView textViewName;
     TextView textViewtype;
     ImageView imageViewIcon;
@@ -38,12 +38,12 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
         this.want_to_help_out=(Button)itemView.findViewById(R.id.want_to_help_out);
 
     }
-}
+
+    }
 
     public RvAzure_CustomAdapterForRecyclerView(ArrayList<RvAzure_DataModelForCards> data)
     {
         this.dataSet = data;
-
     }
 
     @Override
@@ -51,16 +51,7 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
                                            int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.disaster_card_view, parent, false);
-
         view.setOnClickListener(RvAzure_Disaster_cards.myOnClickListener);
-
-
-
-
-
-
-
-
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
@@ -148,7 +139,8 @@ public static class MyViewHolder extends RecyclerView.ViewHolder
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return dataSet.size();
     }
 }

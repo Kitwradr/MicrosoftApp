@@ -1,7 +1,10 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -188,7 +191,7 @@ public class RvAzure_am_i_safe extends Fragment
             }
         });
 
-
+     if(isInternetConnection())
        new getWeatherDetails().execute();
 
 
@@ -413,7 +416,13 @@ public class RvAzure_am_i_safe extends Fragment
 
 
 
+    public boolean isInternetConnection()
+    {
 
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 
 

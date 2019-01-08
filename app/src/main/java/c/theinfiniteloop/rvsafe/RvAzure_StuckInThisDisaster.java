@@ -1,5 +1,4 @@
 package c.theinfiniteloop.rvsafe;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -271,7 +270,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             BitmapFactory.Options options=new BitmapFactory.Options();
             options.inPreferredConfig=Bitmap.Config.RGB_565;
             options.inBitmap=CurrentLandmarkBitamp;
-            CurrentLandmarkBitamp=BitmapFactory.decodeFile(victimrestoredPath,options);
+            CurrentLandmarkBitamp=BitmapFactory.decodeFile(landmarkrestoredPath1,options);
             landmarkimage1.setImageBitmap(CurrentLandmarkBitamp);
             landmarkimage1.setScaleType(ImageView.ScaleType.FIT_XY);
 
@@ -287,7 +286,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
 
-            options.inBitmap=CurrentLandmark1Bitamp;
+            options.                                 inBitmap=CurrentLandmark1Bitamp;
 
             CurrentLandmark1Bitamp=BitmapFactory.decodeFile(landmarkrestoredPath2,options);
             landmarkimage2.setImageBitmap(CurrentLandmark1Bitamp);
@@ -1352,7 +1351,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
                 System.out.println("The format is " + splits[1]);
 
 
-                URL urlObj = new URL("http://aztests.azurewebsites.net/victim/upload/images/0/"+splits[1]+"/blob");
+                URL urlObj = new URL("http://aztests.azurewebsites.net/victim/upload/images/0/0/"+splits[1]+"/blob");
                 //URL urlObj = new URL("http://192.168.43.27:8080/facial");
                 HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
                 conn.setRequestMethod("POST");

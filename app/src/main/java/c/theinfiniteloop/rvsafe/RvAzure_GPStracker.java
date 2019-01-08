@@ -33,13 +33,15 @@ public class RvAzure_GPStracker implements LocationListener {
     {
         return statename;
     }
-
    // public void setLongitude(String longitude)
     {
         this.longitude = longitude;
     }
 
-    public String getThoroughfare() {
+
+
+    public String getThoroughfare()
+    {
         return thoroughfare;
     }
 
@@ -95,9 +97,11 @@ public class RvAzure_GPStracker implements LocationListener {
                 if (addresses.size() > 0)
                 {
 
-                    thoroughfare=addresses.get(0).getThoroughfare();
+                    thoroughfare=addresses.get(0).getSubThoroughfare()+" "+addresses.get(0).getThoroughfare()+" "+addresses.get(0).getSubLocality();
                     cityname = addresses.get(0).getLocality();
                     statename = addresses.get(0).getAdminArea();
+
+
                 }
 
             }
@@ -105,10 +109,6 @@ public class RvAzure_GPStracker implements LocationListener {
             {
                 e.printStackTrace();
             }
-
-        }
-        else
-        {
 
         }
 

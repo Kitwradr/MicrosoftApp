@@ -52,7 +52,6 @@ public class RvAzure_DisasterCardHome extends Fragment
 
         super.onCreate(savedInstanceState);
 
-
         data = new ArrayList<RvAzure_DataModelForCards>();
         adapter = new RvAzure_CustomAdapterForRecyclerView(data);
     }
@@ -85,7 +84,6 @@ public class RvAzure_DisasterCardHome extends Fragment
         {
 
             data.add(new RvAzure_DataModelForCards("UNKNOWN","UNKNOWN",-1,"DEFAULT"));
-
             adapter.notifyDataSetChanged();
         }
 

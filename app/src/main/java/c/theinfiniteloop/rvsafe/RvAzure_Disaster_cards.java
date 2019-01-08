@@ -2,6 +2,7 @@ package c.theinfiniteloop.rvsafe;
 
 import android.Manifest;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -102,14 +103,8 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_azure__disaster_cards);
-
         sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
-
         String username=sharedPreferences.getString(usernamepathtag,null);
-
-
-
-
 
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_GPS_PERMISSION);
@@ -118,19 +113,13 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
-     View hview =navigationView.getHeaderView(0);
-
+        View hview =navigationView.getHeaderView(0);
         TextView txt=(TextView) hview.findViewById(R.id.header);
         txt.setText(username);
 
@@ -184,6 +173,7 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
 
         Log.i("CURRENT LOCATION:",""+locationListener.getCityname()+" "+locationListener.getStatename());
 
+        startService(new Intent(getApplicationContext(), NotificationService.class));
 
     }
 
@@ -314,12 +304,17 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
             /*code to share after app is published */
 
         }
+        else if(id==R.id.medical_id)
+        {
+            startActivity(new Intent(RvAzure_Disaster_cards.this,AzureMedicalID.class));
+        }
         else if (id == R.id.nav_send)
         {
 
          /*code to share after app is published */
 
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
