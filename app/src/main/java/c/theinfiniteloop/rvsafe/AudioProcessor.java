@@ -3,6 +3,7 @@ package c.theinfiniteloop.rvsafe;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -15,13 +16,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -84,10 +100,6 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
         }.start();
 
 
-
-
-
-
     }
 
 
@@ -110,17 +122,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
     }
 
 
-
-
-
-
-
-
-
-
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode)
@@ -197,16 +199,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
     }
 
 
-
-
-
-
-
-
-
-
-    public void onInit(int status)
-    {
+    public void onInit(int status) {
 
         if (status == TextToSpeech.SUCCESS)
         {
@@ -333,129 +326,44 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
             }
 
 
-
-
-
-
-
-
-
-/*            switch (5)
-            {
-
-                case 1:card1.setVisibility(View.VISIBLE);
-                    Date1.setText(keyset.get(0));
-                    System.out.println("Card data"+ keyset.get(0));
-                    Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
-
-                    break;
-
-                case 2:
-                    card1.setVisibility(View.VISIBLE);
-                    Date1.setText(keyset.get(0));
-                    Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
-
-                    card2.setVisibility(View.VISIBLE);
-                    Date2.setText(keyset.get(1));
-                    Desc2.setText("\u2022"+weathermaps.get(keyset.get(1)));
-
-
-
-                    break;
-                case 3:
-                    card1.setVisibility(View.VISIBLE);
-                    Date1.setText(keyset.get(0));
-                    Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
-
-
-                    card2.setVisibility(View.VISIBLE);
-                    Date2.setText(keyset.get(1));
-                    Desc2.setText("\u2022"+weathermaps.get(keyset.get(1)));
-
-                    card3.setVisibility(View.VISIBLE);
-                    Date3.setText(keyset.get(2));
-                    Desc3.setText("\u2022"+weathermaps.get(keyset.get(2)));
-
-
-
-                    break;
-
-                case 4:
-
-
-                    card1.setVisibility(View.VISIBLE);
-                    Date1.setText(keyset.get(0));
-                    Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
-
-                    card2.setVisibility(View.VISIBLE);
-                    Date2.setText(keyset.get(1));
-                    Desc2.setText("\u2022"+weathermaps.get(keyset.get(1)));
-
-                    card3.setVisibility(View.VISIBLE);
-                    Date3.setText(keyset.get(2));
-                    Desc3.setText("\u2022"+weathermaps.get(keyset.get(2)));
-
-                    card4.setVisibility(View.VISIBLE);
-                    Date4.setText(keyset.get(3));
-                    Desc4.setText("\u2022"+weathermaps.get(keyset.get(3)));
-
-
-
-
-
-                    break;
-                case 5:
-
-                    card1.setVisibility(View.VISIBLE);
-                    Date1.setText(keyset.get(0));
-                    Desc1.setText("\u2022"+weathermaps.get(keyset.get(0)));
-
-                    card2.setVisibility(View.VISIBLE);
-                    Date2.setText(keyset.get(1));
-                      Desc2.setText("\u2022"+weathermaps.get(keyset.get(1)));
-
-                    card3.setVisibility(View.VISIBLE);
-                    Date3.setText(keyset.get(2));
-                    Desc3.setText("\u2022"+weathermaps.get(keyset.get(2)));
-
-                    card4.setVisibility(View.VISIBLE);
-                    Date4.setText(keyset.get(3));
-                    Desc4.setText("\u2022"+weathermaps.get(keyset.get(3)));
-
-                    card5.setVisibility(View.VISIBLE);
-                    Date5.setText(keyset.get(4));
-                    Desc5.setText("\u2022"+weathermaps.get(keyset.get(4)));
-
-
-
-                    break;
-
-
-            } */
-
-
-
-
-
-
         }
     }
 
 
-
-
-
-
-
-
-    public boolean isInternetConnection()
-    {
+    public boolean isInternetConnection() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    private class getIntentAsync extends AsyncTask<String, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(String... speechinput) {
+            try {
+
+
+                String LUISurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/fe722394-907f-4eff-9fdb-1addf6eaaa30?verbose=true&timezoneOffset=-360&subscription-key=ca3da5d2e8b64c8a80ce5e859ce43c01&q=" + speechinput;
+
+                URL obj = new URL(LUISurl);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                con.setRequestMethod("GET");
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + LUISurl);
+                System.out.println("Response Code : " + responseCode);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                JSONObject intents = jsonResponse.getJSONObject("topScoringIntent");
+                String intentName = intents.getString("intent");
+                System.out.println(intentName.toString()+"------------------------");
+                in.close();
 
 
 
@@ -463,10 +371,23 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
 
 
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            return null;
+        }
+//        @Override
+//        protected void onPostExecute(String data)
+//        {
+//
+//
+//
+//
+//            }
 
 
-
-
-
-
+    }
 }
+
+
