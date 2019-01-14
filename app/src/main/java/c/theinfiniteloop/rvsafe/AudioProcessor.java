@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.mongodb.util.JSON;
 
 
 import org.apache.http.HttpEntity;
@@ -28,6 +30,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -71,10 +74,10 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
         setContentView(R.layout.activity_audio_processor);
 
 
-     if(isInternetConnection())
-     {
-         new getWeatherDetails().execute();
-     }
+        if (isInternetConnection()) {
+            new getWeatherDetails().execute();
+            //new getIntentAsync().execute("tell me some tips to be followed during an earthquake");
+        }
 
 
 
@@ -337,57 +340,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private class getIntentAsync extends AsyncTask<String, Void, Void> {
 
-
-        @Override
-        protected Void doInBackground(String... speechinput) {
-            try {
-
-
-                String LUISurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/fe722394-907f-4eff-9fdb-1addf6eaaa30?verbose=true&timezoneOffset=-360&subscription-key=ca3da5d2e8b64c8a80ce5e859ce43c01&q=" + speechinput;
-
-                URL obj = new URL(LUISurl);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-                con.setRequestMethod("GET");
-                int responseCode = con.getResponseCode();
-                System.out.println("\nSending 'GET' request to URL : " + LUISurl);
-                System.out.println("Response Code : " + responseCode);
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                JSONObject jsonResponse = new JSONObject(response.toString());
-                JSONObject intents = jsonResponse.getJSONObject("topScoringIntent");
-                String intentName = intents.getString("intent");
-                System.out.println(intentName.toString()+"------------------------");
-                in.close();
-
-
-
-
-
-
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-
-            return null;
-        }
-//        @Override
-//        protected void onPostExecute(String data)
-//        {
-//
-//
-//
-//
-//            }
-
-
-    }
 }
 
 

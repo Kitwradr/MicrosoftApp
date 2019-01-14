@@ -21,6 +21,7 @@ import android.widget.ImageView;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -30,6 +31,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class AzureMedicalID extends AppCompatActivity
 {
@@ -72,7 +74,9 @@ public class AzureMedicalID extends AppCompatActivity
 
         if(isInternetConnection())
         {
-            new getMedicalAsync().execute();
+            System.out.println("executing inside-----------");
+            //new getMedicalAsync().execute(0 );
+            new getIntentAsync().execute("Tell me some tips to be followed during an earthquake");
         }
 
 
@@ -140,6 +144,7 @@ public class AzureMedicalID extends AppCompatActivity
 
                 if (isInternetConnection())
                 {
+
                     new postMedicalAsync().execute(medicalid);
                 }
             }
@@ -309,6 +314,7 @@ public class AzureMedicalID extends AppCompatActivity
 
         protected void onPostExecute(PMedicalDetails list)
         {
+            System.out.println("inside----------");
 
                if(list!=null)
                {
@@ -323,6 +329,76 @@ public class AzureMedicalID extends AppCompatActivity
                }
 
         }
+    }
+
+    private class getIntentAsync extends AsyncTask<String, Void, ArrayList<String>> {
+
+
+        @Override
+        protected ArrayList<String> doInBackground(String... speechinput) {
+            try {
+                ArrayList<String> strList = new ArrayList<>();
+
+                String LUISurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/fe722394-907f-4eff-9fdb-1addf6eaaa30?verbose=true&timezoneOffset=-360&subscription-key=ca3da5d2e8b64c8a80ce5e859ce43c01&q=" + speechinput[0];
+
+                URL obj = new URL(LUISurl);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                con.setRequestMethod("GET");
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + LUISurl);
+                System.out.println("Response Code : " + responseCode);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response);
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                JSONObject intents = jsonResponse.getJSONObject("topScoringIntent");
+                String intentName = intents.getString("intent");
+                System.out.println(intentName.toString()+"INTENT NAME");
+
+                String entityname;
+
+                JSONArray entitities = jsonResponse.getJSONArray("entities");
+
+                JSONObject entityjson = entitities.getJSONObject(0);
+
+                entityname = entityjson.getString("entity");
+
+
+
+
+
+
+                in.close();
+
+                strList.add(intentName);
+                if(entityname!=null)
+                    strList.add(entityname);
+
+                return strList;
+
+
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<String> data)
+        {
+            System.out.println(data);
+
+
+
+
+        }
+
+
     }
 
 }

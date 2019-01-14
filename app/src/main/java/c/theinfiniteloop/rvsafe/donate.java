@@ -701,8 +701,10 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
         }
 
-        protected void onPostExecute(DisasterList list)
+        protected void onPostExecute(PMedicalDetails list)
         {
+
+            System.out.println(list);
 
 
 
