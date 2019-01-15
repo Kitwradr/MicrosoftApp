@@ -562,11 +562,7 @@ public class RvAzure_sos extends Fragment
 
     private void sendSms(String phonenumber)
     {
-
-
         String message="Iam in need of help!! http://maps.google.com/?q=<"+mygps.getLatitude()+">,<"+mygps.getLongitude()+">";
-
-
         SmsManager manager = SmsManager.getDefault();
         manager.sendTextMessage(phonenumber, null, message, null, null);
     }

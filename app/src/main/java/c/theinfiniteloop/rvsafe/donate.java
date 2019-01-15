@@ -129,22 +129,8 @@ public class donate extends Fragment implements OnMapReadyCallback {
             Toast.makeText(getContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
         }
 
-//        POSTING MEDICL DATA TESTING
-//        medicalDetails.setAge("10");
-//        medicalDetails.setAllergy("Allergies entered");
-//        medicalDetails.setBlood("0+");
-//        medicalDetails.setMedical_condition("Medical conditions entered");
-//        medicalDetails.setHeight("9");
-//        medicalDetails.setPitureLink("picture link to be updated");
-//        medicalDetails.setUser_id("0");
-//        medicalDetails.setNotes("Notes to be entered");
-//        medicalDetails.setWeight("60kg");
-//        medicalDetails.setName("Suhas");
 //
-//        new postMedicalAsync().execute(medicalDetails);
 
-
-            new getMedicalAsync().execute(0);
 
     }
 
@@ -570,146 +556,9 @@ public class donate extends Fragment implements OnMapReadyCallback {
 
     }
 
-    private class postMedicalAsync extends AsyncTask<PMedicalDetails, Void, Void>
-    {
-
-        @Override
-        protected Void doInBackground(PMedicalDetails... data)
-        {
-            Log.i("new stuffs",data.toString());
-
-
-            try {
-                String postUrl = "https://aztests.azurewebsites.net/victims/update/medical";
-                Gson gson = new Gson();
-                System.out.println(data[0]);
-
-                //StringEntity postingString = new StringEntity(gson.toJson(data[0]));
-
-                String postingString = gson.toJson(data[0]);
-
-                System.out.println("Posting data = "+ postingString);
-
-                HttpURLConnection urlConnection;
 
 
 
-                urlConnection = (HttpURLConnection) ((new URL(postUrl).openConnection()));
-                //System.out.println("Response code: "+urlConnection.getResponseCode());
-                urlConnection.setDoOutput(true);
-                urlConnection.setDoInput(true);
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-                urlConnection.setRequestMethod("POST");
-                urlConnection.connect();
-                //Write
-                OutputStream outputStream = urlConnection.getOutputStream();
-                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
-                    writer.write(postingString.toString());
-                    writer.close();
-                }
-                outputStream.close();
-                //System.out.println("Response code: "+urlConnection.getResponseCode());
-
-
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-
-                String line = null;
-                StringBuilder sb = new StringBuilder();
-
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    sb.append(line);
-                }
-
-                bufferedReader.close();
-                String result = sb.toString();
-
-                System.out.println("Result == "+result);
-
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            return null;
-
-        }
-
-    }
-
-    private class getMedicalAsync extends AsyncTask<Integer, Void,PMedicalDetails> {
-
-        PMedicalDetails list;
-
-
-        protected PMedicalDetails doInBackground(Integer... params)
-        {
-            String url = "https://aztests.azurewebsites.net/victims/get/medical";
-            try {
-                URL obj = new URL(url);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-                con.setRequestMethod("POST");
-                con.setRequestProperty("Content-Type", "application/json");
-                con.setDoInput(true);
-                con.setDoInput(true);
-                con.connect();
-
-                JSONObject json = new JSONObject();
-                json.put("user_id",params[0].toString());
-
-                OutputStream outputStream = con.getOutputStream();
-                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
-                    writer.write(json.toString());
-                    writer.close();
-                }
-                outputStream.close();
-
-
-
-                System.out.println("\nSending 'POST' request to URL : " + url);
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                System.out.println(response);
-                int responseCode = con.getResponseCode();
-
-                System.out.println("Response Code : " + responseCode);
-                //add request header
-
-                in.close();
-
-                Gson gson = new Gson();
-
-
-                JSONObject myResponse = new JSONObject(response.toString());
-                JSONObject data = myResponse.getJSONObject("data");
-                list = gson.fromJson(data.toString(), PMedicalDetails.class);
-                System.out.println(list.toString());
-
-
-
-
-                return list;
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            return null;
-
-        }
-
-        protected void onPostExecute(PMedicalDetails list)
-        {
-
-            System.out.println(list);
-
-
-
-        }
-    }
 
 
 

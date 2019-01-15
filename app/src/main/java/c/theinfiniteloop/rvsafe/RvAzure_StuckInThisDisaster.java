@@ -1,9 +1,11 @@
 package c.theinfiniteloop.rvsafe;
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -102,7 +104,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     String safezonecontactstring;
     String rescuegroupcontacstring;
 
-
+    SmsReceiver smsReceiver;
     TextView rescugroupname;
     TextView rescuegroupdistance;
     Button rescuegroupcall;
@@ -168,6 +170,13 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
     private String DistressMessageNearestRescueGroupLat;
     private String DistressMessageNearestRescueGroupLon;
     private String DistressMessageNearestRescueGroupContact;
+
+  //  private final BroadcastReceiver mybroadcast = new SmsReceiver();
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -286,7 +295,7 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
 
 
 
-            options.                                 inBitmap=CurrentLandmark1Bitamp;
+            options.inBitmap=CurrentLandmark1Bitamp;
 
             CurrentLandmark1Bitamp=BitmapFactory.decodeFile(landmarkrestoredPath2,options);
             landmarkimage2.setImageBitmap(CurrentLandmark1Bitamp);
@@ -657,39 +666,34 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
              //new RetrieveImagesAsync().execute();
         }
 
+     //   startService(new Intent(getApplicationContext(), RvAzure_SmsReceiverService.class));
 
         SmsReceiver.bindListener(new SmsListener()
         {
             @Override
-            public void messageReceived(String messageText) {
+            public void messageReceived(String messageText)
+            {
 
-     try {
-         if (!isInternetConnection() && messageText.startsWith("RVSAFE DISTRESS HELPLINE")) {
-             //             Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_SHORT).show();
-
-
-             String[] format = new String[]{"NGLA", "NGLO", "NGC", "NRGLA", "NRGLO", "NRGC"};
-
-
-             DistressMessageNearestGroupLat = messageText.split(format[0])[1].split(" ")[0];
-             DistressMessageNearestGroupLon = messageText.split(format[1])[1].split(" ")[0];
-             DistressMessageNearestGroupContact = messageText.split(format[2])[1].split(" ")[0];
-
-
-             DistressMessageNearestRescueGroupLat = messageText.split(format[3])[1].split(" ")[0];
-             DistressMessageNearestRescueGroupLon = messageText.split(format[4])[1].split(" ")[0];
-             DistressMessageNearestRescueGroupContact = messageText.split(format[5])[1];
-
-
-             updatelocale();
-
-            }
-           }
-
-           catch(Exception e)
-          {
-
-          }
+//       try {
+//             if (!isInternetConnection() && messageText.startsWith("RVSAFE DISTRESS HELPLINE"))
+//             {
+//             //             Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_SHORT).show();
+//             String[] format = new String[]{"NGLA", "NGLO", "NGC", "NRGLA", "NRGLO", "NRGC"};
+//             DistressMessageNearestGroupLat = messageText.split(format[0])[1].split(" ")[0];
+//             DistressMessageNearestGroupLon = messageText.split(format[1])[1].split(" ")[0];
+//             DistressMessageNearestGroupContact = messageText.split(format[2])[1].split(" ")[0];
+//             DistressMessageNearestRescueGroupLat = messageText.split(format[3])[1].split(" ")[0];
+//             DistressMessageNearestRescueGroupLon = messageText.split(format[4])[1].split(" ")[0];
+//             DistressMessageNearestRescueGroupContact = messageText.split(format[5])[1];
+//             updatelocale();
+//
+//            }
+//           }
+//
+//           catch(Exception e)
+//          {
+//
+//          }
 
 
 

@@ -64,7 +64,10 @@
             android:name=".RvAzure_StuckInThisDisaster"
             android:label="@string/title_activity_rv_azure__stuck_in_this_disaster" />
 
-        <receiver android:name=".SmsReceiver">
+        <receiver android:name=".SmsReceiver"
+            android:enabled="true"
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>

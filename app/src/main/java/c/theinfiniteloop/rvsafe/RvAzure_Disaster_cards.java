@@ -68,6 +68,7 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
     private boolean permissionToLocationAccepted = false;
 
     private boolean permissionToInternetAccepted = false;
+
     /*an array of permissions for to be requested*/
     private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.SEND_SMS,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_SMS,Manifest.permission.CALL_PHONE,Manifest.permission.READ_PHONE_NUMBERS,Manifest.permission.READ_PHONE_STATE};
 
@@ -108,7 +109,7 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
 
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_GPS_PERMISSION);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 

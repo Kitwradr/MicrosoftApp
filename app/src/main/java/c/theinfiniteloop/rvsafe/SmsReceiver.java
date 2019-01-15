@@ -20,11 +20,8 @@ public class SmsReceiver extends BroadcastReceiver
         SmsMessage[] msgs = Telephony.Sms.Intents.getMessagesFromIntent(intent);
         String format = intent.getStringExtra("format");
 
-
         SmsMessage sms = msgs[0];
-
-         String message = sms.getMessageBody();
-
+        String message = sms.getMessageBody();
         mListener.messageReceived(message);
 
     }
