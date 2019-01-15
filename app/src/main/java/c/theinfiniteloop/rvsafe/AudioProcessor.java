@@ -64,6 +64,20 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
     private String speech_input = "";
 
+    private String earthquakes_text="if you are in an earthquake drop down and take cover under a desk or table, "+"Stay inside until the tremors " +
+            "stop and it is safe to exit, "+"Stay away from windows and light fixtures, "+"If you are in bed hold on and stay there. " +
+            "Protect your head with a pillow, "+" If you are outdoors drop down to ground and stay clear from buildings ";
+   private String floods_text="If you are under a flood warning, find a safe shelter right away, "+"Move to higher ground, "+"Do not walk, " +
+           "swim or drive through flood waters, "+"if you are told to evacuate immediately do so";
+
+   private String tsunanmi_text="if you are in a tsunami area and there is an earthquake, then first protect yourself from " +
+           "the earthquake, "+"Drop, cover, and hold on, "+"cover your head and neck with your arms, "+"if you are outside a tsunami hazardous " +
+           "zone then stay where you are unless officials tell you otherwise, "+" If you are in water try to grab onto something that floats, "+"If you " +
+           "are in a boat, then face the direction of the waves and head out to sea, "+"If you are in harbor then go inland";
+
+   private String volcano_text="if you are in a volcanic eruption zone, "+"evacuate only as recommended by authorities to stay clear of lava, mud flows and " +
+           "flying debris, "+"Cover your mouth with a damp handkerchief, "+" Shut all the doors and windows and stay indoors ";
+
     List<String> keyset;
 
     private String weather_string;
@@ -186,7 +200,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
                     if(isInternetConnection())
                     {
                         System.out.println("Entered here");
-                        new getIntentAsync().execute("how far is the nearest rescue group");
+                        new getIntentAsync().execute(speech_input.toLowerCase());
                     }
 
                     int delay=6000;
@@ -506,8 +520,22 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
             if(data!=null)
             {
                 System.out.println(data);
-                //Log.i("MEDICAL ID", data.get(1));
 
+
+                if(data.get(0).toLowerCase().matches("tipsread"))
+                {
+                    //speakOut(earthquakes_text);
+                    System.out.println("---------"+"read tips");
+                }
+                else if(data.get(0).toLowerCase().matches("emergencycontact"))
+                {
+                    System.out.println("---------"+"emergency");
+
+                }
+                else if(data.get(0).toLowerCase().matches("sosalerts"))
+                {
+                    System.out.println("---------"+"distress message");
+                }
                 
 
             }
