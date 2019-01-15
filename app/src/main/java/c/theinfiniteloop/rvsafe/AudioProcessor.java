@@ -51,6 +51,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
+
 public class AudioProcessor extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
 
@@ -84,7 +86,6 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
 
 
-
         boolean gpsenabled = false;
         boolean networkenabled = false;
 
@@ -110,8 +111,9 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
         if (isInternetConnection())
         {
+
             new getWeatherDetails().execute();
-            //new getIntentAsync().execute("tell me some tips to be followed during an earthquake");
+
         }
 
 
@@ -145,6 +147,8 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
     private void askSpeechInput()
     {
+
+
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
@@ -157,6 +161,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
         catch(ActivityNotFoundException a)
         {
 
+             Toast.makeText(getApplicationContext(),"THIS WAS NOT EXPECTED",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -164,7 +169,6 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-
         switch (requestCode)
         {
             case REQ_CODE_SPEECH_INPUT:
@@ -179,7 +183,13 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
                     //Trigger Action
 
-                    int delay=3000;
+                    if(isInternetConnection())
+                    {
+                        System.out.println("Entered here");
+                        new getIntentAsync().execute("Tell me some tips to be followed during an earthquake");
+                    }
+
+                    int delay=6000;
 
                     Log.i("EXECUTABLE2","HEY HEY");
 
@@ -188,7 +198,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
                         if(!(speech_input.matches(""))&&speech_input!=null)
                         {
                             Log.i("EXECUTABLE", "HEY HEY");
-                            new getIntentAsync().execute("send a distress message to my emergency contact");
+                    //        new getIntentAsync().execute("send a distress message to my emergency contact");
                         }
                     }
                     if(speech_input.toLowerCase().contains("weather report"))
@@ -196,13 +206,11 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
                      speakOut("WEATHER REPORT FOR FIVE DAYS");
 
-
-
                      if(!weather_string.matches(""))
                          speakOut(weather_string);
 
 
-                       delay=18000;
+                       delay=6000;
 
                     }
                     else if(speech_input.toLowerCase().contains("distress"))
@@ -217,18 +225,13 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
                     }
                     else if(speech_input.toLowerCase().contains("sos"))
                     {
-
                         speakOut("YOUR EMERGENCY CONTACT HAS BEEN NOTIFIED");
-
                         sendSms("8830800912");
-
-
-
-
                         delay=6000;
                     }
 
 
+                    speakOut("Can i help you with anything else");
 
                     new CountDownTimer(delay,1000)
                     {
@@ -244,27 +247,51 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
                         }
                     }.start();
 
+                }
+                else
+                {
+                    speakOut("Sorry i couldn't understand");
+                    new CountDownTimer(10000,1000)
+                    {
+                        @Override
+                        public void onFinish()
+                        {
+                            askSpeechInput();
+                        }
 
+                        @Override
+                        public void onTick(long l)
+                        {
 
-
+                        }
+                    }.start();
 
                 }
+
+
                 break;
             }
 
+            default:
+                {
+                speakOut("Sorry i didn't understand");
+                    Log.i("WRONG 2","DELAY FOR SPEECH INPUT TO FINISH");
+                break;
+                }
         }
     }
 
 
-    public void onInit(int status) {
+    public void onInit(int status)
+    {
 
         if (status == TextToSpeech.SUCCESS)
         {
 
             int result = tts.setLanguage(Locale.US);
 
-            if (result == TextToSpeech.LANG_MISSING_DATA
-                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
+            {
                 Log.e("TTS", "This Language is not supported");
             } else
             {
@@ -283,7 +310,10 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
     {
 
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,null);
-
+        while(tts.isSpeaking())
+        {
+           Log.i("TTS","TTS IS SPEAKING");
+        }
     }
 
 
@@ -409,9 +439,9 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
     private class getIntentAsync extends AsyncTask<String, Void, ArrayList<String>>
     {
+
         @Override
-        protected ArrayList<String> doInBackground(String... speechinput)
-        {
+        protected ArrayList<String> doInBackground(String... speechinput) {
             try {
                 ArrayList<String> strList = new ArrayList<>();
 
@@ -454,17 +484,12 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
                 if(entityname!=null)
                     strList.add(entityname);
 
-
-                Log.i("LIST RETURNED",""+strList);
                 return strList;
 
 
 
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-
-
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
 
             return null;
@@ -472,8 +497,19 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
         @Override
         protected void onPostExecute(ArrayList<String> data)
         {
-            Log.i("SPEECH OUT LUIS",""+data.get(0));
-            Log.i("Executed","HEY");
+            if(data!=null)
+            {
+                System.out.println(data);
+                Log.i("MEDICAL ID", data.get(1));
+
+                
+
+            }
+            else
+            {
+                Log.i("MEDICAL ID", "NO DATA");
+            }
+
         }
 
 

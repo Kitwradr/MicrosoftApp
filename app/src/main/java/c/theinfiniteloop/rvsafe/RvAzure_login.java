@@ -333,6 +333,11 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
 
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,null);
 
+        while(tts.isSpeaking())
+        {
+            Log.i("DO NOT DISTURB","RUN");
+        }
+
     }
 
 
