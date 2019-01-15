@@ -186,7 +186,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
                     if(isInternetConnection())
                     {
                         System.out.println("Entered here");
-                        new getIntentAsync().execute("Tell me some tips to be followed during an earthquake");
+                        new getIntentAsync().execute("how far is the nearest rescue group");
                     }
 
                     int delay=6000;
@@ -206,7 +206,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
                      speakOut("WEATHER REPORT FOR FIVE DAYS");
 
-                     if(!weather_string.matches(""))
+                     //if(!weather_string.matches(""))
                          speakOut(weather_string);
 
 
@@ -312,7 +312,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,null);
         while(tts.isSpeaking())
         {
-           Log.i("TTS","TTS IS SPEAKING");
+           //Log.i("TTS","TTS IS SPEAKING");
         }
     }
 
@@ -443,6 +443,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
         @Override
         protected ArrayList<String> doInBackground(String... speechinput) {
             try {
+                System.out.println("--------------------------------------");
                 ArrayList<String> strList = new ArrayList<>();
 
                 String LUISurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/fe722394-907f-4eff-9fdb-1addf6eaaa30?verbose=true&timezoneOffset=-360&subscription-key=ca3da5d2e8b64c8a80ce5e859ce43c01&q=" + speechinput[0];
@@ -469,11 +470,16 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
                 JSONArray entitities = jsonResponse.getJSONArray("entities");
 
-                JSONObject entityjson = entitities.getJSONObject(0);
+                if(entitities.length() != 0) {
 
-                entityname = entityjson.getString("entity");
+                    JSONObject entityjson = entitities.getJSONObject(0);
 
+                    entityname = entityjson.getString("entity");
 
+                    if (entityname != null)
+                        strList.add(entityname);
+
+                }
 
 
 
@@ -481,8 +487,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
                 in.close();
 
                 strList.add(intentName);
-                if(entityname!=null)
-                    strList.add(entityname);
+
 
                 return strList;
 
@@ -497,10 +502,11 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
         @Override
         protected void onPostExecute(ArrayList<String> data)
         {
+            System.out.println("---------"+data.toString());
             if(data!=null)
             {
                 System.out.println(data);
-                Log.i("MEDICAL ID", data.get(1));
+                //Log.i("MEDICAL ID", data.get(1));
 
                 
 
