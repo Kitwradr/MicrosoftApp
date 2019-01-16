@@ -4,20 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:text="We will notify you once the victim is rescued"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textSize="20sp"
+        android:layout_weight="0.2"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"/>
+
     <ImageView
+        android:scaleType="fitCenter"
+      android:id="@+id/image1"
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      android:layout_weight="1"/>
+      android:layout_weight="0.8"/>
 
     <ImageView
+        android:scaleType="fitCenter"
+        android:id="@+id/image2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="0.8" />
     <ImageView
+        android:id="@+id/image3"
+        android:scaleType="fitCenter"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
-
+        android:layout_weight="0.8"/>
+     <Button
+         android:text="upload button"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="0.3"/>
 
 
 
