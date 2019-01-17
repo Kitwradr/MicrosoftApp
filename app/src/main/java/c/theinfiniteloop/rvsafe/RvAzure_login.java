@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
@@ -31,7 +32,23 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -74,31 +91,9 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
         EditText username=findViewById(R.id.username);
         EditText password =findViewById(R.id.password);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-
-
-
-
-
-
+        new getPersonId().execute("suhas");
 
 
         if(sharedPreferences.getString(usernamepathtag,null)!=null)
@@ -207,7 +202,7 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
 
                if(usernameentered.matches("rescue"))
                {
-                   startActivity(new Intent(RvAzure_login.this,Rescuer_View.class));
+                   startActivity(new Intent(RvAzure_login.this,rescue_view2.class));
                }
          else {
                    startActivity(new Intent(RvAzure_login.this, RvAzure_Disaster_cards.class));
@@ -349,6 +344,165 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
             tts.shutdown();
         }
         super.onDestroy();
+    }
+
+    private class getPersonId extends AsyncTask<String, Void,String>
+    {
+
+
+        protected String doInBackground(String... params)
+        {
+            String url = "https://aztests.azurewebsites.net/victims/group/create/faceid";
+            try {
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+                con.setRequestMethod("POST");
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setDoInput(true);
+                con.setDoInput(true);
+                con.connect();
+
+                JSONObject json = new JSONObject();
+                json.put("name",params[0].toString());
+
+                OutputStream outputStream = con.getOutputStream();
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
+                    writer.write(json.toString());
+                    writer.close();
+                }
+                outputStream.close();
+
+
+
+                System.out.println("\nSending 'POST' request to URL : " + url);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response);
+                int responseCode = con.getResponseCode();
+
+                System.out.println("Response Code : " + responseCode);
+                //add request header
+
+                in.close();
+
+
+                JSONObject myResponse = new JSONObject(response.toString());
+
+                String personid = myResponse.getString("personId");
+
+
+
+                return personid;
+
+            } catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+            return null;
+
+        }
+
+        protected void onPostExecute(String personid)
+        {
+            System.out.println("person ID is -------"+personid);
+
+            //send this personID as 2nd element of arraylist to async of next uploadimageasync
+
+        }
+    }
+    // Arraylist index 0 contains the filepath of image to be uplaoded and index 1 contains the facematch ID
+    private class uploadImageFaceMatch extends AsyncTask<ArrayList<String>, Void, Void>
+    {
+
+        private byte[] read(String pathname){
+            File file = new File(pathname);
+            int size = (int) file.length();
+            //System.out.println("======================================"+size);
+            byte[] bytes = new byte[size];
+            try {
+                BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+                buf.read(bytes, 0, bytes.length);
+                buf.close();
+                System.out.println(bytes.length);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return bytes;
+        }
+
+
+        protected Void doInBackground(ArrayList<String>... data) {
+
+            try {
+                ArrayList<String> arr_list = data[0];
+
+                String name = arr_list.get(0);
+                String faceid = arr_list.get(1);
+
+
+
+
+                URL urlObj = new URL("http://aztests.azurewebsites.net/victims/group/"+faceid+"/addface");
+                //URL urlObj = new URL("http://192.168.43.27:8080/facial");
+                HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true); // Allow Inputs
+                conn.setDoOutput(true);
+                //conn.setUseCaches(false); // Don't use a Cached Copy
+
+                conn.setRequestProperty("Content-Type", "application/octet-stream");
+
+                OutputStream outputStream = conn.getOutputStream();
+
+
+
+
+                System.out.println("Path of the image is"+name);
+
+                byte[] bytes;
+                bytes = read(name);
+
+                DataOutputStream dout = new DataOutputStream(outputStream);
+
+                dout.write(bytes,0,bytes.length);
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                //Get response from server
+                int responseCode = conn.getResponseCode();
+                System.out.println("Response Code : " + responseCode);
+                // read in the response from the server
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                    System.out.println(inputLine);
+                }
+                // close the input stream
+                in.close();
+
+
+                dout.close();
+                outputStream.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+
+
+        }
+
+
     }
 
 
