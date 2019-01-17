@@ -346,12 +346,13 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
         super.onDestroy();
     }
 
-    private class getPersonId extends AsyncTask<String, Void,String>
+    private class getPersonId extends AsyncTask<String, Void,ArrayList<String>>
     {
 
 
-        protected String doInBackground(String... params)
+        protected ArrayList<String> doInBackground(String... params)
         {
+            ArrayList<String> returnList = new ArrayList<String>();
             String url = "https://aztests.azurewebsites.net/victims/group/create/faceid";
             try {
                 URL obj = new URL(url);
@@ -395,9 +396,10 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
 
                 String personid = myResponse.getString("personId");
 
+                returnList.add(personid);
+                returnList.add(params[0]);
 
-
-                return personid;
+                return returnList;
 
             } catch (Exception ex)
             {
@@ -407,11 +409,17 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
 
         }
 
-        protected void onPostExecute(String personid)
+        protected void onPostExecute(ArrayList<String> arr_list)
         {
-            System.out.println("person ID is -------"+personid);
+            System.out.println("person ID is -------"+arr_list.get(0));
 
             //send this personID as 2nd element of arraylist to async of next uploadimageasync
+            //1st element is the filepath which is arr_list.get(1)
+            ArrayList<String> arrayList = new ArrayList<String>();
+            arrayList.add(arr_list.get(1));
+            arrayList.add(arr_list.get(0));
+
+            new uploadImageFaceMatch().execute(arrayList);
 
         }
     }
