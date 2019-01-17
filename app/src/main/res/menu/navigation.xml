@@ -15,5 +15,10 @@
         android:title="Donate" />
 
 
+    <item
+        android:id="@+id/people_finder"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="People Finder" />
+
 
 </menu>

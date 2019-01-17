@@ -46,6 +46,13 @@ public class RvAzure_WantToHelpOut extends AppCompatActivity
                     selectedFragment = donate.newInstance();
                     break;
 
+
+                case R.id.people_finder:
+                    selectedFragment = PeopleFinder.newInstance();
+                    break;
+
+
+
             }
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
