@@ -77,6 +77,8 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
     ImageView landmark3;
 
 
+    Button download;
+
     private GoogleMap mMap;
     List<ClusterItemsTrial> clusterItems;
     ClusterManager<ClusterItemsTrial> clusterManager;
@@ -89,7 +91,7 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rescuer__view);
         Button startmission = findViewById(R.id.startmission);
-  //      Button pindrop=findViewById(R.id.pindrop);
+        download=findViewById(R.id.download);
 
 
 
@@ -122,6 +124,14 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //write code here
+            }
+        });
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         if (savedInstanceState == null)
         {
@@ -151,6 +161,9 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         } else {
             Toast.makeText(getApplicationContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
         }
+
+
+
 
 
     }
