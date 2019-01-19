@@ -1,5 +1,6 @@
 package c.theinfiniteloop.rvsafe;
 
+import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -202,7 +204,7 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
 
                if(usernameentered.matches("rescue"))
                {
-                   startActivity(new Intent(RvAzure_login.this,rescue_view2.class));
+                   startActivity(new Intent(RvAzure_login.this,Rescuer_View.class));
                }
          else {
                    startActivity(new Intent(RvAzure_login.this, RvAzure_Disaster_cards.class));
