@@ -1,9 +1,11 @@
 package c.theinfiniteloop.rvsafe;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -11,7 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,8 +88,13 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rescuer__view);
-        TextView rescueText = findViewById(R.id.rescuetext);
+        Button startmission = findViewById(R.id.startmission);
+  //      Button pindrop=findViewById(R.id.pindrop);
 
+
+
+
+        LinearLayout medicallayout=findViewById(R.id.medical_id_layout);
 
         number_of_people = findViewById(R.id.number_of_people_trapped);
         elders = findViewById(R.id.number_of_elders);
@@ -95,7 +107,20 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         landmark3 = findViewById(R.id.landmark3);
 
 
-        rescueText.bringToFront();
+     //   rescueText.bringToFront();
+        startmission.bringToFront();
+//        pindrop.bringToFront();
+
+        startmission.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+            startmission.setVisibility(View.GONE);
+            medicallayout.bringToFront();
+            medicallayout.setVisibility(View.VISIBLE);
+            }
+        });
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         if (savedInstanceState == null)

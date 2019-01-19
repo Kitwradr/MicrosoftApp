@@ -19,16 +19,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="MISSION MAP"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:background="@android:color/transparent"
-        android:id="@+id/rescuetext"
-        android:textStyle="bold"
-        android:textColor="#000000"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/medical_id_layout"
+        android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:background="#000000"
+        android:layout_height="60dp">
+      <EditText
+          android:layout_weight="2"
+          android:hint="ENTER MEDICAL ID"
+          android:textColorHint="#FFFFFF"
+          android:textColor="#FFFFFF"
+          android:background="#000000"
+          android:layout_width="0dp"
+          android:layout_height="match_parent" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="DOWNLOAD"
+            android:textColor="#FF0000"
+            android:background="#000000"
+            android:layout_height="60dp" />
+    </LinearLayout>
+
+
+    <Button
+        android:text="START MISSION"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:background="#000000"
+        android:id="@+id/startmission"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -37,6 +64,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Rescuer_View" />
+
+
 </RelativeLayout>
 
 <LinearLayout
