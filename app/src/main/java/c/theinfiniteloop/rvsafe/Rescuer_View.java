@@ -114,6 +114,7 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
         LinearLayout medicallayout=findViewById(R.id.medical_id_layout);
 
         number_of_people = findViewById(R.id.number_of_people_trapped);

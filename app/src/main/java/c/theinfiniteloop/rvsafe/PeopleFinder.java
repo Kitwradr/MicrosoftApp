@@ -573,20 +573,47 @@ public class PeopleFinder extends Fragment
         }
     }
 
+    private void uploadImages(ArrayList<String> filepaths , String name){
+
+        int length = filepaths.size();
+
+        for(int numFilePath = 0;numFilePath<length;numFilePath++){
+
+            ArrayList<String> imageDetails = new ArrayList<String>();
+
+            imageDetails.add(name);
+            imageDetails.add(filepaths.get(numFilePath));
+            imageDetails.add(Integer.toString(length));
+            imageDetails.add(Integer.toString(numFilePath+1));
+
+            new getPersonId().execute(imageDetails);
+
+
+        }
+
+    }
 
 
 
 
-
+    //Input arraylist contains 0 - name , 1 - filepath 2 - number of images to upload 3 - number of image being uploaded
     private class getPersonId extends AsyncTask<ArrayList<String>, Void,ArrayList<String>>
     {
 
 
         protected ArrayList<String> doInBackground(ArrayList<String>... params)
         {
+
+            String url;
             ArrayList<String> inputList = params[0];
+
+            int numImages = Integer.parseInt(inputList.get(2));
+
+            int imageNumber = Integer.parseInt(inputList.get(3));
+
+
             ArrayList<String> returnList = new ArrayList<String>();
-            String url = "https://aztests.azurewebsites.net/victims/group/create/faceid";
+            url = "https://aztests.azurewebsites.net/victims/group/create/faceid";
             try {
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -631,6 +658,9 @@ public class PeopleFinder extends Fragment
 
                 returnList.add(personid);
                 returnList.add(inputList.get(1));
+                returnList.add(Integer.toString(numImages));
+                returnList.add(Integer.toString(imageNumber));
+
 
                 return returnList;
 
@@ -651,14 +681,18 @@ public class PeopleFinder extends Fragment
             ArrayList<String> arrayList = new ArrayList<String>();
             arrayList.add(arr_list.get(1));
             arrayList.add(arr_list.get(0));
+            arrayList.add(arr_list.get(2));
+            arrayList.add(arr_list.get(3));
 
             new uploadImageFaceMatch().execute(arrayList);
 
         }
     }
     // Arraylist index 0 contains the filepath of image to be uplaoded and index 1 contains the facematch ID
-    private class uploadImageFaceMatch extends AsyncTask<ArrayList<String>, Void, Void>
+    private class uploadImageFaceMatch extends AsyncTask<ArrayList<String>, Void, ArrayList<String>>
     {
+
+
 
         private byte[] read(String pathname){
             File file = new File(pathname);
@@ -681,18 +715,31 @@ public class PeopleFinder extends Fragment
         }
 
 
-        protected Void doInBackground(ArrayList<String>... data) {
+        protected ArrayList<String> doInBackground(ArrayList<String>... data) {
 
             try {
+
+                URL urlObj;
                 ArrayList<String> arr_list = data[0];
 
                 String name = arr_list.get(0);
                 String faceid = arr_list.get(1);
 
+                int numImages = Integer.parseInt(arr_list.get(2));
+
+                int imageNumber = Integer.parseInt(arr_list.get(3));
+
+                if(imageNumber == numImages){
+
+                    urlObj = new URL("http://aztests.azurewebsites.net/victims/group/dummy/9/"+faceid+"/addface");
+
+                }
+                else{
+
+                    urlObj = new URL("http://aztests.azurewebsites.net/victims/group/dummy/100/"+faceid+"/addface");
+                }
 
 
-
-                URL urlObj = new URL("http://aztests.azurewebsites.net/victims/group/"+faceid+"/addface");
                 //URL urlObj = new URL("http://192.168.43.27:8080/facial");
                 HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
                 conn.setRequestMethod("POST");
@@ -725,14 +772,28 @@ public class PeopleFinder extends Fragment
                 StringBuffer response = new StringBuffer();
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
-                    System.out.println(inputLine);
+
                 }
                 // close the input stream
                 in.close();
 
+                System.out.println("Response = "+response);
 
                 dout.close();
                 outputStream.close();
+
+                JSONObject JSONresponse = new JSONObject(response.toString());
+
+                String url = JSONresponse.getString("url");
+
+                String location = JSONresponse.getString("loc");
+
+                ArrayList<String> returnList = new ArrayList<String>();
+
+                returnList.add(url);
+                returnList.add(location);
+
+                return returnList;
 
 
             } catch (Exception e) {
@@ -742,6 +803,16 @@ public class PeopleFinder extends Fragment
 
 
         }
+
+        protected void onPostExecute(ArrayList<String> arr_list)
+        {
+
+            System.out.println("-------"+arr_list.toString());
+
+
+        }
+
+
 
 
     }
