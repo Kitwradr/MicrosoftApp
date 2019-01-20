@@ -2,16 +2,25 @@ package c.theinfiniteloop.rvsafe;
 
 import android.Manifest;
 import android.app.ActionBar;
+import android.app.DownloadManager;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -53,6 +62,11 @@ import java.util.List;
 
 public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback {
 
+    private DownloadManager downloadManager;
+    private long refid;
+    private Uri Download_Uri;
+    ArrayList<Long> list = new ArrayList<>();
+
 
     RvAzure_GPStracker mygps;
 
@@ -92,6 +106,11 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_rescuer__view);
         Button startmission = findViewById(R.id.startmission);
         download=findViewById(R.id.download);
+        if(!isStoragePermissionGranted())
+        {
+
+
+        }
 
 
 
@@ -129,6 +148,23 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 //write code here
+                list.clear();
+
+                DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
+                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+                request.setAllowedOverRoaming(false);
+                request.setTitle("Medical Report Downloading... ");
+                request.setDescription("Downloading Medical Report");
+                request.setVisibleInDownloadsUi(true);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/RVSAFE/"  + "/" + "Report" + ".pdf");
+
+
+                refid = downloadManager.enqueue(request);
+
+
+                Log.e("OUT", "" + refid);
+
+                list.add(refid);
             }
         });
 
@@ -162,11 +198,91 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(getApplicationContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
         }
 
+        downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+
+        registerReceiver(onComplete,
+                new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+        //Instead of 0 in the URL get the text from input field
+        Download_Uri = Uri.parse("http://aztests.azurewebsites.net/victims/get/"+"0"+"/medical");
 
 
 
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+
+
+            // permission granted
+
+        }
+    }
+    @Override
+    protected void onDestroy() {
+
+
+        super.onDestroy();
+
+        unregisterReceiver(onComplete);
+
+
+
+    }
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            return true;
+        }
+    }
+
+    BroadcastReceiver onComplete = new BroadcastReceiver() {
+
+        public void onReceive(Context ctxt, Intent intent) {
+
+
+
+
+            long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+
+
+            Log.e("IN", "" + referenceId);
+
+            list.remove(referenceId);
+
+
+            if (list.isEmpty())
+            {
+
+
+                Log.e("INSIDE", "" + referenceId);
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(Rescuer_View.this)
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setContentTitle("GadgetSaint")
+                                .setContentText("All Download completed");
+
+
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(455, mBuilder.build());
+
+
+            }
+
+        }
+    };
 
 
     /**
