@@ -114,7 +114,6 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
 
-
         LinearLayout medicallayout=findViewById(R.id.medical_id_layout);
 
         number_of_people = findViewById(R.id.number_of_people_trapped);
@@ -144,9 +143,11 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         });
 
 
-        download.setOnClickListener(new View.OnClickListener() {
+        download.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 //write code here
                 list.clear();
 
@@ -232,28 +233,30 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
     }
-    public  boolean isStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
+    public  boolean isStoragePermissionGranted()
+    {
+        if (Build.VERSION.SDK_INT >= 23)
+        {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            {
                 return true;
-            } else {
-
+            }
+            else
+                {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
-            }
+               }
         }
-        else { //permission is automatically granted on sdk<23 upon installation
+        else
+            { //permission is automatically granted on sdk<23 upon installation
             return true;
-        }
+            }
     }
 
-    BroadcastReceiver onComplete = new BroadcastReceiver() {
+    BroadcastReceiver onComplete = new BroadcastReceiver()
+    {
 
         public void onReceive(Context ctxt, Intent intent) {
-
-
-
 
             long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
 
@@ -269,7 +272,7 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
                 Log.e("INSIDE", "" + referenceId);
                 NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(Rescuer_View.this)
+                        new NotificationCompat.Builder(Rescuer_View.this,"234")
                                 .setSmallIcon(R.mipmap.ic_launcher)
                                 .setContentTitle("GadgetSaint")
                                 .setContentText("All Download completed");

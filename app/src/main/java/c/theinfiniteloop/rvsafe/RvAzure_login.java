@@ -342,7 +342,8 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
     public void onDestroy()
     {
         // Don't forget to shutdown tts!
-        if (tts != null) {
+        if (tts != null)
+        {
             tts.stop();
             tts.shutdown();
         }

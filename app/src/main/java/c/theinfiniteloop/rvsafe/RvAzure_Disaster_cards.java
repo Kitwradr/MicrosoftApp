@@ -70,7 +70,7 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
     private boolean permissionToInternetAccepted = false;
 
     /*an array of permissions for to be requested*/
-    private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.SEND_SMS,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_SMS,Manifest.permission.CALL_PHONE,Manifest.permission.READ_PHONE_NUMBERS,Manifest.permission.READ_PHONE_STATE};
+    private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.SEND_SMS,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_SMS,Manifest.permission.CALL_PHONE,Manifest.permission.READ_PHONE_NUMBERS,Manifest.permission.READ_PHONE_STATE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
 
