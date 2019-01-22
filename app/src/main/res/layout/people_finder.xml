@@ -176,6 +176,7 @@
 </LinearLayout>
      <Button
          android:text="upload"
+         android:id="@+id/upload_button"
          android:layout_gravity="center"
          android:textColor="#FFFFFF"
          android:background="@drawable/oval_button"

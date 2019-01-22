@@ -118,6 +118,7 @@ public class PeopleFinder extends Fragment
 
             name_of_person=view.findViewById(R.id.name);
 
+            upload=view.findViewById(R.id.upload_button);
             face1 = view.findViewById(R.id.image1);
             face2 = view.findViewById(R.id.image2);
             face3 = view.findViewById(R.id.image3);
@@ -605,7 +606,9 @@ public class PeopleFinder extends Fragment
         {
 
             String url;
-            ArrayList<String> inputList = params[0];
+            System.out.println("error"+params[0]);
+            ArrayList<String> inputList = new ArrayList<>();
+            inputList.addAll(params[0]);
 
             int numImages = Integer.parseInt(inputList.get(2));
 
