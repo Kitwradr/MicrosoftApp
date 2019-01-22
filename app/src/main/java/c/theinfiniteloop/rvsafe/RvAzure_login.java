@@ -54,7 +54,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnInitListener
+public class RvAzure_login extends AppCompatActivity
 {
     private static final String TAG = "MyFirebaseMsgService";
 
@@ -102,42 +102,7 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
         {
             startActivity(new Intent(RvAzure_login.this,RvAzure_Disaster_cards.class));
         }
-     else
-        {
-            tts = new TextToSpeech(this, this);
 
-            new CountDownTimer(3000,1000)
-            {
-                @Override
-                public void onFinish()
-                {
-                    speakOut(intial_query);
-
-                }
-
-                @Override
-                public void onTick(long l) {
-
-                }
-            }.start();
-
-
-
-            new CountDownTimer(3000,1000)
-            {
-                @Override
-                public void onFinish()
-                {
-                    askSpeechInput();
-                }
-
-                @Override
-                public void onTick(long l) {
-
-                }
-            }.start();
-
-        }
 
 
 
@@ -244,111 +209,6 @@ public class RvAzure_login extends AppCompatActivity implements TextToSpeech.OnI
     }
 
 
-    private void askSpeechInput()
-    {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "");
-        try {
-            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
-        }
-        catch (ActivityNotFoundException a)
-        {
-
-        }
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode)
-        {
-            case REQ_CODE_SPEECH_INPUT:
-            {
-                if (resultCode == RESULT_OK && null != data)
-                {
-
-                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                //    voiceInput.setText(result.get(0));
-
-                     speech_input=result.get(0);
-
-                //Trigger Acti
-
-
-//                    Toast.makeText(this,""+speech_input,Toast.LENGTH_LONG).show();
-
-
-                    if(speech_input.toLowerCase().contains("yes"))
-                    {
-
-               //         Toast.makeText(this,"TEST FOR YES",Toast.LENGTH_LONG).show();
-
-                        startActivity(new Intent(RvAzure_login.this, AudioProcessor.class));
-
-
-                    }
-                    else
-                    {
-
-                    }
-
-
-                }
-                break;
-            }
-
-        }
-    }
-
-
-
-    public void onInit(int status)
-    {
-
-        if (status == TextToSpeech.SUCCESS)
-        {
-
-            int result = tts.setLanguage(Locale.US);
-
-            if (result == TextToSpeech.LANG_MISSING_DATA
-                    || result == TextToSpeech.LANG_NOT_SUPPORTED)
-            {
-                Log.e("TTS", "This Language is not supported");
-            }
-        } else {
-            Log.e("TTS", "Initilization Failed!");
-        }
-
-    }
-
-    private void speakOut(String text)
-    {
-
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null,null);
-
-        while(tts.isSpeaking())
-        {
-            Log.i("DO NOT DISTURB","RUN");
-        }
-
-    }
-
-
-    public void onDestroy()
-    {
-        // Don't forget to shutdown tts!
-        if (tts != null)
-        {
-            tts.stop();
-            tts.shutdown();
-        }
-        super.onDestroy();
-    }
 
 
 

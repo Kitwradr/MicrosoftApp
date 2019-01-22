@@ -227,12 +227,6 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
                 case R.id.am_i_safe:
                     selectedFragment = RvAzure_am_i_safe.newInstance();
                     break;
-                case R.id.tips:
-                    selectedFragment = RvAzure_tips.newInstance();
-                    break;
-
-
-
             }
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -309,11 +303,11 @@ public class RvAzure_Disaster_cards extends AppCompatActivity implements Navigat
         {
             startActivity(new Intent(RvAzure_Disaster_cards.this,AzureMedicalID.class));
         }
-        else if (id == R.id.nav_send)
+        else if (id == R.id.tips)
         {
 
-         /*code to share after app is published */
-
+            startActivity(new Intent(RvAzure_Disaster_cards.this,RvAzure_tips_activity.class));
+            /*code to share after app is published */
         }
 
 

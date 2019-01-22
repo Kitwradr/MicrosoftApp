@@ -674,26 +674,26 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
             public void messageReceived(String messageText)
             {
 
-//       try {
-//             if (!isInternetConnection() && messageText.startsWith("RVSAFE DISTRESS HELPLINE"))
-//             {
-//             //             Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_SHORT).show();
-//             String[] format = new String[]{"NGLA", "NGLO", "NGC", "NRGLA", "NRGLO", "NRGC"};
-//             DistressMessageNearestGroupLat = messageText.split(format[0])[1].split(" ")[0];
-//             DistressMessageNearestGroupLon = messageText.split(format[1])[1].split(" ")[0];
-//             DistressMessageNearestGroupContact = messageText.split(format[2])[1].split(" ")[0];
-//             DistressMessageNearestRescueGroupLat = messageText.split(format[3])[1].split(" ")[0];
-//             DistressMessageNearestRescueGroupLon = messageText.split(format[4])[1].split(" ")[0];
-//             DistressMessageNearestRescueGroupContact = messageText.split(format[5])[1];
-//             updatelocale();
-//
-//            }
-//           }
-//
-//           catch(Exception e)
-//          {
-//
-//          }
+       try {
+             if (!isInternetConnection() && messageText.startsWith("RVSAFE DISTRESS HELPLINE"))
+             {
+             //             Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_SHORT).show();
+             String[] format = new String[]{"NGLA", "NGLO", "NGC", "NRGLA", "NRGLO", "NRGC"};
+             DistressMessageNearestGroupLat = messageText.split(format[0])[1].split(" ")[0];
+             DistressMessageNearestGroupLon = messageText.split(format[1])[1].split(" ")[0];
+             DistressMessageNearestGroupContact = messageText.split(format[2])[1].split(" ")[0];
+             DistressMessageNearestRescueGroupLat = messageText.split(format[3])[1].split(" ")[0];
+             DistressMessageNearestRescueGroupLon = messageText.split(format[4])[1].split(" ")[0];
+             DistressMessageNearestRescueGroupContact = messageText.split(format[5])[1];
+             updatelocale();
+
+            }
+           }
+
+           catch(Exception e)
+          {
+
+          }
 
 
 
@@ -1078,11 +1078,9 @@ public class RvAzure_StuckInThisDisaster extends FragmentActivity implements OnM
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private class RescueQueryAsync extends AsyncTask<Void, Void, RescueDataList> {
-
+    private class RescueQueryAsync extends AsyncTask<Void, Void, RescueDataList>
+    {
         RescueDataList list;
-
-
         protected RescueDataList doInBackground(Void... params)
         {
             String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/rescueGroupData";

@@ -748,7 +748,6 @@ public class PeopleFinder extends Fragment
                 //conn.setUseCaches(false); // Don't use a Cached Copy
 
                 conn.setRequestProperty("Content-Type", "application/octet-stream");
-
                 OutputStream outputStream = conn.getOutputStream();
 
 

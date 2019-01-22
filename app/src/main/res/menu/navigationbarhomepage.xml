@@ -15,13 +15,7 @@
     <item
         android:id="@+id/am_i_safe"
         android:icon="@drawable/safetyshieldvector"
-        android:title="AM I SAFE?" />
-
-    <item
-        android:id="@+id/tips"
-        android:icon="@drawable/ic_lightbulb_outline_black_24dp"
-        android:title="TIPS" />
-
+        android:title="Weather Warning" />
 
 
 </menu>

@@ -12,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -52,11 +54,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,17 +71,14 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
     private long refid;
     private Uri Download_Uri;
     ArrayList<Long> list = new ArrayList<>();
+    ArrayList<LatLng> coordinates_list;
 
 
     RvAzure_GPStracker mygps;
 
     private static final int minimumtimeofrequest = 100;
-
     private static final int minimumdistanceofrequest = 1;
-
-
     private static final String TAG = Rescuer_View.class.getSimpleName();
-
     private static final LatLngBounds NETHERLANDS = new LatLngBounds(new LatLng(12.736903,77.380965 ), new LatLng(13.165234, 77.834417));
 
 
@@ -90,7 +92,6 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
     ImageView landmark2;
     ImageView landmark3;
 
-
     Button download;
 
     private GoogleMap mMap;
@@ -101,20 +102,12 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rescuer__view);
         Button startmission = findViewById(R.id.startmission);
         download=findViewById(R.id.download);
-        if(!isStoragePermissionGranted())
-        {
-
-
-        }
-
-
-
-
         LinearLayout medicallayout=findViewById(R.id.medical_id_layout);
 
         number_of_people = findViewById(R.id.number_of_people_trapped);
@@ -127,10 +120,11 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         landmark2 = findViewById(R.id.landmark2);
         landmark3 = findViewById(R.id.landmark3);
 
+        coordinates_list=new ArrayList<>();
 
-     //   rescueText.bringToFront();
+
+
         startmission.bringToFront();
-//        pindrop.bringToFront();
 
         startmission.setOnClickListener(new View.OnClickListener()
         {
@@ -147,26 +141,24 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         download.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 //write code here
                 list.clear();
 
-                DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
-                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-                request.setAllowedOverRoaming(false);
-                request.setTitle("Medical Report Downloading... ");
-                request.setDescription("Downloading Medical Report");
-                request.setVisibleInDownloadsUi(true);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/RVSAFE/"  + "/" + "Report" + ".pdf");
-
-
-                refid = downloadManager.enqueue(request);
-
-
-                Log.e("OUT", "" + refid);
-
-                list.add(refid);
+                if (isInternetConnection())
+                {
+                    DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
+                    request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+                    request.setAllowedOverRoaming(false);
+                    request.setTitle("Medical Report Downloading... ");
+                    request.setDescription("Downloading Medical Report");
+                    request.setVisibleInDownloadsUi(true);
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/RVSAFE/" + "/" + "Report" + ".pdf");
+                    refid = downloadManager.enqueue(request);
+                    Log.e("OUT", "" + refid);
+                    list.add(refid);
+                    Toast.makeText(getApplicationContext(), "DOWNLOADED",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -192,35 +184,35 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         gpsenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         networkenabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if (gpsenabled) {
+        if (gpsenabled)
+        {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
-        } else if (networkenabled) {
+        }
+        else if (networkenabled)
+        {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minimumtimeofrequest, minimumdistanceofrequest, mygps);
-        } else {
+        }
+        else
+            {
             Toast.makeText(getApplicationContext(), "TURN ON GPS", Toast.LENGTH_SHORT).show();
         }
 
         downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
 
-        registerReceiver(onComplete,
-                new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         //Instead of 0 in the URL get the text from input field
         Download_Uri = Uri.parse("http://aztests.azurewebsites.net/victims/get/"+"0"+"/medical");
 
-
-
-
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
-
-
-            // permission granted
-
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED)
+        {
+            return;
         }
     }
     @Override
@@ -257,7 +249,8 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
     BroadcastReceiver onComplete = new BroadcastReceiver()
     {
 
-        public void onReceive(Context ctxt, Intent intent) {
+        public void onReceive(Context ctxt, Intent intent)
+        {
 
             long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
 
@@ -312,46 +305,6 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-
-
-
-      /*ArrayList<LatLng> points =new ArrayList<>();
-
-        for (int i = 0; i < 20; i++)
-        {
-
-            ClusterItemsTrial a=new ClusterItemsTrial(RandomLocationGenerator.generate(NETHERLANDS));
-
-            points.add(new LatLng(a.getLatitude(),a.getLongitude()));
-
-            }
-
-        PolylineOptions polylineOptions=new PolylineOptions().width(5).color(Color.GREEN).geodesic(true);
-
-
-       for(int i=0;i<points.size();i++)
-       {
-           polylineOptions.add(points.get(i));
-
-       }
-       googleMap.addPolyline(polylineOptions);*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback()
         {
             @Override
@@ -360,12 +313,6 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(NETHERLANDS, 0));
             }
         });
-
-
-
-
-
-
 
         clusterManager = new ClusterManager<>(this, googleMap);
         clusterManager.setCallbacks(new ClusterManager.Callbacks<ClusterItemsTrial>()
@@ -410,101 +357,49 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
 
 
         clusterItems = new ArrayList<>();
+
         for (int i = 0; i < 400; i++)
         {
-
             if (i<100)
             {
                 clusterItems.add(new ClusterItemsTrial(RandomLocationGenerator.generate(NETHERLANDS),"","user 1","2"));
-
-
+                coordinates_list.add(new LatLng(clusterItems.get(i).getLatitude(),clusterItems.get(i).getLongitude()));
             }
             else if(i<200)
             {
-
                 clusterItems.add(new ClusterItemsTrial(RandomLocationGenerator.generate(NETHERLANDS),"","user 2","1"));
-
-
+                coordinates_list.add(new LatLng(clusterItems.get(i).getLatitude(),clusterItems.get(i).getLongitude()));
             }
             else
             {
-                clusterItems.add(new ClusterItemsTrial
-
-                        (RandomLocationGenerator.generate(NETHERLANDS),"","user 3","0"));
-
+                clusterItems.add(new ClusterItemsTrial(RandomLocationGenerator.generate(NETHERLANDS),"","user 3","0"));
+                coordinates_list.add(new LatLng(clusterItems.get(i).getLatitude(),clusterItems.get(i).getLongitude()));
             }
-
-
-
 
         }
 
 
+
+
+
+
+
         clusterItems.add(new ClusterItemsTrial(new LatLng(mygps.getLatitude(),mygps.getLongitude()),"","user 0","2"));
 
-
-
-
         // clusterManager
-
         clusterManager.setItems(clusterItems,false);
 
+      /* ArrayList<LatLng> waypoints=calcShortest(coordinates_list,new LatLng(mygps.getLatitude(),mygps.getLongitude()));
 
+        LatLng origin=new LatLng(mygps.getLatitude(),mygps.getLongitude());
 
+        String url = getDirectionsUrl(origin, origin,waypoints);
 
+        DownloadTask downloadTask = new DownloadTask();
 
-  /*      IconStyle.Builder custombuilder=new IconStyle.Builder(this);
-        custombuilder.setClusterBackgroundColor(Color.GREEN);
-        custombuilder.setClusterIconResId(R.drawable.ic_location_on_black_24dp);
-        IconStyle customiconstyle=new IconStyle(custombuilder);
-        DefaultIconGenerator customicongenerator=new DefaultIconGenerator(this);
-        customicongenerator.setIconStyle(customiconstyle);
+        // Start downloading json data from Google Directions API
+        downloadTask.execute(url); */
 
-        ClusterManager<ClusterItemsTrial> clusterManager2 = new ClusterManager<>(this, googleMap);
-        googleMap.setOnCameraIdleListener(clusterManager2);
-
-        clusterManager2.setCallbacks(new ClusterManager.Callbacks<ClusterItemsTrial>()
-        {
-            @Override
-            public boolean onClusterClick(@NonNull Cluster<ClusterItemsTrial> cluster) {
-                Log.d(TAG, "onClusterClick");
-                return false;
-            }
-
-            @Override
-            public boolean onClusterItemClick(@NonNull ClusterItemsTrial clusterItem) {
-                Log.d(TAG, "onClusterItemClick");
-                return false;
-            }
-        });
-
-
-
-
-
-        clusterManager2.setIconGenerator(customicongenerator);
-
-
-        List<ClusterItemsTrial> clusterItems2 = new ArrayList<>();
-        for (int i = 0; i < 2000; i++)
-        {
-            clusterItems2.add(new ClusterItemsTrial(
-                    RandomLocationGenerator.generate(NETHERLANDS)));
-    }
-
-        clusterManager2.setItems(clusterItems2); */
-
-//        clusterItems.add(new ClusterItemsTrial((new LatLng(Double.parseDouble(obj.getLat()),Double.parseDouble(obj.getLong()))),"user 0","HIGH PRIORITY",""+obj.getPriority()));
-//        clusterManager.setItems(clusterItems,true);
-//        clusterManager.setItems(clusterItems,false);
-//
-
-
-
-
-
-
-        // Add a marker in Sydney and move the camera
 
     }
 
@@ -659,7 +554,7 @@ if(apiList!=null) {
 
             apiList = details;
 
-       //     addnewpoint();
+          //   addnewpoint();
 
 
         if(apiList!=null)
@@ -680,17 +575,230 @@ if(apiList!=null) {
 
     public  void addnewpoint()
     {
-
         clusterItems.add(new ClusterItemsTrial(new LatLng(mygps.getLatitude(),mygps.getLongitude()),"","user 0","0"));
-
-
         clusterManager.setItems(clusterItems,false);
-
-
-
     }
 
-	
+
+    public boolean isInternetConnection()
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public ArrayList<LatLng> calcShortest(ArrayList<LatLng> arr,LatLng origin)
+    {
+        LatLng p1=new LatLng(0,0);
+        LatLng p2=new LatLng(0,0);
+
+        ArrayList<LatLng> waypoints=new ArrayList<>();
+        double d1,d2,d3,min=1.79769313486231570E+308;
+        for(LatLng x:arr)
+        {
+            for(LatLng y:arr)
+            {
+                d1=dist(x,y);
+                d2=dist(x,origin);
+                d3=dist(y,origin);
+                if(d1+d2+d3<min)
+                {
+                    min=d1+d2+d3;
+                    p1=x;
+                    p2=x;
+                }
+            }
+        }
+        waypoints.add(p1);
+        waypoints.add(p2);
+
+        return waypoints;
+    }
+
+
+    public double dist(LatLng p1,LatLng p2)
+    {
+        return Math.sqrt( Math.pow((p1.latitude-p2.latitude),2) + Math.pow((p1.longitude-p2.longitude),2));
+    }
+
+
+    private String getDirectionsUrl(LatLng origin, LatLng dest,ArrayList<LatLng> markerPoints)
+    {
+
+        String str_origin	= "origin=" + origin.latitude + ","+ origin.longitude;
+        String str_dest		= "destination=" + dest.latitude + "," + dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Waypoints
+        String waypoints = "waypoints=optimize:true|";
+
+        for (int i = 2; i < markerPoints.size(); i++)
+        {
+            LatLng point = (LatLng) markerPoints.get(i);
+//			if (i == 2)
+//				waypoints = "waypoints=optimize:true|";
+            waypoints += point.latitude + "," + point.longitude + "|";
+        }
+
+        String key="key=AIzaSyBLyTgEZ1HnskclRn17sr-ve0LFqn-2OhU";
+
+        String alternatives="alternatives=false";
+
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&"+ sensor +"&"+alternatives+"&" + waypoints + "&mode=walking"+"&"+key;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
+
+
+
+
+        Log.d("data_url", url);
+
+        return url;
+    }
+
+    /** A method to download json data from url */
+    private String downloadUrl(String strUrl) throws IOException
+    {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try {
+            URL url = new URL(strUrl);
+
+            // Creating an http connection to communicate with url
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.connect();
+
+            // Reading data from url
+            iStream = urlConnection.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+            StringBuffer sb = new StringBuffer();
+
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            data = sb.toString();
+
+            br.close();
+
+        } catch (Exception e) {
+            Log.d("fail downloading url", e.toString());
+        } finally {
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
+
+
+
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... url) {
+
+            String data = "";
+
+            try {
+                // Fetching the data from web service
+                data = downloadUrl(url[0]);
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
+            }
+
+            Log.d("data", data);
+
+            return data;
+        }
+
+        // Executes in UI thread, after the execution of doInBackground()
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+
+            // Invokes the thread for parsing the JSON data
+            parserTask.execute(result);
+        }
+    }
+
+    /** A class to parse the Google Places in JSON format */
+    private class ParserTask extends
+            AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsParser parser = new DirectionsParser();
+
+                // Starts parsing data
+                routes = parser.parse(jObject);
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        // Executes in UI thread, after the parsing process
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+
+            ArrayList<LatLng> points = null;
+            PolylineOptions lineOptions = null;
+
+            // Traversing through all the routes
+            for (int i = 0; i < result.size(); i++)
+            {
+                points = new ArrayList<LatLng>();
+                lineOptions = new PolylineOptions();
+
+                // Fetching i-th route
+                List<HashMap<String, String>> path = result.get(i);
+
+                // Fetching all the points in i-th route
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                // Adding all the points in the route to LineOptions
+                lineOptions.addAll(points);
+                lineOptions.width(10);
+                lineOptions.geodesic(true);
+                lineOptions.color(Color.MAGENTA);
+            }
+
+            // Drawing polyline in the Google Map for the i-th route
+            mMap.addPolyline(lineOptions);
+        }
+    }
+
+
+
+
 
 
 

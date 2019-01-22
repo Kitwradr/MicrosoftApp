@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
@@ -64,10 +65,10 @@
             android:name=".RvAzure_StuckInThisDisaster"
             android:label="@string/title_activity_rv_azure__stuck_in_this_disaster" />
 
-        <receiver android:name=".SmsReceiver"
+        <receiver
+            android:name=".SmsReceiver"
             android:enabled="true"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
@@ -83,15 +84,25 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".AudioProcessor" />
-        <activity android:name=".AzureMedicalID"></activity>
+        <activity
+            android:name=".AudioProcessor"
+            android:label="RV Safe">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.VOICE" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AzureMedicalID" />
 
-        <service android:name=".NotificationService" >
+        <service android:name=".NotificationService">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </service>
+
+        <activity android:name=".RvAzure_tips_activity"></activity>
     </application>
 
 </manifest>

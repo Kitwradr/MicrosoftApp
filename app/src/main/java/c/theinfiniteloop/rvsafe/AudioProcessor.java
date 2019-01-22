@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -19,10 +20,14 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mongodb.util.JSON;
@@ -39,8 +44,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -50,6 +58,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
@@ -63,6 +73,12 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
     private TextToSpeech tts;
 
     private String speech_input = "";
+
+    float safezonedistanceinm;
+    float rescuegroupdistanceinm;
+
+    String safezonenamestring;
+    String rescuegroupnamestring;
 
     private String earthquakes_text="if you are in an earthquake drop down and take cover under a desk or table, "+"Stay inside until the tremors " +
             "stop and it is safe to exit, "+"Stay away from windows and light fixtures, "+"If you are in bed hold on and stay there. " +
@@ -90,9 +106,13 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_processor);
+
+        CircleImageView auidoimage=findViewById(R.id.audio_image);
+        auidoimage.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
 
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -139,7 +159,7 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
 
 
-        new CountDownTimer(6000,1000)
+        new CountDownTimer(10000,1000)
         {
             @Override
             public void onFinish()
@@ -215,37 +235,6 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
                     //        new getIntentAsync().execute("send a distress message to my emergency contact");
                         }
                     }
-                    if(speech_input.toLowerCase().contains("weather report"))
-                    {
-
-                     speakOut("WEATHER REPORT FOR FIVE DAYS");
-
-                     //if(!weather_string.matches(""))
-                         speakOut(weather_string);
-
-
-                       delay=6000;
-
-                    }
-                    else if(speech_input.toLowerCase().contains("distress"))
-                    {
-
-
-                         speakOut("WE HAVE NOTIFIED EMERGENCY SERVICES OF YOUR LOCATION, DO NOT PANIC HELP WILL ARRIVE SHORTLY");
-
-
-                         delay=6000;
-
-                    }
-                    else if(speech_input.toLowerCase().contains("sos"))
-                    {
-                        speakOut("YOUR EMERGENCY CONTACT HAS BEEN NOTIFIED");
-                        sendSms("8830800912");
-                        delay=6000;
-                    }
-
-
-                    speakOut("Can i help you with anything else");
 
                     new CountDownTimer(delay,1000)
                     {
@@ -505,8 +494,6 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
                 return strList;
 
-
-
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -521,27 +508,101 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
             {
                 System.out.println(data);
 
-
-                if(data.get(0).toLowerCase().matches("tipsread"))
+                if(data.size()==2)
                 {
                     //speakOut(earthquakes_text);
-                    System.out.println("---------"+"read tips");
-                }
-                else if(data.get(0).toLowerCase().matches("emergencycontact"))
-                {
-                    System.out.println("---------"+"emergency");
+                    if(data.get(0).matches("floods"))
+                    {
+                        speakOut(floods_text);
+                    }
+                    else if(data.get(0).matches("tsunamis"))
+                    {
+                        speakOut(tsunanmi_text);
+                    }
+                    else if(data.get(0).matches("earthquakes"))
+                    {
+                        speakOut(earthquakes_text);
+                    }
+                    else if(data.get(0).matches("volcanoes"))
+                    {
+                        speakOut(volcano_text);
+                    }
 
                 }
-                else if(data.get(0).toLowerCase().matches("sosalerts"))
+                else if(data.get(0).toLowerCase().matches("nearestrescuegroup"))
+                {
+
+                    if(isInternetConnection())
+                    {
+                        new RescueQueryAsync().execute();
+                    }
+                    new CountDownTimer(2000,1000)
+                    {
+                        @Override
+                        public void onFinish()
+                        {
+                            //do nothing
+                        }
+
+                        @Override
+                        public void onTick(long l) {
+
+                        }
+                    }.start();
+
+
+
+                }
+                else if(data.get(0).toLowerCase().matches("sosalert"))
                 {
                     System.out.println("---------"+"distress message");
+                    sendSms("9421394616");
+                    speakOut("WE HAVE NOTIFIED EMERGENCY SERVICES OF YOUR LOCATION, DO NOT PANIC HELP WILL ARRIVE SHORTLY");
+
+
+                    UserData userData = new UserData();
+                    userData.setIssafe("false");
+                    userData.setLat("" + mygps.getLatitude());
+                    userData.setLong("" + mygps.getLongitude());
+                    userData.setUser_id("0");
+                    Toast.makeText(getApplicationContext(), "YOU MARKED YOUR LOCATION UNSAFE", Toast.LENGTH_SHORT).show();
+                   if(isInternetConnection())
+                    {
+                    new postSafetyAsync().execute(userData);
+                    }
+
+                    new CountDownTimer(2000,1000)
+                    {
+                        @Override
+                        public void onFinish()
+                        {
+                            //do nothing
+                        }
+
+                        @Override
+                        public void onTick(long l) {
+
+                        }
+                    }.start();
+
+
+
+
+
+                }
+                else if(data.get(0).toLowerCase().matches("getweatherreport"))
+                {
+                    speakOut("WEATHER REPORT FOR FIVE DAYS");
+                    if(!weather_string.matches(""))
+                        speakOut(weather_string);
+
                 }
                 
 
             }
             else
             {
-                Log.i("MEDICAL ID", "NO DATA");
+                Log.i("ID", "NO DATA");
             }
 
         }
@@ -549,6 +610,211 @@ public class AudioProcessor extends AppCompatActivity implements TextToSpeech.On
 
     }
 
+    private class RescueQueryAsync extends AsyncTask<Void, Void, RescueDataList>
+    {
+        RescueDataList list;
+        protected RescueDataList doInBackground(Void... params)
+        {
+            String url = "http://codefundoapp.azurewebsites.net/hackathonapi/v1/resources/rescueGroupData";
+            try {
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                // optional default is GET
+                con.setRequestMethod("GET");
+                //add request header
+                //con.setRequestProperty("User-Agent", "Mozilla/5.0");
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + url);
+                System.out.println("Response Code : " + responseCode);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                System.out.println(response);
+                in.close();
+
+                Gson gson = new Gson();
+
+
+                //JSONObject myResponse = new JSONObject(response.toString());
+                list = gson.fromJson(response.toString(), RescueDataList.class);
+                //System.out.println(list.toString());
+                for (RescueGroupData i : list.data) {
+                    System.out.println("NEW STUFF" + i);
+                }
+
+
+                return list;
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+
+        }
+
+        protected void onPostExecute(RescueDataList list)
+        {
+            //You can access the list here
+            ArrayList<RescueGroupData> rescuegroupinfo = list.getData();
+            LatLng mypos = new LatLng(mygps.getLatitude(), mygps.getLongitude());
+
+            int initsafezonecounter = 0;
+            int initrescuegroupcounter = 0;
+            for (int i = 0; i < rescuegroupinfo.size(); i++)
+            {
+                switch (rescuegroupinfo.get(i).getGroup_type()) {
+
+
+                    case "1": //safe zone
+                        if (rescuegroupinfo.get(i).getSafety().matches("SAFE")) {
+                            LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
+                        //    mMap.addMarker(new MarkerOptions().position(safezone).title("SAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CC00ff99")));
+
+                            if (initsafezonecounter == 0)
+                            {
+                                safezonedistanceinm = distancebetweenpoints(mypos, safezone);
+                                safezonenamestring = rescuegroupinfo.get(i).getGroup_name();
+                            //    DistressMessageNearestGroupContact= rescuegroupinfo.get(i).getContact_no();
+                                initsafezonecounter++;
+                            }
+                            else
+                                {
+                                if (safezonedistanceinm > distancebetweenpoints(mypos, safezone))
+                                {   safezonedistanceinm = distancebetweenpoints(mypos, safezone);
+                                    safezonenamestring = rescuegroupinfo.get(i).getGroup_name();
+                             //       DistressMessageNearestGroupContact = rescuegroupinfo.get(i).getContact_no();
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            LatLng safezone = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
+                      //      mMap.addMarker(new MarkerOptions().position(safezone).title("UNSAFE ZONE").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(getVictimMarkerIcon("#CCff0000")));
+                        }
+
+                        break;
+
+                    case "2"://rescue group
+                        LatLng rescuegroup = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
+//                        mMap.addMarker(new MarkerOptions().position(rescuegroup).title("RESCUE GROUP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(BitmapDescriptorFactory.fromResource(R.drawable.rescue1)));
+                        //getVictimMarkerIcon("#CC0099ff")));
+
+                        if (initrescuegroupcounter == 0)
+                        {
+                            rescuegroupdistanceinm = distancebetweenpoints(mypos, rescuegroup);
+                            rescuegroupnamestring = rescuegroupinfo.get(i).getGroup_name();
+                         //   DistressMessageNearestRescueGroupContact = rescuegroupinfo.get(i).getContact_no();
+                            initrescuegroupcounter++;
+                        }
+                        else
+                        {
+                            if (rescuegroupdistanceinm > distancebetweenpoints(mypos, rescuegroup))
+                            {
+                                rescuegroupdistanceinm = distancebetweenpoints(mypos, rescuegroup);
+                                rescuegroupnamestring = rescuegroupinfo.get(i).getGroup_name();
+                           //     DistressMessageNearestGroupContact= rescuegroupinfo.get(i).getContact_no();
+
+                            }
+                        }
+
+
+                        break;
+
+
+                    case "3"://relief camp
+                        LatLng reliefgroup = new LatLng(rescuegroupinfo.get(i).getLatitude(), rescuegroupinfo.get(i).getLongitude());
+  //                      mMap.addMarker(new MarkerOptions().position(reliefgroup).title("RELIEF CAMP").snippet(rescuegroupinfo.get(i).getGroup_name()).icon(BitmapDescriptorFactory.fromResource(R.drawable.reliefcamp)));
+                        break;
+                }
+            }
+
+
+            speakOut("The nearest safe zone, "+safezonenamestring+", is at a distance of "+safezonedistanceinm+"  metres");
+
+            speakOut("The nearest rescue group, "+rescuegroupnamestring+", is at a distance of "+rescuegroupdistanceinm+" metres");
+
+
+
+        }
+    }
+
+
+    public float distancebetweenpoints(LatLng mypos, LatLng grouppos)
+    {
+        float[] result = new float[1];
+
+        Location.distanceBetween(mypos.latitude, mypos.longitude, grouppos.latitude, grouppos.longitude, result);
+
+        return result[0];
+
+    }
+
+    private class postSafetyAsync extends AsyncTask<UserData, Void, Void>
+    {
+
+        protected Void doInBackground(UserData... data) {
+
+            try {
+                String postUrl = "https://aztests.azurewebsites.net/victims/update";
+                Gson gson = new Gson();
+                System.out.println(data[0]);
+
+                //StringEntity postingString = new StringEntity(gson.toJson(data[0]));
+
+                String postingString = gson.toJson(data[0]);
+
+                System.out.println("Posting data ============== " + postingString);
+
+                HttpURLConnection urlConnection;
+
+
+                urlConnection = (HttpURLConnection) ((new URL(postUrl).openConnection()));
+                //System.out.println("Response code: "+urlConnection.getResponseCode());
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+
+                //Write
+                OutputStream outputStream = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                writer.write(postingString.toString());
+                writer.close();
+                outputStream.close();
+                //System.out.println("Response code: "+urlConnection.getResponseCode());
+
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+
+                String line = null;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                String result = sb.toString();
+
+                System.out.println("Result == " + result);
+            }
+            catch(Exception e) {
+            }
+
+
+            return null;
+        }
+
+        protected void onPostExecute(Void... params) {
+
+        }
+    }
 
 
 
