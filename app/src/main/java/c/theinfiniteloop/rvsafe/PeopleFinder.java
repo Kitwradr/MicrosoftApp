@@ -86,6 +86,7 @@ public class PeopleFinder extends Fragment
     String picturepath9="";
 
 
+
     public static PeopleFinder newInstance()
     {
         PeopleFinder fragment = new PeopleFinder();
@@ -97,11 +98,6 @@ public class PeopleFinder extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        if(isInternetConnection())
-        {
-
-            new getPersonId().execute();
-        }
 
 
     }
@@ -109,13 +105,9 @@ public class PeopleFinder extends Fragment
 
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
             View view = inflater.inflate(R.layout.people_finder, container, false);
-
-        try{
-
             name_of_person=view.findViewById(R.id.name);
 
             upload=view.findViewById(R.id.upload_button);
@@ -123,17 +115,13 @@ public class PeopleFinder extends Fragment
             face2 = view.findViewById(R.id.image2);
             face3 = view.findViewById(R.id.image3);
 
-
             face4 = view.findViewById(R.id.image4);
             face5 = view.findViewById(R.id.image5);
             face6 = view.findViewById(R.id.image6);
 
-
             face7 = view.findViewById(R.id.image7);
             face8 = view.findViewById(R.id.image8);
             face9 = view.findViewById(R.id.image9);
-
-
 
             face1.setOnClickListener(new View.OnClickListener()
             {
@@ -222,11 +210,13 @@ public class PeopleFinder extends Fragment
 
 
 
-
             upload.setOnClickListener(new View.OnClickListener()
             {
+                ArrayList<String> pathlist=new ArrayList<>();
+
                 @Override
                 public void onClick(View view)
+
                 {
                     ArrayList<String> temp=new ArrayList<>();
                     if(name_of_person.getText().toString().matches(""))
@@ -240,93 +230,69 @@ public class PeopleFinder extends Fragment
 
                         if(!picturepath1.matches(""))
                         {
-                         temp.add(name);
-                         temp.add(picturepath1);
-                         new getPersonId().execute(temp);
+                          pathlist.add(picturepath1);
+
                         }
-                        temp.clear();
 
 
                         if(!picturepath2.matches(""))
                         {
-                            temp.add(name);
-                            temp.add(picturepath2);
-                            new getPersonId().execute(temp);
+                            pathlist.add(picturepath2);
                         }
-                        temp.clear();
 
 
                         if(!picturepath3.matches(""))
                         {
-                            temp.add(name);
-                            temp.add(picturepath3);
-                            new getPersonId().execute(temp);
+                             pathlist.add(picturepath3);
                         }
 
-                        temp.clear();
 
                         if(!picturepath4.matches(""))
                         {
-                            temp.add(name);
-                            temp.add(picturepath4);
-                            new getPersonId().execute(temp);
+                           pathlist.add(picturepath4);
                         }
-
-                        temp.clear();
 
                         if(!picturepath5.matches(""))
                         {
-                            temp.add(name);
-                            temp.add(picturepath5);
-                            new getPersonId().execute(temp);
+                            pathlist.add(picturepath5);
                         }
 
-                        temp.clear();
+
 
                         if(!picturepath6.matches(""))
                         {
-                            temp.add(name);
-                            temp.add(picturepath6);
-                            new getPersonId().execute(temp);
+                               pathlist.add(picturepath6);
                         }
-
-                        temp.clear();
-
-                        if(!picturepath7.matches(""))
+                         if(!picturepath7.matches(""))
                         {
-                            temp.add(name);
-                            temp.add(picturepath7);
-                            new getPersonId().execute(temp);
+                            pathlist.add(picturepath7);
+
                         }
 
-                        temp.clear();
 
                         if(!picturepath8.matches(""))
                         {
-                            temp.add(name);
-                            temp.add(picturepath8);
-                            new getPersonId().execute(temp);
+
+                            pathlist.add(picturepath8);
                         }
 
-                        temp.clear();
 
                         if(!picturepath9.matches(""))
                         {
-                            temp.add(name);
-                            temp.add(picturepath9);
-                            new getPersonId().execute(temp);
+                               pathlist.add(picturepath9);
                         }
-
-
-                    }//you can use picture path 1,2 ,3  for images//call the async class function here
+                        if(isInternetConnection()&&(pathlist.size()>0))
+                        {
+                            uploadImages(pathlist,name);
+                        }
+                    }
                 }
             });
 
-        }
-    catch (Exception e)
-    {
-     e.printStackTrace();
-    }
+
+
+
+
 
 
 
@@ -334,7 +300,8 @@ public class PeopleFinder extends Fragment
         return view;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         switch (requestCode) {
             case 1:
                 if (resultCode == RESULT_OK && data != null)
@@ -566,8 +533,6 @@ public class PeopleFinder extends Fragment
 
                 }
                 break;
-
-
 
             default:
                 break;

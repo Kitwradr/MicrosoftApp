@@ -20,12 +20,12 @@ public class ScreenReceiver extends BroadcastReceiver
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context,"M_CH_ID")
-                            .setSmallIcon(R.drawable.ic_launcher_background)
+                            .setSmallIcon(R.drawable.applogo)
                             .setContentTitle("RVSAFE MEDICAL ID")
-                            .setContentText("123456789D")
+                            .setContentText("USER ID: 0")
                             .setStyle(new NotificationCompat.InboxStyle()
-                                    .addLine("BLOOD GROUP A+")
-                                    .addLine("AGE 21"));
+                                    .addLine("BLOOD GROUP A+"));
+
             NotificationManager notificationManager=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(1,mBuilder.build());
 
