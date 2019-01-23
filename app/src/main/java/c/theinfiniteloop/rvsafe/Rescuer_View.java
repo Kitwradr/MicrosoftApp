@@ -141,12 +141,14 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         download.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 //write code here
                 list.clear();
 
                 if (isInternetConnection())
                 {
+                    Download_Uri = Uri.parse("http://aztests.azurewebsites.net/victims/get/"+"0"+"/medical");
                     DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
                     request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
                     request.setAllowedOverRoaming(false);
@@ -202,7 +204,7 @@ public class Rescuer_View extends FragmentActivity implements OnMapReadyCallback
         registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         //Instead of 0 in the URL get the text from input field
-        Download_Uri = Uri.parse("http://aztests.azurewebsites.net/victims/get/"+"0"+"/medical");
+
 
     }
 

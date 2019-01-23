@@ -683,7 +683,8 @@ public class PeopleFinder extends Fragment
         }
 
 
-        protected ArrayList<String> doInBackground(ArrayList<String>... data) {
+        protected ArrayList<String> doInBackground(ArrayList<String>... data)
+        {
 
             try {
 
@@ -773,14 +774,8 @@ public class PeopleFinder extends Fragment
 
         protected void onPostExecute(ArrayList<String> arr_list)
         {
-
             System.out.println("-------"+arr_list.toString());
-
-
         }
-
-
-
 
     }
 
