@@ -85,6 +85,8 @@ public class PeopleFinder extends Fragment
     String picturepath8="";
     String picturepath9="";
 
+    String personid;
+
 
 
     public static PeopleFinder newInstance()
@@ -315,7 +317,7 @@ public class PeopleFinder extends Fragment
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
 
-                    picturepath1=picturepath1;
+                    picturepath1=picturePath;
 
                     BitmapFactory.Options options=new BitmapFactory.Options();
                     options.inPreferredConfig=Bitmap.Config.RGB_565;
@@ -542,7 +544,7 @@ public class PeopleFinder extends Fragment
     private void uploadImages(ArrayList<String> filepaths , String name){
 
         int length = filepaths.size();
-
+        System.out.println("File paths --- >"+filepaths.toString());
         for(int numFilePath = 0;numFilePath<length;numFilePath++){
 
             ArrayList<String> imageDetails = new ArrayList<String>();
@@ -570,8 +572,8 @@ public class PeopleFinder extends Fragment
         protected ArrayList<String> doInBackground(ArrayList<String>... params)
         {
 
-            String url;
-            System.out.println("error"+params[0]);
+            String url ;
+            System.out.println("input List --> "+params[0]);
             ArrayList<String> inputList = new ArrayList<>();
             inputList.addAll(params[0]);
 
@@ -583,47 +585,47 @@ public class PeopleFinder extends Fragment
             ArrayList<String> returnList = new ArrayList<String>();
             url = "https://aztests.azurewebsites.net/victims/group/create/faceid";
             try {
-                URL obj = new URL(url);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                if(imageNumber == 1) {
+                    URL obj = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-                con.setRequestMethod("POST");
-                con.setRequestProperty("Content-Type", "application/json");
-                con.setDoInput(true);
-                con.setDoInput(true);
-                con.connect();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Content-Type", "application/json");
+                    con.setDoInput(true);
+                    con.setDoInput(true);
+                    con.connect();
 
-                JSONObject json = new JSONObject();
-                json.put("name",inputList.get(0));
+                    JSONObject json = new JSONObject();
+                    json.put("name", inputList.get(0));
 
-                OutputStream outputStream = con.getOutputStream();
-                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
-                    writer.write(json.toString());
-                    writer.close();
+                    OutputStream outputStream = con.getOutputStream();
+                    try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
+                        writer.write(json.toString());
+                        writer.close();
+                    }
+                    outputStream.close();
+
+
+                    System.out.println("\nSending 'POST' request to URL : " + url);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    System.out.println(response);
+                    int responseCode = con.getResponseCode();
+
+                    System.out.println("Response Code : " + responseCode);
+                    //add request header
+
+                    in.close();
+
+
+                    JSONObject myResponse = new JSONObject(response.toString());
+
+                    personid = myResponse.getString("personId");
                 }
-                outputStream.close();
-
-
-
-                System.out.println("\nSending 'POST' request to URL : " + url);
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                System.out.println(response);
-                int responseCode = con.getResponseCode();
-
-                System.out.println("Response Code : " + responseCode);
-                //add request header
-
-                in.close();
-
-
-                JSONObject myResponse = new JSONObject(response.toString());
-
-                String personid = myResponse.getString("personId");
-
                 returnList.add(personid);
                 returnList.add(inputList.get(1));
                 returnList.add(Integer.toString(numImages));
@@ -752,14 +754,26 @@ public class PeopleFinder extends Fragment
 
                 JSONObject JSONresponse = new JSONObject(response.toString());
 
-                String url = JSONresponse.getString("url");
-
-                String location = JSONresponse.getString("loc");
-
                 ArrayList<String> returnList = new ArrayList<String>();
+                if(imageNumber == numImages) {
+                    String url = JSONresponse.getString("url");
 
-                returnList.add(url);
-                returnList.add(location);
+                    String location = JSONresponse.getString("loc");
+
+                    if(url.matches("")) {
+                        returnList.add("Face was not matched");
+                        return returnList;
+                    }
+
+                    returnList.add(url);
+                    returnList.add(location);
+                }
+                else {
+                    returnList.add("Nothing received");
+
+                }
+
+
 
                 return returnList;
 
@@ -774,7 +788,10 @@ public class PeopleFinder extends Fragment
 
         protected void onPostExecute(ArrayList<String> arr_list)
         {
-            System.out.println("-------"+arr_list.toString());
+            if(arr_list != null)
+                System.out.println("-------"+arr_list.toString());
+            else
+                System.out.println("Error occured *** Nothing received");
         }
 
     }
